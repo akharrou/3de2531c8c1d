@@ -61,7 +61,6 @@ export default function TestimonialsSection() {
 
   const displayItems = useMemo(() => {
     if (numOriginalItems === 0) return [];
-    // Ensure there are enough items to clone from, or adjust cloning strategy
     const actualNumSideClones = Math.min(numSideClones, numOriginalItems > 0 ? numOriginalItems : 1);
 
     const clonesStart = testimonialsData.slice(numOriginalItems - actualNumSideClones);
@@ -69,7 +68,7 @@ export default function TestimonialsSection() {
     return [...clonesStart, ...testimonialsData, ...clonesEnd];
   }, [numOriginalItems, numSideClones]);
 
-  const [currentIndex, setCurrentIndex] = useState(numSideClones); // Start at the first "real" item
+  const [currentIndex, setCurrentIndex] = useState(numSideClones);
   const [transitionEnabled, setTransitionEnabled] = useState(true);
 
   const nextTestimonial = useCallback(() => {
@@ -87,7 +86,6 @@ export default function TestimonialsSection() {
 
   useEffect(() => {
     if (!transitionEnabled) {
-      // Use rAF to ensure the class change (transition disabled) is applied before re-enabling
       requestAnimationFrame(() => {
         setTransitionEnabled(true);
       });
@@ -95,20 +93,18 @@ export default function TestimonialsSection() {
   }, [transitionEnabled]);
 
   useEffect(() => {
-    // Logic for continuous loop (forward)
     if (currentIndex === numSideClones + numOriginalItems) {
       const timer = setTimeout(() => {
-        setTransitionEnabled(false); // Disable transitions for the jump
-        setCurrentIndex(numSideClones); // Jump to the first "real" item
-      }, TRANSITION_DURATION); // Wait for the current transition to finish
+        setTransitionEnabled(false);
+        setCurrentIndex(numSideClones);
+      }, TRANSITION_DURATION);
       return () => clearTimeout(timer);
     }
 
-    // Logic for continuous loop (backward - if implementing prev button)
     if (currentIndex === numSideClones - 1) {
       const timer = setTimeout(() => {
         setTransitionEnabled(false);
-        setCurrentIndex(numSideClones + numOriginalItems - 1); // Jump to the last "real" item
+        setCurrentIndex(numSideClones + numOriginalItems - 1);
       }, TRANSITION_DURATION);
       return () => clearTimeout(timer);
     }
@@ -117,7 +113,7 @@ export default function TestimonialsSection() {
 
   if (numOriginalItems === 0) {
     return (
-      <section id="testimonials" className="py-24 bg-background text-foreground">
+      <section id="testimonials" className="py-24 bg-secondary text-foreground">
         <div className="container mx-auto px-6 lg:px-8 text-center">
           <p className="text-muted-foreground">No testimonials yet.</p>
         </div>
@@ -127,7 +123,7 @@ export default function TestimonialsSection() {
 
   return (
     <React.Fragment>
-      <section id="testimonials" className="py-24 bg-background text-foreground">
+      <section id="testimonials" className="py-24 bg-secondary text-foreground">
         <div className="container mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-primary">Patient Stories</h2>
@@ -139,13 +135,7 @@ export default function TestimonialsSection() {
           <div className="relative mt-12 h-[500px] flex items-center justify-center overflow-hidden">
             {displayItems.map((testimonial, extendedIndex) => {
               const trueOffset = extendedIndex - currentIndex;
-              // stylingSlotFactor will determine which visual slot the card occupies
-              // For example, if trueOffset is very large (due to cloning), stylingSlotFactor
-              // might still be -2, -1, 0, 1, or 2 if it's visually in one of the 5 slots.
-              // This part is complex if we want perfect wrapping for styling AND translation.
-              // For now, trueOffset drives translation directly.
-              // Styling (opacity, scale) is driven by its visual position.
-
+              
               const isActive = trueOffset === 0;
               const isImmediateNeighbor = Math.abs(trueOffset) === 1;
               const isOuterNeighbor = Math.abs(trueOffset) === 2;
@@ -190,7 +180,7 @@ export default function TestimonialsSection() {
               
               return (
                 <div
-                  key={testimonial.name + extendedIndex} // Corrected key
+                  key={testimonial.name + extendedIndex} 
                   className={cn(
                     "absolute ease-out",
                     transitionEnabled ? "duration-700 transition-all" : "duration-0" 
@@ -223,3 +213,4 @@ export default function TestimonialsSection() {
     </React.Fragment>
   );
 }
+
