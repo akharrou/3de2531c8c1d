@@ -7,38 +7,38 @@ html {
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Public Sans', sans-serif;
 }
 
 @layer base {
   :root {
-    --background: 0 0% 96.1%; /* Light Gray #F5F5F5 */
-    --foreground: 233 30% 15%; /* Dark Blue-Gray for text */
+    --background: 0 0% 98%; /* Very Light Gray #F9F9F9 */
+    --foreground: 0 0% 13%; /* Near Black #222222 */
 
     --card: 0 0% 100%; /* White #FFFFFF */
-    --card-foreground: 233 30% 15%; /* Dark Blue-Gray for text on cards */
+    --card-foreground: 0 0% 13%; /* Near Black #222222 for text on cards */
 
     --popover: 0 0% 100%;
-    --popover-foreground: 233 30% 15%;
+    --popover-foreground: 0 0% 13%;
 
-    --primary: 233 64% 30%; /* Deep Blue #1A237E */
-    --primary-foreground: 0 0% 98%; /* White */
+    --primary: 348 69% 38%; /* Harvard Crimson #A51C30 */
+    --primary-foreground: 0 0% 98%; /* White for text on crimson */
 
-    --secondary: 0 0% 90%; /* Lighter Gray for secondary elements */
-    --secondary-foreground: 233 30% 15%; /* Dark Blue-Gray for text on secondary */
+    --secondary: 0 0% 94%; /* Light Gray #F0F0F0 for secondary elements */
+    --secondary-foreground: 0 0% 20%; /* Dark Gray #333333 for text on secondary */
 
-    --muted: 0 0% 94%; /* Very Light Gray for muted backgrounds */
-    --muted-foreground: 0 0% 40%; /* Medium Gray for muted text */
+    --muted: 0 0% 90%; /* Slightly darker light gray #E5E5E5 for muted backgrounds */
+    --muted-foreground: 0 0% 46%; /* Medium Gray #757575 for muted text */
 
-    --accent: 180 100% 25%; /* Teal #008080 */
-    --accent-foreground: 0 0% 98%; /* White */
+    --accent: 210 7% 55%; /* Medium Gray #8C9399 for non-primary interactive elements */
+    --accent-foreground: 0 0% 98%; /* White text for on-accent elements */
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84.2% 60.2%; /* Default ShadCN destructive red */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 85%; /* Slightly darker gray for borders */
-    --input: 0 0% 85%;
-    --ring: 180 100% 25%; /* Teal for focus rings */
+    --border: 0 0% 87%; /* Light Gray #DDDDDD for borders */
+    --input: 0 0% 87%; /* Light Gray #DDDDDD for input borders */
+    --ring: 210 7% 55%; /* Medium Gray #8C9399 for focus rings */
 
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
@@ -47,56 +47,55 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
 
-    /* Sidebar variables - can be adjusted if sidebar is used, kept for completeness */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 233 64% 30%; /* Align with main primary */
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 180 100% 25%; /* Align with main accent */
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 0 0% 85%;
-    --sidebar-ring: 180 100% 25%;
+    /* Sidebar variables */
+    --sidebar-background: 0 0% 96%; /* Light Gray, slightly different from main background */
+    --sidebar-foreground: 0 0% 13%; /* Near Black */
+    --sidebar-primary: 348 69% 38%; /* Harvard Crimson */
+    --sidebar-primary-foreground: 0 0% 98%; /* White */
+    --sidebar-accent: 210 7% 55%; /* Medium Gray */
+    --sidebar-accent-foreground: 0 0% 98%; /* White */
+    --sidebar-border: 0 0% 87%; /* Light Gray */
+    --sidebar-ring: 210 7% 55%; /* Medium Gray */
   }
 
   .dark {
-    /* Define dark mode if needed, for now keeping it consistent with light or using defaults */
-    --background: 233 30% 10%;
-    --foreground: 0 0% 90%;
+    --background: 0 0% 10%; /* Dark Gray #1A1A1A */
+    --foreground: 0 0% 90%; /* Light Gray #E5E5E5 */
 
-    --card: 233 30% 12%;
+    --card: 0 0% 13%; /* Slightly Lighter Dark Gray #212121 */
     --card-foreground: 0 0% 90%;
 
-    --popover: 233 30% 12%;
+    --popover: 0 0% 13%;
     --popover-foreground: 0 0% 90%;
 
-    --primary: 233 70% 55%; 
+    --primary: 348 69% 50%; /* Brighter Crimson for dark mode */
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 233 30% 20%;
-    --secondary-foreground: 0 0% 90%;
+    --secondary: 0 0% 18%; /* Darker Gray #2E2E2E for secondary elements */
+    --secondary-foreground: 0 0% 80%;
 
-    --muted: 233 30% 20%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 0 0% 22%; /* Dark Muted Gray #383838 */
+    --muted-foreground: 0 0% 55%; /* Medium-Light Gray #8C8C8C for muted text */
 
-    --accent: 180 80% 40%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 210 7% 45%; /* Darker Gray #6A7075 for accent */
+    --accent-foreground: 0 0% 90%;
 
-    --destructive: 0 70% 50%;
+    --destructive: 0 70% 50%; /* Default ShadCN destructive red for dark mode */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 233 30% 25%;
-    --input: 233 30% 25%;
-    --ring: 180 80% 40%;
+    --border: 0 0% 25%; /* Dark Gray #404040 for borders */
+    --input: 0 0% 25%; /* Dark Gray #404040 for input borders */
+    --ring: 210 7% 45%; /* Darker Gray for focus rings */
 
     /* Dark Sidebar variables */
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 233 70% 55%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 180 80% 40%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 180 80% 40%;
+    --sidebar-background: 0 0% 8%; /* Even Darker Gray for sidebar */
+    --sidebar-foreground: 0 0% 90%; /* Light Gray */
+    --sidebar-primary: 348 69% 50%; /* Brighter Crimson */
+    --sidebar-primary-foreground: 0 0% 98%; /* White */
+    --sidebar-accent: 210 7% 45%; /* Darker Gray */
+    --sidebar-accent-foreground: 0 0% 90%; /* Light Gray */
+    --sidebar-border: 0 0% 20%; /* Dark Gray border */
+    --sidebar-ring: 210 7% 45%; /* Darker Gray ring */
   }
 }
 
