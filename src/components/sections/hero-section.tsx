@@ -37,9 +37,9 @@ export default function HeroSection() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto animate-fadeInUp" style={{ animationDelay: '0.7s' }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-xl mx-auto animate-fadeInUp" style={{ animationDelay: '0.7s' }}>
           {stats.map((stat, index) => (
-            <div key={index} className="bg-card px-3 py-4 rounded-xl shadow-lg text-center transition-transform hover:scale-105 duration-300">
+            <div key={index} className="bg-card px-2 py-4 rounded-xl shadow-lg text-center transition-transform hover:scale-105 duration-300">
               <div className="flex justify-center mb-2">{stat.icon}</div>
               <p className="text-2xl font-bold text-primary mb-0.5">{stat.value}</p>
               <p className="text-xs text-muted-foreground">{stat.label}</p>
