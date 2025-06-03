@@ -86,7 +86,7 @@ export default function HeroSection() {
               </NavLink>
             )}
             <NavLink href="#about">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-xl text-base px-8 py-6 border-primary text-primary hover:bg-primary/10">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-xl text-base px-8 py-6 border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                 Learn More
               </Button>
             </NavLink>
