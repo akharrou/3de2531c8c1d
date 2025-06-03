@@ -61,8 +61,11 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 z-[5] bg-gradient-to-l from-[rgba(255,255,255,1)] to-[rgba(255,255,255,0.70)] pointer-events-none"></div>
+      {/* Horizontal Gradient Overlay (Theme-aware) */}
+      <div className="absolute inset-0 z-[5] bg-gradient-to-l from-[hsl(var(--background))] to-[hsl(var(--background)/0.7)] pointer-events-none"></div>
+      
+      {/* Vertical Gradient Overlay (Bottom to About Section color) */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 z-[6] bg-gradient-to-t from-[hsl(var(--secondary))] to-transparent pointer-events-none"></div>
 
 
       {/* Content */}
@@ -86,7 +89,11 @@ export default function HeroSection() {
               </NavLink>
             )}
             <NavLink href="#about">
-              <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-xl text-base px-8 py-6 border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="w-full sm:w-auto rounded-xl text-base px-8 py-6 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+              >
                 Learn More
               </Button>
             </NavLink>
