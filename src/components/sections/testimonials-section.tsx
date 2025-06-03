@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Star } from 'lucide-react';
@@ -52,20 +52,82 @@ const testimonialsData = [
 
 const AUTOPLAY_INTERVAL = 5000; // 5 seconds
 const X_OFFSET_FACTOR = 200; // Horizontal distance factor between cards
+const NUM_VISIBLE_CARDS = 5;
+const TRANSITION_DURATION = 700; // ms, should match CSS
 
 export default function TestimonialsSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const numOriginalItems = testimonialsData.length;
+  const numSideClones = Math.floor(NUM_VISIBLE_CARDS / 2);
+
+  const displayItems = useMemo(() => {
+    if (numOriginalItems === 0) return [];
+    if (numOriginalItems < NUM_VISIBLE_CARDS) {
+      // If not enough items to properly clone for a smooth loop with 5 visible,
+      // duplicate items to fill up to NUM_VISIBLE_CARDS for display, but simple loop.
+      // Or, for simplicity here, we'll just use original if not enough for cloning.
+      // Proper handling for small N might involve more complex cloning or a different carousel mode.
+      // For this implementation, we assume N >= NUM_VISIBLE_CARDS for perfect infinite loop.
+      // If N is small, it will still "work" but might not be perfectly seamless if N < numSideClones.
+      // The provided data (5 items) is okay for numSideClones = 2.
+    }
+    const clonesStart = testimonialsData.slice(numOriginalItems - numSideClones);
+    const clonesEnd = testimonialsData.slice(0, numSideClones);
+    return [...clonesStart, ...testimonialsData, ...clonesEnd];
+  }, [numOriginalItems, numSideClones]);
+
+  const [currentIndex, setCurrentIndex] = useState(numSideClones); // Start at the first "real" item
+  const [transitionEnabled, setTransitionEnabled] = useState(true);
 
   const nextTestimonial = useCallback(() => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % testimonialsData.length);
+    setCurrentIndex(prevIndex => prevIndex + 1);
   }, []);
 
   useEffect(() => {
-    if (testimonialsData.length > 1) {
-      const intervalId = setInterval(nextTestimonial, AUTOPLAY_INTERVAL);
-      return () => clearInterval(intervalId);
+    if (displayItems.length <= NUM_VISIBLE_CARDS && numOriginalItems <=1 ) return; // No cycling if not enough items or only one
+
+    const intervalId = setInterval(() => {
+      nextTestimonial();
+    }, AUTOPLAY_INTERVAL);
+    return () => clearInterval(intervalId);
+  }, [nextTestimonial, displayItems.length, numOriginalItems]);
+
+  useEffect(() => {
+    if (!transitionEnabled) {
+      // After a silent jump, re-enable transitions on the next frame
+      requestAnimationFrame(() => {
+        setTransitionEnabled(true);
+      });
     }
-  }, [nextTestimonial]);
+  }, [transitionEnabled]);
+
+  useEffect(() => {
+    if (currentIndex === numSideClones + numOriginalItems) { // Reached the end (first clone after real items)
+      const timer = setTimeout(() => {
+        setTransitionEnabled(false);
+        setCurrentIndex(numSideClones); // Jump to the first real item
+      }, TRANSITION_DURATION);
+      return () => clearTimeout(timer);
+    }
+    // For reverse direction (not implemented here, but would be):
+    // if (currentIndex === numSideClones - 1) { // Reached the beginning (last clone before real items)
+    //   const timer = setTimeout(() => {
+    //     setTransitionEnabled(false);
+    //     setCurrentIndex(numSideClones + numOriginalItems - 1); // Jump to the last real item
+    //   }, TRANSITION_DURATION);
+    //   return () => clearTimeout(timer);
+    // }
+  }, [currentIndex, numOriginalItems, numSideClones]);
+
+
+  if (numOriginalItems === 0) {
+    return (
+      <section id="testimonials" className="py-24 bg-background text-foreground">
+        <div className="container mx-auto px-6 lg:px-8 text-center">
+          <p className="text-muted-foreground">No testimonials yet.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <React.Fragment>
@@ -79,32 +141,19 @@ export default function TestimonialsSection() {
           </div>
 
           <div className="relative mt-12 h-[500px] flex items-center justify-center overflow-hidden">
-            {testimonialsData.map((testimonial, index) => {
-              // trueOffset determines the actual translation from the center without wrapping.
-              const trueOffset = index - activeIndex;
+            {displayItems.map((testimonial, extendedIndex) => {
+              const trueOffset = extendedIndex - currentIndex;
               
-              // stylingSlotFactor determines which "styling slot" the card effectively occupies 
-              // for opacity, scale, etc. This wraps around.
-              let stylingSlotFactor = trueOffset;
-              if (testimonialsData.length > 1) {
-                const N = testimonialsData.length;
-                const halfLength = N / 2; 
-                // If trueOffset is far to the right, wrap its styling slot to the left
-                if (trueOffset > halfLength) { 
-                  stylingSlotFactor = trueOffset - N;
-                } 
-                // If trueOffset is far to the left, wrap its styling slot to the right
-                else if (trueOffset < -halfLength) {
-                  stylingSlotFactor = trueOffset + N;
-                }
-              }
-              
+              // For styling, we only care about the 5 visual slots: -2, -1, 0, 1, 2
+              // This means `stylingSlotFactor` determines which style to apply.
+              const stylingSlotFactor = trueOffset;
+
               const isActive = stylingSlotFactor === 0;
               const isImmediateNeighbor = Math.abs(stylingSlotFactor) === 1;
               const isOuterNeighbor = Math.abs(stylingSlotFactor) === 2;
               
               let cardStyle: React.CSSProperties = {
-                width: '200px', // Smallest, for cards beyond the visible 5 or default
+                width: '200px', 
                 height: '300px',
                 transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(0.6)`,
                 opacity: 0,
@@ -116,7 +165,7 @@ export default function TestimonialsSection() {
                 cardStyle = {
                   width: '320px',
                   height: '450px',
-                  transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(1)`,
+                  transform: `translateX(${stylingSlotFactor * X_OFFSET_FACTOR}px) scale(1)`,
                   opacity: 1,
                   zIndex: 30,
                   pointerEvents: 'auto',
@@ -125,7 +174,7 @@ export default function TestimonialsSection() {
                 cardStyle = {
                   width: '280px',
                   height: '390px',
-                  transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(0.85)`,
+                  transform: `translateX(${stylingSlotFactor * X_OFFSET_FACTOR}px) scale(0.85)`,
                   opacity: 0.7,
                   zIndex: 20,
                   pointerEvents: 'auto',
@@ -134,18 +183,20 @@ export default function TestimonialsSection() {
                 cardStyle = {
                   width: '240px',
                   height: '330px',
-                  transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(0.7)`,
+                  transform: `translateX(${stylingSlotFactor * X_OFFSET_FACTOR}px) scale(0.7)`,
                   opacity: 0.4,
                   zIndex: 10,
                   pointerEvents: 'auto',
                 };
               }
-              // If it's not active, immediate, or outer, it uses the default style (opacity 0).
-
+              
               return (
                 <div
-                  key={testimonial.name + index} // Ensure key is unique if names can repeat
-                  className="absolute transition-all duration-700 ease-out"
+                  key={testimonial.name + extendedIndex} 
+                  className={cn(
+                    "absolute ease-out",
+                    transitionEnabled ? "duration-700 transition-all" : "duration-0" 
+                  )}
                   style={cardStyle}
                 >
                   <Card className="h-full w-full flex flex-col bg-card rounded-2xl shadow-xl overflow-hidden">
@@ -174,4 +225,3 @@ export default function TestimonialsSection() {
     </React.Fragment>
   );
 }
-
