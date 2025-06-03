@@ -20,14 +20,40 @@ const navItems = [
 export default function Header() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scheduleUrl, setScheduleUrl] = useState<string | undefined>(undefined);
 
   useEffect(() => {
+    setScheduleUrl(process.env.NEXT_PUBLIC_SCHEDULE_URL);
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const renderScheduleButton = (isMobile = false) => {
+    const buttonProps = isMobile 
+      ? { size: "default" as const, className: "w-full rounded-xl py-3 text-base" }
+      : { size: "sm" as const, className: "rounded-xl" };
+
+    if (scheduleUrl) {
+      return (
+        <a href={scheduleUrl} target="_blank" rel="noopener noreferrer" className={cn(!isMobile && "ml-2")}>
+          <Button {...buttonProps} onClick={() => isMobile && setIsSheetOpen(false)}>
+            Schedule Consultation
+          </Button>
+        </a>
+      );
+    }
+    // Fallback to NavLink if URL is not set
+    return (
+      <NavLink href="#contact" onClick={() => isMobile && setIsSheetOpen(false)} className={cn(!isMobile && "ml-2")}>
+        <Button {...buttonProps}>
+          Schedule Consultation
+        </Button>
+      </NavLink>
+    );
+  };
 
   return (
     <header className={cn(
@@ -42,7 +68,7 @@ export default function Header() {
 
         {/* Desktop Navigation & Button */}
         <div className="hidden md:flex items-center">
-          <nav className="space-x-1"> {/* Reduced space for tighter links */}
+          <nav className="space-x-1">
             {navItems.map((item) => (
               <NavLink 
                 key={item.label} 
@@ -50,18 +76,14 @@ export default function Header() {
                 className={cn(
                   "px-3 py-2 rounded-md font-medium transition-colors duration-200 hover:text-accent",
                   isScrolled ? "text-sm" : "text-base",
-                  item.label === "Contact" ? "mr-2" : "" // Add margin to contact before button
+                  item.label === "Contact" ? "mr-2" : "" 
                 )}
               >
                 {item.label}
               </NavLink>
             ))}
           </nav>
-          <NavLink href="#contact">
-            <Button size="sm" className="rounded-xl ml-2"> {/* Use size="sm" for header, ml-2 for spacing */}
-              Schedule Consultation
-            </Button>
-          </NavLink>
+          {renderScheduleButton()}
         </div>
 
         {/* Mobile Navigation Trigger */}
@@ -93,11 +115,7 @@ export default function Header() {
                 </nav>
               </div>
               <div className="mt-auto pt-6"> 
-                <NavLink href="#contact" onClick={() => setIsSheetOpen(false)}>
-                  <Button size="default" className="w-full rounded-xl py-3 text-base">
-                    Schedule Consultation
-                  </Button>
-                </NavLink>
+                {renderScheduleButton(true)}
               </div>
             </SheetContent>
           </Sheet>

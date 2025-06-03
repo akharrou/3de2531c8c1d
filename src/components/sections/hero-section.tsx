@@ -11,6 +11,8 @@ export default function HeroSection() {
     { value: '24/7', label: 'Patient Care', icon: <Clock className="w-6 h-6 text-accent" /> },
   ];
 
+  const scheduleUrl = process.env.NEXT_PUBLIC_SCHEDULE_URL;
+
   return (
     <section id="hero" className="relative bg-background pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
       <div className="absolute inset-0 opacity-5">
@@ -26,9 +28,15 @@ export default function HeroSection() {
             Leading cardiologist dedicated to advancing your heart health through compassionate, state-of-the-art care.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fadeInUp" style={{ animationDelay: '0.5s' }}>
-            <NavLink href="#contact">
-              <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Consultation</Button>
-            </NavLink>
+            {scheduleUrl ? (
+              <a href={scheduleUrl} target="_blank" rel="noopener noreferrer">
+                <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Consultation</Button>
+              </a>
+            ) : (
+              <NavLink href="#contact">
+                <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Consultation</Button>
+              </NavLink>
+            )}
             <NavLink href="#about">
               <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-xl text-base px-8 py-6 border-primary text-primary hover:bg-primary/10">
                 Learn More
