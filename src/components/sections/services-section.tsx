@@ -1,3 +1,4 @@
+
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import NavLink from '@/components/nav-link';
@@ -49,7 +50,7 @@ export default function ServicesSection() {
               </CardContent>
               <div className="p-6 pt-0 text-center">
                 <NavLink href="#contact">
-                  <Button variant="link" className="text-accent hover:text-primary text-base">
+                  <Button variant="link" className="text-accent hover:text-primary text-sm">
                     Book Appointment <span aria-hidden="true" className="ml-1">&rarr;</span>
                   </Button>
                 </NavLink>
@@ -61,3 +62,4 @@ export default function ServicesSection() {
     </section>
   );
 }
+
