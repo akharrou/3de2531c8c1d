@@ -5,9 +5,9 @@ import Image from 'next/image';
 
 export default function HeroSection() {
   const stats = [
-    { value: '5000+', label: 'Successful Procedures', icon: <Activity className="w-8 h-8 text-accent" /> },
-    { value: '15+', label: 'Years of Experience', icon: <CalendarDays className="w-8 h-8 text-accent" /> },
-    { value: '24/7', label: 'Patient Care', icon: <Clock className="w-8 h-8 text-accent" /> },
+    { value: '5000+', label: 'Successful Procedures', icon: <Activity className="w-6 h-6 text-accent" /> },
+    { value: '15+', label: 'Years of Experience', icon: <CalendarDays className="w-6 h-6 text-accent" /> },
+    { value: '24/7', label: 'Patient Care', icon: <Clock className="w-6 h-6 text-accent" /> },
   ];
 
   return (
@@ -36,12 +36,12 @@ export default function HeroSection() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto animate-fadeInUp" style={{ animationDelay: '0.7s' }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto animate-fadeInUp" style={{ animationDelay: '0.7s' }}>
           {stats.map((stat, index) => (
-            <div key={index} className="bg-card p-6 rounded-2xl shadow-lg text-center transition-transform hover:scale-105 duration-300">
-              <div className="flex justify-center mb-3">{stat.icon}</div>
-              <p className="text-3xl font-bold text-primary mb-1">{stat.value}</p>
-              <p className="text-sm text-muted-foreground">{stat.label}</p>
+            <div key={index} className="bg-card p-4 rounded-xl shadow-lg text-center transition-transform hover:scale-105 duration-300">
+              <div className="flex justify-center mb-2">{stat.icon}</div>
+              <p className="text-2xl font-bold text-primary mb-0.5">{stat.value}</p>
+              <p className="text-xs text-muted-foreground">{stat.label}</p>
             </div>
           ))}
         </div>
