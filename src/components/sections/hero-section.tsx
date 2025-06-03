@@ -62,7 +62,7 @@ export default function HeroSection() {
       </div>
 
       {/* Transparent Overlay */}
-      <div className="absolute inset-0 z-[5] bg-white/[.85] pointer-events-none"></div>
+      <div className="absolute inset-0 z-[5] bg-white/[.90] pointer-events-none"></div>
 
       {/* Content */}
       <div className="container mx-auto px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
