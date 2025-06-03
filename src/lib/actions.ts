@@ -114,7 +114,7 @@ export async function submitContactForm(prevState: FormState | undefined, formDa
     }
 
     console.log("Contact form successfully submitted to Notion.");
-    return { success: true, message: "Thank you! Your message has been sent successfully and saved to Notion." };
+    return { success: true, message: "Thank you! Your message has been sent successfully. Our team will get back to your shortly." };
 
   } catch (error: any) {
     console.error("Error submitting contact form:", error);
