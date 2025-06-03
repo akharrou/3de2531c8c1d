@@ -101,7 +101,7 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fadeInUp': 'fadeInUp 0.6s ease-out forwards',
-        'splineFadeIn': 'splineFadeIn 2s ease-in-out forwards',
+        'splineFadeIn': 'splineFadeIn 5s ease-in-out forwards',
       },
     },
   },
