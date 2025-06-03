@@ -62,13 +62,8 @@ export default function TestimonialsSection() {
   const displayItems = useMemo(() => {
     if (numOriginalItems === 0) return [];
     if (numOriginalItems < NUM_VISIBLE_CARDS) {
-      // If not enough items to properly clone for a smooth loop with 5 visible,
-      // duplicate items to fill up to NUM_VISIBLE_CARDS for display, but simple loop.
-      // Or, for simplicity here, we'll just use original if not enough for cloning.
-      // Proper handling for small N might involve more complex cloning or a different carousel mode.
-      // For this implementation, we assume N >= NUM_VISIBLE_CARDS for perfect infinite loop.
-      // If N is small, it will still "work" but might not be perfectly seamless if N < numSideClones.
-      // The provided data (5 items) is okay for numSideClones = 2.
+      // Simplified handling for fewer items than visible slots for cloning.
+      // This setup works best when numOriginalItems >= numSideClones effectively.
     }
     const clonesStart = testimonialsData.slice(numOriginalItems - numSideClones);
     const clonesEnd = testimonialsData.slice(0, numSideClones);
@@ -83,7 +78,7 @@ export default function TestimonialsSection() {
   }, []);
 
   useEffect(() => {
-    if (displayItems.length <= NUM_VISIBLE_CARDS && numOriginalItems <=1 ) return; // No cycling if not enough items or only one
+    if (displayItems.length <= NUM_VISIBLE_CARDS && numOriginalItems <=1 ) return;
 
     const intervalId = setInterval(() => {
       nextTestimonial();
@@ -93,7 +88,6 @@ export default function TestimonialsSection() {
 
   useEffect(() => {
     if (!transitionEnabled) {
-      // After a silent jump, re-enable transitions on the next frame
       requestAnimationFrame(() => {
         setTransitionEnabled(true);
       });
@@ -101,18 +95,18 @@ export default function TestimonialsSection() {
   }, [transitionEnabled]);
 
   useEffect(() => {
-    if (currentIndex === numSideClones + numOriginalItems) { // Reached the end (first clone after real items)
+    if (currentIndex === numSideClones + numOriginalItems) { 
       const timer = setTimeout(() => {
         setTransitionEnabled(false);
-        setCurrentIndex(numSideClones); // Jump to the first real item
+        setCurrentIndex(numSideClones); 
       }, TRANSITION_DURATION);
       return () => clearTimeout(timer);
     }
-    // For reverse direction (not implemented here, but would be):
-    // if (currentIndex === numSideClones - 1) { // Reached the beginning (last clone before real items)
+    // Example for reverse (if implemented):
+    // if (currentIndex === numSideClones - 1) { 
     //   const timer = setTimeout(() => {
     //     setTransitionEnabled(false);
-    //     setCurrentIndex(numSideClones + numOriginalItems - 1); // Jump to the last real item
+    //     setCurrentIndex(numSideClones + numOriginalItems - 1); 
     //   }, TRANSITION_DURATION);
     //   return () => clearTimeout(timer);
     // }
@@ -143,9 +137,6 @@ export default function TestimonialsSection() {
           <div className="relative mt-12 h-[500px] flex items-center justify-center overflow-hidden">
             {displayItems.map((testimonial, extendedIndex) => {
               const trueOffset = extendedIndex - currentIndex;
-              
-              // For styling, we only care about the 5 visual slots: -2, -1, 0, 1, 2
-              // This means `stylingSlotFactor` determines which style to apply.
               const stylingSlotFactor = trueOffset;
 
               const isActive = stylingSlotFactor === 0;
@@ -192,7 +183,7 @@ export default function TestimonialsSection() {
               
               return (
                 <div
-                  key={testimonial.name + extendedIndex} 
+                  key={testimonial.name + extendedIndex + currentIndex} // Add currentIndex to key to help React diffing during jumps
                   className={cn(
                     "absolute ease-out",
                     transitionEnabled ? "duration-700 transition-all" : "duration-0" 
@@ -200,18 +191,18 @@ export default function TestimonialsSection() {
                   style={cardStyle}
                 >
                   <Card className="h-full w-full flex flex-col bg-card rounded-2xl shadow-xl overflow-hidden">
-                    <CardContent className="pt-6 flex flex-col flex-grow items-center text-center justify-center p-4 md:p-6">
-                      <Avatar className="h-20 w-20 mb-4">
+                    <CardContent className="pt-6 flex flex-col flex-grow items-center text-center justify-center p-3 md:p-5 overflow-hidden">
+                      <Avatar className="h-20 w-20 mb-4 shrink-0">
                         <AvatarImage src={testimonial.image} alt={testimonial.name} data-ai-hint={testimonial.aiHint} />
                         <AvatarFallback>{testimonial.avatarFallback}</AvatarFallback>
                       </Avatar>
-                      <p className="font-semibold text-lg md:text-xl text-primary mb-2">{testimonial.name}</p>
-                      <div className="flex text-yellow-400 mb-3 md:mb-4">
+                      <p className="font-semibold text-lg md:text-xl text-primary mb-2 shrink-0">{testimonial.name}</p>
+                      <div className="flex text-yellow-400 mb-3 md:mb-4 shrink-0">
                         {Array(testimonial.rating).fill(0).map((_, i) => (
                           <Star key={i} className="w-5 h-5 fill-current" />
                         ))}
                       </div>
-                      <blockquote className="text-muted-foreground text-sm md:text-base italic leading-relaxed px-2">
+                      <blockquote className="text-muted-foreground text-xs md:text-sm italic leading-normal px-1 overflow-hidden">
                         "{testimonial.quote}"
                       </blockquote>
                     </CardContent>
@@ -225,3 +216,4 @@ export default function TestimonialsSection() {
     </React.Fragment>
   );
 }
+
