@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Linkedin, X, Facebook, Heart, Youtube } from 'lucide-react';
+import { Linkedin, Facebook, Heart, Youtube } from 'lucide-react';
 import NavLink from '@/components/nav-link';
 
 const navItems = [
@@ -9,9 +9,21 @@ const navItems = [
   { label: 'Contact', href: '#contact' },
 ];
 
+const XLogo = () => (
+  <svg
+    className="h-5 w-5"
+    fill="currentColor"
+    viewBox="0 0 50 50"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path d="M L 6.5605469 3 L 20.001953 20.6875 L 6.96875 38 L 10.03125 38 L 21.53125 22.65625 L 31.599609 38 L 43.439453 38 L 28.908203 19.160156 L 42.439453 3 L 39.371094 3 L 27.341797 17.34375 L 18.400391 3 L 6.5605469 3 z M 12.03125 5 L 16.96875 5 L 37.96875 36 L 33.03125 36 L 12.03125 5 z" />
+  </svg>
+);
+
 const socialLinks = [
   { icon: <Youtube className="h-5 w-5" />, href: 'https://youtube.com', label: 'YouTube' },
-  { icon: <X className="h-5 w-5" />, href: 'https://twitter.com', label: 'X' },
+  { icon: <XLogo />, href: 'https://x.com', label: 'X' },
   { icon: <Linkedin className="h-5 w-5" />, href: 'https://linkedin.com', label: 'LinkedIn' },
   { icon: <Facebook className="h-5 w-5" />, href: 'https://facebook.com', label: 'Facebook' },
 ];
