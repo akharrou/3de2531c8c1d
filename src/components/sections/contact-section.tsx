@@ -2,10 +2,10 @@ import ContactForm from '@/components/contact-form';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 
 const contactDetails = [
-  { icon: <MapPin className="w-6 h-6 text-accent" />, text: '123 Heartbeat Avenue, Cardio City, CA 90210' },
-  { icon: <Phone className="w-6 h-6 text-accent" />, text: '(555) 123-4567' },
-  { icon: <Mail className="w-6 h-6 text-accent" />, text: 'contact@chencardiology.com' },
-  { icon: <Clock className="w-6 h-6 text-accent" />, text: 'Mon - Fri: 9:00 AM - 5:00 PM' },
+  { icon: <MapPin className="w-5 h-5 text-accent" />, text: '123 Heartbeat Avenue, Cardio City, CA 90210' },
+  { icon: <Phone className="w-5 h-5 text-accent" />, text: '(555) 123-4567' },
+  { icon: <Mail className="w-5 h-5 text-accent" />, text: 'contact@chencardiology.com' },
+  { icon: <Clock className="w-5 h-5 text-accent" />, text: 'Mon - Fri: 9:00 AM - 5:00 PM' },
 ];
 
 export default function ContactSection() {
@@ -29,9 +29,9 @@ export default function ContactSection() {
               <h3 className="font-headline text-3xl font-semibold text-primary mb-6">Practice Information</h3>
               <ul className="space-y-4">
                 {contactDetails.map((detail, index) => (
-                  <li key={index} className="flex items-start gap-4">
+                  <li key={index} className="flex items-start gap-3">
                     {detail.icon}
-                    <span className="text-muted-foreground text-lg">{detail.text}</span>
+                    <span className="text-muted-foreground text-base">{detail.text}</span>
                   </li>
                 ))}
               </ul>
