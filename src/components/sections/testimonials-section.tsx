@@ -51,6 +51,7 @@ const testimonialsData = [
 ];
 
 const AUTOPLAY_INTERVAL = 5000; // 5 seconds
+const X_OFFSET_FACTOR = 200; // Horizontal distance factor between cards
 
 export default function TestimonialsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -79,39 +80,43 @@ export default function TestimonialsSection() {
 
           <div className="relative mt-12 h-[500px] flex items-center justify-center overflow-hidden">
             {testimonialsData.map((testimonial, index) => {
-              const offset = index - activeIndex;
-              let positionFactor = offset;
-
-              if (testimonialsData.length > 1) { // Ensure length is greater than 1 for wrap logic
-                const halfLength = testimonialsData.length / 2;
-                if (Math.abs(offset) > halfLength) {
-                  if (offset < 0) {
-                    positionFactor = offset + testimonialsData.length;
-                  } else {
-                    positionFactor = offset - testimonialsData.length;
-                  }
+              // trueOffset determines the actual translation from the center without wrapping.
+              const trueOffset = index - activeIndex;
+              
+              // stylingSlotFactor determines which "styling slot" the card effectively occupies 
+              // for opacity, scale, etc. This wraps around.
+              let stylingSlotFactor = trueOffset;
+              if (testimonialsData.length > 1) {
+                const N = testimonialsData.length;
+                const halfLength = N / 2; 
+                // If trueOffset is far to the right, wrap its styling slot to the left
+                if (trueOffset > halfLength) { 
+                  stylingSlotFactor = trueOffset - N;
+                } 
+                // If trueOffset is far to the left, wrap its styling slot to the right
+                else if (trueOffset < -halfLength) {
+                  stylingSlotFactor = trueOffset + N;
                 }
               }
               
-              const isActive = positionFactor === 0;
-              const isImmediateNeighbor = Math.abs(positionFactor) === 1;
-              const isOuterNeighbor = Math.abs(positionFactor) === 2;
+              const isActive = stylingSlotFactor === 0;
+              const isImmediateNeighbor = Math.abs(stylingSlotFactor) === 1;
+              const isOuterNeighbor = Math.abs(stylingSlotFactor) === 2;
               
-              // Default style for cards further out (e.g., positionFactor +/-3 or more), effectively hidden
               let cardStyle: React.CSSProperties = {
-                width: '200px',
+                width: '200px', // Smallest, for cards beyond the visible 5 or default
                 height: '300px',
-                transform: `translateX(${positionFactor * 200}px) scale(0.6)`,
+                transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(0.6)`,
                 opacity: 0,
                 zIndex: 0,
-                pointerEvents: 'none',
+                pointerEvents: 'none', 
               };
 
               if (isActive) {
                 cardStyle = {
                   width: '320px',
                   height: '450px',
-                  transform: `translateX(${positionFactor * 200}px) scale(1)`,
+                  transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(1)`,
                   opacity: 1,
                   zIndex: 30,
                   pointerEvents: 'auto',
@@ -120,7 +125,7 @@ export default function TestimonialsSection() {
                 cardStyle = {
                   width: '280px',
                   height: '390px',
-                  transform: `translateX(${positionFactor * 200}px) scale(0.85)`,
+                  transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(0.85)`,
                   opacity: 0.7,
                   zIndex: 20,
                   pointerEvents: 'auto',
@@ -129,16 +134,17 @@ export default function TestimonialsSection() {
                 cardStyle = {
                   width: '240px',
                   height: '330px',
-                  transform: `translateX(${positionFactor * 200}px) scale(0.7)`,
+                  transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(0.7)`,
                   opacity: 0.4,
                   zIndex: 10,
                   pointerEvents: 'auto',
                 };
               }
+              // If it's not active, immediate, or outer, it uses the default style (opacity 0).
 
               return (
                 <div
-                  key={testimonial.name + index}
+                  key={testimonial.name + index} // Ensure key is unique if names can repeat
                   className="absolute transition-all duration-700 ease-out"
                   style={cardStyle}
                 >
@@ -168,3 +174,4 @@ export default function TestimonialsSection() {
     </React.Fragment>
   );
 }
+
