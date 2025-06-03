@@ -65,76 +65,73 @@ export default function TestimonialsSection() {
   }, [nextTestimonial]);
 
   return (
-    <section id="testimonials" className="py-24 bg-background text-foreground">
-      <div className="container mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-primary">Patient Stories</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Hear from those whose lives we've touched.
-          </p>
-        </div>
+    <React.Fragment>
+      <section id="testimonials" className="py-24 bg-background text-foreground">
+        <div className="container mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-primary">Patient Stories</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Hear from those whose lives we've touched.
+            </p>
+          </div>
 
-        <div className="relative mt-12 h-[450px] flex items-center justify-center overflow-hidden">
-          {testimonialsData.map((testimonial, index) => {
-            const offset = index - activeIndex;
-            let positionFactor = offset;
+          <div className="relative mt-12 h-[500px] flex items-center justify-center overflow-hidden">
+            {testimonialsData.map((testimonial, index) => {
+              const offset = index - activeIndex;
+              let positionFactor = offset;
 
-            // Handle wrap-around for positioning
-            // If a card is far left (e.g., index 0, activeIndex 4, offset -4 for 5 items)
-            // it should appear on the right
-            if (Math.abs(offset) > testimonialsData.length / 2) {
-              if (offset < 0) { // far left, move to right
-                positionFactor = offset + testimonialsData.length;
-              } else { // far right, move to left
-                positionFactor = offset - testimonialsData.length;
+              if (Math.abs(offset) > testimonialsData.length / 2) {
+                if (offset < 0) { 
+                  positionFactor = offset + testimonialsData.length;
+                } else { 
+                  positionFactor = offset - testimonialsData.length;
+                }
               }
-            }
-            
-            const isActive = index === activeIndex;
-            const isNeighbor = Math.abs(positionFactor) === 1;
-            const isVisible = isActive || isNeighbor;
+              
+              const isActive = index === activeIndex;
+              const isNeighbor = Math.abs(positionFactor) === 1;
+              const isVisible = isActive || isNeighbor;
 
-
-            return (
-              <div
-                key={testimonial.name + index}
-                className={cn(
-                  "absolute transition-all duration-700 ease-out",
-                  isActive ? "z-20" : (isNeighbor ? "z-10" : "z-0")
-                )}
-                style={{
-                  width: isActive ? '280px' : '240px', // w-70 vs w-60
-                  height: isActive ? '400px' : '340px', // h-100 vs h-85
-                  transform: `translateX(${positionFactor * 190}px) scale(${isActive ? 1 : 0.85})`,
-                  opacity: isActive ? 1 : (isNeighbor ? 0.6 : 0),
-                  pointerEvents: isVisible ? 'auto' : 'none',
-                }}
-              >
-                {isVisible && (
-                  <Card className="h-full w-full flex flex-col bg-card rounded-2xl shadow-xl overflow-hidden">
-                    <CardContent className="pt-6 flex flex-col flex-grow items-center text-center justify-center p-4 md:p-6">
-                      <Avatar className="h-16 w-16 md:h-20 md:w-20 mb-4">
-                        <AvatarImage src={testimonial.image} alt={testimonial.name} data-ai-hint={testimonial.aiHint} />
-                        <AvatarFallback>{testimonial.avatarFallback}</AvatarFallback>
-                      </Avatar>
-                      <p className="font-semibold text-lg md:text-xl text-primary mb-2">{testimonial.name}</p>
-                      <div className="flex text-yellow-400 mb-3 md:mb-4">
-                        {Array(testimonial.rating).fill(0).map((_, i) => (
-                          <Star key={i} className="w-4 h-4 md:w-5 md:h-5 fill-current" />
-                        ))}
-                      </div>
-                      <blockquote className="text-muted-foreground text-xs md:text-sm italic leading-relaxed px-2">
-                        "{testimonial.quote}"
-                      </blockquote>
-                    </CardContent>
-                  </Card>
-                )}
-              </div>
-            );
-          })}
+              return (
+                <div
+                  key={testimonial.name + index}
+                  className={cn(
+                    "absolute transition-all duration-700 ease-out",
+                    isActive ? "z-20" : (isNeighbor ? "z-10" : "z-0")
+                  )}
+                  style={{
+                    width: isActive ? '320px' : '280px',
+                    height: isActive ? '450px' : '390px',
+                    transform: `translateX(${positionFactor * 220}px) scale(${isActive ? 1 : 0.85})`,
+                    opacity: isActive ? 1 : (isNeighbor ? 0.6 : 0),
+                    pointerEvents: isVisible ? 'auto' : 'none',
+                  }}
+                >
+                  {isVisible && (
+                    <Card className="h-full w-full flex flex-col bg-card rounded-2xl shadow-xl overflow-hidden">
+                      <CardContent className="pt-6 flex flex-col flex-grow items-center text-center justify-center p-4 md:p-6">
+                        <Avatar className="h-20 w-20 mb-4">
+                          <AvatarImage src={testimonial.image} alt={testimonial.name} data-ai-hint={testimonial.aiHint} />
+                          <AvatarFallback>{testimonial.avatarFallback}</AvatarFallback>
+                        </Avatar>
+                        <p className="font-semibold text-lg md:text-xl text-primary mb-2">{testimonial.name}</p>
+                        <div className="flex text-yellow-400 mb-3 md:mb-4">
+                          {Array(testimonial.rating).fill(0).map((_, i) => (
+                            <Star key={i} className="w-5 h-5 fill-current" />
+                          ))}
+                        </div>
+                        <blockquote className="text-muted-foreground text-sm md:text-base italic leading-relaxed px-2">
+                          "{testimonial.quote}"
+                        </blockquote>
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </React.Fragment>
   );
 }
-
