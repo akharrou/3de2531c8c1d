@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Linkedin, Twitter, Facebook, Heart } from 'lucide-react';
+import { Linkedin, Twitter, Facebook, Heart, Youtube } from 'lucide-react';
 import NavLink from '@/components/nav-link';
 
 const navItems = [
@@ -10,8 +10,9 @@ const navItems = [
 ];
 
 const socialLinks = [
-  { icon: <Linkedin className="h-5 w-5" />, href: 'https://linkedin.com', label: 'LinkedIn' },
+  { icon: <Youtube className="h-5 w-5" />, href: 'https://youtube.com', label: 'YouTube' },
   { icon: <Twitter className="h-5 w-5" />, href: 'https://twitter.com', label: 'Twitter' },
+  { icon: <Linkedin className="h-5 w-5" />, href: 'https://linkedin.com', label: 'LinkedIn' },
   { icon: <Facebook className="h-5 w-5" />, href: 'https://facebook.com', label: 'Facebook' },
 ];
 
@@ -43,7 +44,14 @@ export default function Footer() {
           </div>
           <div>
             <h3 className="text-lg font-semibold font-headline mb-4">Connect With Us</h3>
-            <div className="flex space-x-4 mb-4">
+            <p className="text-sm mb-4">
+              123 Heartbeat Ave, Cardio City, CA 90210
+              <br />
+              (555) 123-4567
+              <br />
+              contact@chencardiology.com
+            </p>
+            <div className="flex space-x-4">
               {socialLinks.map(link => (
                 <a
                   key={link.label}
@@ -57,13 +65,6 @@ export default function Footer() {
                 </a>
               ))}
             </div>
-            <p className="text-sm">
-              123 Heartbeat Ave, Cardio City, CA 90210
-              <br />
-              (555) 123-4567
-              <br />
-              contact@chencardiology.com
-            </p>
           </div>
         </div>
         <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center text-sm">
