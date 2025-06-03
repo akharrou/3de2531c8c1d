@@ -48,7 +48,7 @@ export default function HeroSection() {
           <p className="text-xl md:text-2xl text-muted-foreground mb-10 animate-fadeInUp" style={{ animationDelay: '0.3s' }}>
             Leading cardiologist dedicated to advancing your heart health through compassionate, state-of-the-art care.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fadeInUp" style={{ animationDelay: '0.5s' }}>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-fadeInUp" style={{ animationDelay: '0.5s' }}>
             {scheduleUrl ? (
               <a href={scheduleUrl} target="_blank" rel="noopener noreferrer">
                 <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Consultation</Button>
