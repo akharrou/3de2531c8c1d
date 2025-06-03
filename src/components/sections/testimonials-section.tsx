@@ -60,8 +60,10 @@ export default function TestimonialsSection() {
   }, []);
 
   useEffect(() => {
-    const intervalId = setInterval(nextTestimonial, AUTOPLAY_INTERVAL);
-    return () => clearInterval(intervalId);
+    if (testimonialsData.length > 1) {
+      const intervalId = setInterval(nextTestimonial, AUTOPLAY_INTERVAL);
+      return () => clearInterval(intervalId);
+    }
   }, [nextTestimonial]);
 
   return (
@@ -80,34 +82,70 @@ export default function TestimonialsSection() {
               const offset = index - activeIndex;
               let positionFactor = offset;
 
-              if (Math.abs(offset) > testimonialsData.length / 2) {
-                if (offset < 0) { 
-                  positionFactor = offset + testimonialsData.length;
-                } else { 
-                  positionFactor = offset - testimonialsData.length;
+              // Handle wrapping for circular carousel
+              if (testimonialsData.length > 0) {
+                const halfLength = testimonialsData.length / 2;
+                if (Math.abs(offset) > halfLength) {
+                  if (offset < 0) {
+                    positionFactor = offset + testimonialsData.length;
+                  } else {
+                    positionFactor = offset - testimonialsData.length;
+                  }
                 }
               }
               
-              const isActive = index === activeIndex;
-              const isNeighbor = Math.abs(positionFactor) === 1;
-              const isVisible = isActive || isNeighbor;
+              const isActive = positionFactor === 0;
+              const isImmediateNeighbor = Math.abs(positionFactor) === 1;
+              const isOuterNeighbor = Math.abs(positionFactor) === 2;
+              // Show 5 cards: center (0), immediate neighbors (+/-1), outer neighbors (+/-2)
+              const isVisible = Math.abs(positionFactor) <= 2;
+
+              let cardStyle = {
+                width: '200px', // Default for non-visible cards
+                height: '300px',
+                transform: `translateX(${positionFactor * 200}px) scale(0.6)`,
+                opacity: 0,
+                zIndex: 0,
+                pointerEvents: 'none' as React.CSSProperties['pointerEvents'],
+              };
+
+              if (isActive) {
+                cardStyle = {
+                  width: '320px',
+                  height: '450px',
+                  transform: `translateX(${positionFactor * 200}px) scale(1)`,
+                  opacity: 1,
+                  zIndex: 30,
+                  pointerEvents: 'auto' as React.CSSProperties['pointerEvents'],
+                };
+              } else if (isImmediateNeighbor) {
+                cardStyle = {
+                  width: '280px',
+                  height: '390px',
+                  transform: `translateX(${positionFactor * 200}px) scale(0.85)`,
+                  opacity: 0.7,
+                  zIndex: 20,
+                  pointerEvents: 'auto' as React.CSSProperties['pointerEvents'],
+                };
+              } else if (isOuterNeighbor) {
+                cardStyle = {
+                  width: '240px',
+                  height: '330px',
+                  transform: `translateX(${positionFactor * 200}px) scale(0.7)`,
+                  opacity: 0.4,
+                  zIndex: 10,
+                  pointerEvents: 'auto' as React.CSSProperties['pointerEvents'],
+                };
+              }
+
 
               return (
                 <div
                   key={testimonial.name + index}
-                  className={cn(
-                    "absolute transition-all duration-700 ease-out",
-                    isActive ? "z-20" : (isNeighbor ? "z-10" : "z-0")
-                  )}
-                  style={{
-                    width: isActive ? '320px' : '280px',
-                    height: isActive ? '450px' : '390px',
-                    transform: `translateX(${positionFactor * 220}px) scale(${isActive ? 1 : 0.85})`,
-                    opacity: isActive ? 1 : (isNeighbor ? 0.6 : 0),
-                    pointerEvents: isVisible ? 'auto' : 'none',
-                  }}
+                  className="absolute transition-all duration-700 ease-out"
+                  style={cardStyle}
                 >
-                  {isVisible && (
+                  {isVisible && ( // Only render content for visible cards
                     <Card className="h-full w-full flex flex-col bg-card rounded-2xl shadow-xl overflow-hidden">
                       <CardContent className="pt-6 flex flex-col flex-grow items-center text-center justify-center p-4 md:p-6">
                         <Avatar className="h-20 w-20 mb-4">
@@ -135,3 +173,4 @@ export default function TestimonialsSection() {
     </React.Fragment>
   );
 }
+
