@@ -1,11 +1,12 @@
+"use client";
 
 import Script from 'next/script';
 import { Button } from '@/components/ui/button';
 import NavLink from '@/components/nav-link';
 import { Activity, CalendarDays, Clock, Youtube, Linkedin, Facebook } from 'lucide-react';
-import Image from 'next/image'; // Keep Image if used elsewhere, though not for Spline bg
+import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
 
-// Define XLogo component (same as in footer)
 const XLogo = () => (
   <svg
     className="h-5 w-5"
@@ -18,7 +19,6 @@ const XLogo = () => (
   </svg>
 );
 
-// Define socialLinks array (same as in footer)
 const socialLinks = [
   { icon: <Youtube className="h-5 w-5" />, href: 'https://youtube.com', label: 'YouTube' },
   { icon: <XLogo />, href: 'https://x.com', label: 'X' },
@@ -33,59 +33,71 @@ export default function HeroSection() {
     { value: '24/7', label: 'Patient Care', icon: <Clock className="w-6 h-6 text-accent" /> },
   ];
 
-  const scheduleUrl = process.env.NEXT_PUBLIC_SCHEDULE_URL;
+  const [scheduleUrl, setScheduleUrl] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    // Check if NEXT_PUBLIC_SCHEDULE_URL is defined and not an empty string
+    const envUrl = process.env.NEXT_PUBLIC_SCHEDULE_URL;
+    if (envUrl && envUrl.trim() !== '') {
+      setScheduleUrl(envUrl);
+    }
+  }, []);
 
   return (
-    <section id="hero" className="relative bg-background pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden">
-      <Script 
-        src="https://unpkg.com/@splinetool/viewer@1.9.99/build/spline-viewer.js" 
-        type="module" 
-        strategy="lazyOnload" 
+    <section id="hero" className="relative bg-background pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden min-h-screen flex flex-col justify-center">
+      <Script
+        src="https://unpkg.com/@splinetool/viewer@1.9.99/build/spline-viewer.js"
+        type="module"
+        strategy="lazyOnload"
       />
-      <div className="container mx-auto px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-x-12 gap-y-10 items-center">
-          {/* Text Content Column */}
-          <div className="text-center lg:text-left animate-fadeInUp" style={{ animationDelay: '0.1s' }}>
-            <h1 className="font-headline text-5xl md:text-6xl xl:text-7xl font-bold mb-6">
-              Dr. Sarah Chen: <span className="text-primary">Expert Cardiac Care</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-10">
-              Leading cardiologist dedicated to advancing your heart health through compassionate, state-of-the-art care.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center mb-10 sm:mb-12">
-              {scheduleUrl ? (
-                <a href={scheduleUrl} target="_blank" rel="noopener noreferrer">
-                  <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Consultation</Button>
-                </a>
-              ) : (
-                <NavLink href="#contact">
-                  <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Consultation</Button>
-                </NavLink>
-              )}
-              <NavLink href="#about">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-xl text-base px-8 py-6 border-primary text-primary hover:bg-primary/10">
-                  Learn More
-                </Button>
-              </NavLink>
-            </div>
-          </div>
 
-          {/* Spline Viewer Column */}
-          <div 
-            className="w-full h-[350px] sm:h-[400px] md:h-[450px] lg:h-[500px] flex items-center justify-center animate-fadeInUp" 
-            style={{ animationDelay: '0.3s' }}
-          >
-            <spline-viewer
-              url="https://prod.spline.design/JIVBFKZGiNrXPIaW/scene.splinecode"
-              loading-anim-type="spinner-small-dark"
-              style={{ width: '100%', height: '100%', borderRadius: '12px' }}
-            />
+      {/* Spline Background */}
+      <div className="absolute inset-0 z-0">
+        <spline-viewer
+          url="https://prod.spline.design/JIVBFKZGiNrXPIaW/scene.splinecode"
+          loading-anim-type="spinner-small-dark"
+          style={{ width: '100%', height: '100%', display: 'block', outline: 'none', border: 'none' }}
+        />
+      </div>
+
+      {/* Transparent Overlay */}
+      <div className="absolute inset-0 z-[5] bg-white/10 pointer-events-none"></div>
+
+      {/* Content */}
+      <div className="container mx-auto px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
+        {/* Text Content */}
+        <div className="animate-fadeInUp max-w-3xl" style={{ animationDelay: '0.1s' }}>
+          <h1 className="font-headline text-5xl md:text-6xl xl:text-7xl font-bold mb-6">
+            Dr. Sarah Chen: <span className="text-primary">Expert Cardiac Care</span>
+          </h1>
+          <p className="text-xl md:text-2xl text-muted-foreground mb-10">
+            Leading cardiologist dedicated to advancing your heart health through compassionate, state-of-the-art care.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10 sm:mb-12">
+            {scheduleUrl ? (
+              <a href={scheduleUrl} target="_blank" rel="noopener noreferrer">
+                <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Consultation</Button>
+              </a>
+            ) : (
+              <NavLink href="#contact">
+                <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Consultation</Button>
+              </NavLink>
+            )}
+            <NavLink href="#about">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-xl text-base px-8 py-6 border-primary text-primary hover:bg-primary/10">
+                Learn More
+              </Button>
+            </NavLink>
           </div>
         </div>
 
-        <div className="mt-16 md:mt-20 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-xl mx-auto animate-fadeInUp" style={{ animationDelay: '0.7s' }}>
+        {/* Stats */}
+        <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-xl w-full animate-fadeInUp" style={{ animationDelay: '0.3s' }}>
           {stats.map((stat, index) => (
-            <div key={index} className="bg-card px-2 py-4 rounded-xl shadow-lg text-center transition-transform hover:scale-105 duration-300">
+            <div key={index} className={cn(
+                "bg-card/80 backdrop-blur-sm px-2 py-4 rounded-xl shadow-lg text-center transition-transform hover:scale-105 duration-300",
+                "border border-white/20"
+            )}>
               <div className="flex justify-center mb-2">{stat.icon}</div>
               <p className="text-2xl font-bold text-primary mb-0.5">{stat.value}</p>
               <p className="text-xs text-muted-foreground">{stat.label}</p>
@@ -93,8 +105,9 @@ export default function HeroSection() {
           ))}
         </div>
 
-        <div className="mt-12 md:mt-16 animate-fadeInUp flex justify-center" style={{ animationDelay: '0.9s' }}>
-          <div className="flex space-x-4">
+        {/* Social Links */}
+        <div className="mt-12 md:mt-16 animate-fadeInUp flex justify-center" style={{ animationDelay: '0.5s' }}>
+          <div className="flex space-x-6">
             {socialLinks.map(link => (
               <a
                 key={link.label}
@@ -102,7 +115,7 @@ export default function HeroSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.label}
-                className="text-muted-foreground hover:text-primary transition-colors"
+                className="text-foreground/70 hover:text-primary transition-colors"
               >
                 {link.icon}
               </a>
