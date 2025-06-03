@@ -26,7 +26,7 @@ export default function ContactSection() {
           </div>
           <div className="space-y-8 pt-2 animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
             <div>
-              <h3 className="font-headline text-3xl font-semibold text-primary mb-6">Practice Information</h3>
+              <h3 className="font-headline text-3xl font-semibold text-primary mb-6">Contact Information</h3>
               <ul className="space-y-4">
                 {contactDetails.map((detail, index) => (
                   <li key={index} className="flex items-start gap-3">

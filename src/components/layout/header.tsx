@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
@@ -5,7 +6,7 @@ import Link from 'next/link';
 import { Menu, X, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import NavLink from '@/components/nav-link'; // Re-using NavLink for consistent behavior
+import NavLink from '@/components/nav-link';
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -39,16 +40,31 @@ export default function Header() {
           Chen Cardiology
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-2">
-          {navItems.map((item) => (
-            <NavLink key={item.label} href={item.href} className={isScrolled ? "text-sm" : "text-base"}>
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
+        {/* Desktop Navigation & Button */}
+        <div className="hidden md:flex items-center">
+          <nav className="space-x-1"> {/* Reduced space for tighter links */}
+            {navItems.map((item) => (
+              <NavLink 
+                key={item.label} 
+                href={item.href} 
+                className={cn(
+                  "px-3 py-2 rounded-md font-medium transition-colors duration-200 hover:text-accent",
+                  isScrolled ? "text-sm" : "text-base",
+                  item.label === "Contact" ? "mr-2" : "" // Add margin to contact before button
+                )}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+          <NavLink href="#contact">
+            <Button size="sm" className="rounded-xl ml-2"> {/* Use size="sm" for header, ml-2 for spacing */}
+              Schedule Consultation
+            </Button>
+          </NavLink>
+        </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation Trigger */}
         <div className="md:hidden">
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
@@ -57,22 +73,31 @@ export default function Header() {
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[280px] bg-card p-6">
-              <div className="flex flex-col space-y-6">
-                <Link href="/" className="flex items-center gap-2 text-lg font-headline font-semibold text-primary mb-4" onClick={() => setIsSheetOpen(false)}>
+            <SheetContent side="right" className="w-[280px] bg-card p-6 flex flex-col">
+              <div>
+                <Link href="/" className="flex items-center gap-2 text-lg font-headline font-semibold text-primary mb-6" onClick={() => setIsSheetOpen(false)}>
                   <Heart className="w-6 h-6 text-accent" />
                   Chen Cardiology
                 </Link>
-                {navItems.map((item) => (
-                  <NavLink
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setIsSheetOpen(false)}
-                    className="block text-lg hover:text-accent"
-                  >
-                    {item.label}
-                  </NavLink>
-                ))}
+                <nav className="flex flex-col space-y-3">
+                  {navItems.map((item) => (
+                    <NavLink
+                      key={item.label}
+                      href={item.href}
+                      onClick={() => setIsSheetOpen(false)}
+                      className="block text-lg hover:text-accent py-1"
+                    >
+                      {item.label}
+                    </NavLink>
+                  ))}
+                </nav>
+              </div>
+              <div className="mt-auto pt-6"> 
+                <NavLink href="#contact" onClick={() => setIsSheetOpen(false)}>
+                  <Button size="default" className="w-full rounded-xl py-3 text-base">
+                    Schedule Consultation
+                  </Button>
+                </NavLink>
               </div>
             </SheetContent>
           </Sheet>
