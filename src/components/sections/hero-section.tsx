@@ -53,7 +53,7 @@ export default function HeroSection() {
       />
 
       {/* Spline Background */}
-      <div className="absolute inset-0 z-0 animate-splineFadeIn">
+      <div className="absolute inset-0 z-0 animate-splineFadeIn" style={{ animationDelay: '2s' }}>
         <spline-viewer
           url="https://prod.spline.design/JIVBFKZGiNrXPIaW/scene.splinecode"
           loading-anim-type="spinner-small-dark"
@@ -63,6 +63,7 @@ export default function HeroSection() {
 
       {/* Gradient Overlay */}
       <div className="absolute inset-0 z-[5] bg-gradient-to-l from-[rgba(255,255,255,1)] to-[rgba(255,255,255,0.70)] pointer-events-none"></div>
+
 
       {/* Content */}
       <div className="container mx-auto px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
