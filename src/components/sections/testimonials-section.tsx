@@ -61,12 +61,11 @@ export default function TestimonialsSection() {
 
   const displayItems = useMemo(() => {
     if (numOriginalItems === 0) return [];
-    if (numOriginalItems < NUM_VISIBLE_CARDS) {
-      // Simplified handling for fewer items than visible slots for cloning.
-      // This setup works best when numOriginalItems >= numSideClones effectively.
-    }
-    const clonesStart = testimonialsData.slice(numOriginalItems - numSideClones);
-    const clonesEnd = testimonialsData.slice(0, numSideClones);
+    // Ensure there are enough items to clone from, or adjust cloning strategy
+    const actualNumSideClones = Math.min(numSideClones, numOriginalItems > 0 ? numOriginalItems : 1);
+
+    const clonesStart = testimonialsData.slice(numOriginalItems - actualNumSideClones);
+    const clonesEnd = testimonialsData.slice(0, actualNumSideClones);
     return [...clonesStart, ...testimonialsData, ...clonesEnd];
   }, [numOriginalItems, numSideClones]);
 
@@ -88,6 +87,7 @@ export default function TestimonialsSection() {
 
   useEffect(() => {
     if (!transitionEnabled) {
+      // Use rAF to ensure the class change (transition disabled) is applied before re-enabling
       requestAnimationFrame(() => {
         setTransitionEnabled(true);
       });
@@ -95,22 +95,24 @@ export default function TestimonialsSection() {
   }, [transitionEnabled]);
 
   useEffect(() => {
-    if (currentIndex === numSideClones + numOriginalItems) { 
+    // Logic for continuous loop (forward)
+    if (currentIndex === numSideClones + numOriginalItems) {
+      const timer = setTimeout(() => {
+        setTransitionEnabled(false); // Disable transitions for the jump
+        setCurrentIndex(numSideClones); // Jump to the first "real" item
+      }, TRANSITION_DURATION); // Wait for the current transition to finish
+      return () => clearTimeout(timer);
+    }
+
+    // Logic for continuous loop (backward - if implementing prev button)
+    if (currentIndex === numSideClones - 1) {
       const timer = setTimeout(() => {
         setTransitionEnabled(false);
-        setCurrentIndex(numSideClones); 
+        setCurrentIndex(numSideClones + numOriginalItems - 1); // Jump to the last "real" item
       }, TRANSITION_DURATION);
       return () => clearTimeout(timer);
     }
-    // Example for reverse (if implemented):
-    // if (currentIndex === numSideClones - 1) { 
-    //   const timer = setTimeout(() => {
-    //     setTransitionEnabled(false);
-    //     setCurrentIndex(numSideClones + numOriginalItems - 1); 
-    //   }, TRANSITION_DURATION);
-    //   return () => clearTimeout(timer);
-    // }
-  }, [currentIndex, numOriginalItems, numSideClones]);
+  }, [currentIndex, numOriginalItems, numSideClones, displayItems.length]);
 
 
   if (numOriginalItems === 0) {
@@ -137,11 +139,16 @@ export default function TestimonialsSection() {
           <div className="relative mt-12 h-[500px] flex items-center justify-center overflow-hidden">
             {displayItems.map((testimonial, extendedIndex) => {
               const trueOffset = extendedIndex - currentIndex;
-              const stylingSlotFactor = trueOffset;
+              // stylingSlotFactor will determine which visual slot the card occupies
+              // For example, if trueOffset is very large (due to cloning), stylingSlotFactor
+              // might still be -2, -1, 0, 1, or 2 if it's visually in one of the 5 slots.
+              // This part is complex if we want perfect wrapping for styling AND translation.
+              // For now, trueOffset drives translation directly.
+              // Styling (opacity, scale) is driven by its visual position.
 
-              const isActive = stylingSlotFactor === 0;
-              const isImmediateNeighbor = Math.abs(stylingSlotFactor) === 1;
-              const isOuterNeighbor = Math.abs(stylingSlotFactor) === 2;
+              const isActive = trueOffset === 0;
+              const isImmediateNeighbor = Math.abs(trueOffset) === 1;
+              const isOuterNeighbor = Math.abs(trueOffset) === 2;
               
               let cardStyle: React.CSSProperties = {
                 width: '200px', 
@@ -156,7 +163,7 @@ export default function TestimonialsSection() {
                 cardStyle = {
                   width: '320px',
                   height: '450px',
-                  transform: `translateX(${stylingSlotFactor * X_OFFSET_FACTOR}px) scale(1)`,
+                  transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(1)`,
                   opacity: 1,
                   zIndex: 30,
                   pointerEvents: 'auto',
@@ -165,7 +172,7 @@ export default function TestimonialsSection() {
                 cardStyle = {
                   width: '280px',
                   height: '390px',
-                  transform: `translateX(${stylingSlotFactor * X_OFFSET_FACTOR}px) scale(0.85)`,
+                  transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(0.85)`,
                   opacity: 0.7,
                   zIndex: 20,
                   pointerEvents: 'auto',
@@ -174,7 +181,7 @@ export default function TestimonialsSection() {
                 cardStyle = {
                   width: '240px',
                   height: '330px',
-                  transform: `translateX(${stylingSlotFactor * X_OFFSET_FACTOR}px) scale(0.7)`,
+                  transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(0.7)`,
                   opacity: 0.4,
                   zIndex: 10,
                   pointerEvents: 'auto',
@@ -183,7 +190,7 @@ export default function TestimonialsSection() {
               
               return (
                 <div
-                  key={testimonial.name + extendedIndex + currentIndex} // Add currentIndex to key to help React diffing during jumps
+                  key={testimonial.name + extendedIndex} // Corrected key
                   className={cn(
                     "absolute ease-out",
                     transitionEnabled ? "duration-700 transition-all" : "duration-0" 
@@ -216,4 +223,3 @@ export default function TestimonialsSection() {
     </React.Fragment>
   );
 }
-
