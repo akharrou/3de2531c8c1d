@@ -82,8 +82,7 @@ export default function TestimonialsSection() {
               const offset = index - activeIndex;
               let positionFactor = offset;
 
-              // Handle wrapping for circular carousel
-              if (testimonialsData.length > 0) {
+              if (testimonialsData.length > 1) { // Ensure length is greater than 1 for wrap logic
                 const halfLength = testimonialsData.length / 2;
                 if (Math.abs(offset) > halfLength) {
                   if (offset < 0) {
@@ -97,16 +96,15 @@ export default function TestimonialsSection() {
               const isActive = positionFactor === 0;
               const isImmediateNeighbor = Math.abs(positionFactor) === 1;
               const isOuterNeighbor = Math.abs(positionFactor) === 2;
-              // Show 5 cards: center (0), immediate neighbors (+/-1), outer neighbors (+/-2)
-              const isVisible = Math.abs(positionFactor) <= 2;
-
-              let cardStyle = {
-                width: '200px', // Default for non-visible cards
+              
+              // Default style for cards further out (e.g., positionFactor +/-3 or more), effectively hidden
+              let cardStyle: React.CSSProperties = {
+                width: '200px',
                 height: '300px',
                 transform: `translateX(${positionFactor * 200}px) scale(0.6)`,
                 opacity: 0,
                 zIndex: 0,
-                pointerEvents: 'none' as React.CSSProperties['pointerEvents'],
+                pointerEvents: 'none',
               };
 
               if (isActive) {
@@ -116,7 +114,7 @@ export default function TestimonialsSection() {
                   transform: `translateX(${positionFactor * 200}px) scale(1)`,
                   opacity: 1,
                   zIndex: 30,
-                  pointerEvents: 'auto' as React.CSSProperties['pointerEvents'],
+                  pointerEvents: 'auto',
                 };
               } else if (isImmediateNeighbor) {
                 cardStyle = {
@@ -125,7 +123,7 @@ export default function TestimonialsSection() {
                   transform: `translateX(${positionFactor * 200}px) scale(0.85)`,
                   opacity: 0.7,
                   zIndex: 20,
-                  pointerEvents: 'auto' as React.CSSProperties['pointerEvents'],
+                  pointerEvents: 'auto',
                 };
               } else if (isOuterNeighbor) {
                 cardStyle = {
@@ -134,10 +132,9 @@ export default function TestimonialsSection() {
                   transform: `translateX(${positionFactor * 200}px) scale(0.7)`,
                   opacity: 0.4,
                   zIndex: 10,
-                  pointerEvents: 'auto' as React.CSSProperties['pointerEvents'],
+                  pointerEvents: 'auto',
                 };
               }
-
 
               return (
                 <div
@@ -145,25 +142,23 @@ export default function TestimonialsSection() {
                   className="absolute transition-all duration-700 ease-out"
                   style={cardStyle}
                 >
-                  {isVisible && ( // Only render content for visible cards
-                    <Card className="h-full w-full flex flex-col bg-card rounded-2xl shadow-xl overflow-hidden">
-                      <CardContent className="pt-6 flex flex-col flex-grow items-center text-center justify-center p-4 md:p-6">
-                        <Avatar className="h-20 w-20 mb-4">
-                          <AvatarImage src={testimonial.image} alt={testimonial.name} data-ai-hint={testimonial.aiHint} />
-                          <AvatarFallback>{testimonial.avatarFallback}</AvatarFallback>
-                        </Avatar>
-                        <p className="font-semibold text-lg md:text-xl text-primary mb-2">{testimonial.name}</p>
-                        <div className="flex text-yellow-400 mb-3 md:mb-4">
-                          {Array(testimonial.rating).fill(0).map((_, i) => (
-                            <Star key={i} className="w-5 h-5 fill-current" />
-                          ))}
-                        </div>
-                        <blockquote className="text-muted-foreground text-sm md:text-base italic leading-relaxed px-2">
-                          "{testimonial.quote}"
-                        </blockquote>
-                      </CardContent>
-                    </Card>
-                  )}
+                  <Card className="h-full w-full flex flex-col bg-card rounded-2xl shadow-xl overflow-hidden">
+                    <CardContent className="pt-6 flex flex-col flex-grow items-center text-center justify-center p-4 md:p-6">
+                      <Avatar className="h-20 w-20 mb-4">
+                        <AvatarImage src={testimonial.image} alt={testimonial.name} data-ai-hint={testimonial.aiHint} />
+                        <AvatarFallback>{testimonial.avatarFallback}</AvatarFallback>
+                      </Avatar>
+                      <p className="font-semibold text-lg md:text-xl text-primary mb-2">{testimonial.name}</p>
+                      <div className="flex text-yellow-400 mb-3 md:mb-4">
+                        {Array(testimonial.rating).fill(0).map((_, i) => (
+                          <Star key={i} className="w-5 h-5 fill-current" />
+                        ))}
+                      </div>
+                      <blockquote className="text-muted-foreground text-sm md:text-base italic leading-relaxed px-2">
+                        "{testimonial.quote}"
+                      </blockquote>
+                    </CardContent>
+                  </Card>
                 </div>
               );
             })}
@@ -173,4 +168,3 @@ export default function TestimonialsSection() {
     </React.Fragment>
   );
 }
-
