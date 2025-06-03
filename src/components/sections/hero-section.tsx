@@ -1,8 +1,29 @@
 
 import { Button } from '@/components/ui/button';
 import NavLink from '@/components/nav-link';
-import { Activity, CalendarDays, Clock } from 'lucide-react';
+import { Activity, CalendarDays, Clock, Youtube, Linkedin, Facebook } from 'lucide-react';
 import Image from 'next/image';
+
+// Define XLogo component (same as in footer)
+const XLogo = () => (
+  <svg
+    className="h-5 w-5"
+    fill="currentColor"
+    viewBox="0 0 50 50"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path d="M6.5605469,3 L20.001953,20.6875 L6.96875,38 L10.03125,38 L21.53125,22.65625 L31.599609,38 L43.439453,38 L28.908203,19.160156 L42.439453,3 L39.371094,3 L27.341797,17.34375 L18.400391,3 L6.5605469,3 z M12.03125,5 L16.96875,5 L37.96875,36 L33.03125,36 L12.03125,5 z" />
+  </svg>
+);
+
+// Define socialLinks array (same as in footer)
+const socialLinks = [
+  { icon: <Youtube className="h-5 w-5" />, href: 'https://youtube.com', label: 'YouTube' },
+  { icon: <XLogo />, href: 'https://x.com', label: 'X' },
+  { icon: <Linkedin className="h-5 w-5" />, href: 'https://linkedin.com', label: 'LinkedIn' },
+  { icon: <Facebook className="h-5 w-5" />, href: 'https://facebook.com', label: 'Facebook' },
+];
 
 export default function HeroSection() {
   const stats = [
@@ -53,6 +74,23 @@ export default function HeroSection() {
               <p className="text-xs text-muted-foreground">{stat.label}</p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-20 animate-fadeInUp flex justify-center md:justify-start" style={{ animationDelay: '0.9s' }}>
+          <div className="flex space-x-4">
+            {socialLinks.map(link => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={link.label}
+                className="text-muted-foreground hover:text-primary transition-colors"
+              >
+                {link.icon}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </section>
