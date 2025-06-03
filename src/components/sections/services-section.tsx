@@ -1,7 +1,5 @@
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import NavLink from '@/components/nav-link';
 import { HeartPulse, Stethoscope, FlaskConical, ShieldCheck } from 'lucide-react';
 
 const services = [
@@ -45,16 +43,10 @@ export default function ServicesSection() {
                 {service.icon}
                 <CardTitle className="font-headline text-2xl text-primary">{service.title}</CardTitle>
               </CardHeader>
-              <CardContent className="flex-grow text-center">
+              <CardContent className="flex-grow text-center pb-6"> {/* Added pb-6 here to maintain some padding at the bottom of the content */}
                 <CardDescription className="leading-relaxed text-muted-foreground">{service.description}</CardDescription>
               </CardContent>
-              <div className="p-6 pt-0 text-center">
-                <NavLink href="#contact">
-                  <Button variant="link" className="text-accent hover:text-primary text-sm">
-                    Book Appointment <span aria-hidden="true" className="ml-1">&rarr;</span>
-                  </Button>
-                </NavLink>
-              </div>
+              {/* Button removed from here */}
             </Card>
           ))}
         </div>
@@ -62,4 +54,3 @@ export default function ServicesSection() {
     </section>
   );
 }
-
