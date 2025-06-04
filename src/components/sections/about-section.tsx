@@ -14,7 +14,7 @@ export default function AboutSection() {
     <section id="about" className="py-24 bg-secondary">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4">About Dr. Sarah Chen</h2>
+          <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-primary">About Dr. Sarah Chen</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Dedicated to providing exceptional heart care with a personalized approach.
           </p>
