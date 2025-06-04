@@ -71,7 +71,7 @@ const faqCategories = [
 
 export default function FaqSection() {
   return (
-    <section id="faq" className="py-24 bg-background">
+    <section id="faq" className="pt-24 pb-12 bg-background">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-headline text-5xl md:text-6xl font-bold text-primary">
