@@ -5,9 +5,11 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger,
+  // AccordionTrigger, // We will use AccordionPrimitive.Trigger directly for more control
 } from "@/components/ui/accordion";
+import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { Plus, Minus } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const faqCategories = [
   {
@@ -88,11 +90,31 @@ export default function FaqSection() {
             <Accordion type="single" collapsible className="w-full space-y-1">
               {category.items.map((item) => (
                 <AccordionItem key={item.question} value={item.question} className="border-b border-border last:border-b-0">
-                  <AccordionTrigger className="group text-left hover:no-underline py-6 text-lg font-body font-medium text-foreground items-center">
-                    <span className="flex-1 pr-4">{item.question}</span>
-                    <Plus className="h-5 w-5 text-primary shrink-0 transition-transform duration-300 ease-in-out group-data-[state=open]:hidden" />
-                    <Minus className="h-5 w-5 text-primary shrink-0 transition-transform duration-300 ease-in-out group-data-[state=closed]:hidden" />
-                  </AccordionTrigger>
+                  <AccordionPrimitive.Header className="flex">
+                    <AccordionPrimitive.Trigger
+                      className={cn(
+                        "group flex w-full flex-1 items-center justify-between text-left hover:no-underline py-6 text-lg font-body font-medium text-foreground"
+                      )}
+                    >
+                      <span className="flex-1 pr-4">{item.question}</span>
+                      <div className="relative h-5 w-5">
+                        <Plus
+                          className={cn(
+                            "absolute top-0 left-0 h-5 w-5 text-primary shrink-0 transition-opacity duration-200 ease-in-out",
+                            "group-data-[state=open]:opacity-0 opacity-100"
+                          )}
+                          aria-hidden="true"
+                        />
+                        <Minus
+                          className={cn(
+                            "absolute top-0 left-0 h-5 w-5 text-primary shrink-0 transition-opacity duration-200 ease-in-out",
+                            "group-data-[state=open]:opacity-100 opacity-0"
+                          )}
+                          aria-hidden="true"
+                        />
+                      </div>
+                    </AccordionPrimitive.Trigger>
+                  </AccordionPrimitive.Header>
                   <AccordionContent className="text-muted-foreground text-base leading-relaxed pt-2 pb-6 pr-6">
                     {item.answer}
                   </AccordionContent>
