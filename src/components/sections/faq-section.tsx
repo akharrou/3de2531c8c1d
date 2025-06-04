@@ -64,7 +64,7 @@ async function fetchFaqsFromNotion(): Promise<ProcessedFaqCategory[] | null> {
       
       return {
         id: page.id,
-        question: getPlainText(properties.Question?.title) || "Unnamed Question", // Changed from properties.Name to properties.Question
+        question: getPlainText(properties.Question?.title) || "Unnamed Question",
         answer: getPlainText(properties.Answer?.rich_text) || "No answer provided.",
         category: properties.Category?.select?.name || "Uncategorized",
         categoryOrder: properties["Category Order"]?.number ?? 999,
@@ -119,7 +119,7 @@ export default async function FaqSection() {
         </div>
 
         {faqCategories.map((category, categoryIndex) => (
-          <div key={category.title} className={`mb-12 ${categoryIndex > 0 ? 'pt-8' : ''}`}>
+          <div key={category.title} className={`mb-8 ${categoryIndex > 0 ? 'pt-6' : ''}`}>
             <h3 className="font-headline text-3xl md:text-4xl font-semibold text-primary mb-8 text-left">
               {category.title}
             </h3>
