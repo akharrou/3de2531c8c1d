@@ -1,75 +1,110 @@
 
-"use client";
-
+import { Client } from '@notionhq/client';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  // AccordionTrigger, // We will use AccordionPrimitive.Trigger directly for more control
 } from "@/components/ui/accordion";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const faqCategories = [
-  {
-    title: "About Our Practice",
-    items: [
-      {
-        question: "What is Dr. Chen's philosophy towards cardiac care?",
-        answer:
-          "Dr. Chen believes in a patient-centered approach, combining the latest medical advancements with compassionate, personalized care. She focuses on empowering patients with knowledge and involving them in their healthcare decisions to achieve the best possible outcomes.",
-      },
-      {
-        question: "What types of cardiac conditions does Dr. Chen treat?",
-        answer:
-          "Dr. Chen treats a wide range of cardiovascular conditions, including coronary artery disease, heart failure, arrhythmias, valvular heart disease, and hypertension. She also provides preventive cardiology services.",
-      },
-      {
-        question: "What makes Chen Cardiology unique?",
-        answer:
-          "Our clinic combines state-of-the-art diagnostic and treatment options with a warm, supportive environment. Dr. Chen is dedicated to continuous learning and applying the most current research to patient care, ensuring you receive the highest standard of cardiovascular treatment.",
-      },
-    ],
-  },
-  {
-    title: "Appointments & Scheduling",
-    items: [
-      {
-        question: "How do I schedule an appointment?",
-        answer:
-          "You can schedule an appointment by calling our office at (555) 123-4567 during business hours (Mon-Fri, 9 AM - 5 PM). You can also request an appointment through the contact form on our website, or use the \"Schedule Consultation\" button if an online scheduling portal is linked.",
-      },
-      {
-        question: "What should I bring to my first appointment?",
-        answer:
-          "For your first appointment, please bring your insurance card, a valid photo ID, a list of all current medications (including over-the-counter drugs and supplements with dosages), and any relevant medical records, test results, or referral letters from other physicians.",
-      },
-      {
-        question: "What if I need to cancel or reschedule my appointment?",
-        answer:
-          "We understand that plans can change. Please call our office at least 24 hours in advance if you need to cancel or reschedule your appointment. This allows us to offer the time slot to other patients in need of care.",
-      },
-    ],
-  },
-  {
-    title: "Insurance & Billing",
-    items: [
-      {
-        question: "What insurance plans do you accept?",
-        answer:
-          "We accept a wide variety of major insurance plans. As plan participation can change, we recommend contacting our office or checking directly with your insurance provider to confirm your coverage before your appointment.",
-      },
-      {
-        question: "Who can I contact if I have a billing question?",
-        answer:
-          "For any billing inquiries, please call our billing department at (555) 789-0123 during business hours, or email us at billing@chencardiology.com. We are happy to assist you with understanding your statement or payment options.",
-      },
-    ],
-  },
-];
+type NotionFaqItemRaw = {
+  id: string;
+  question: string;
+  answer: string;
+  category: string;
+  categoryOrder: number;
+  questionOrder: number;
+};
 
-export default function FaqSection() {
+type ProcessedFaqItem = {
+  question: string;
+  answer: string;
+};
+
+type ProcessedFaqCategory = {
+  title: string;
+  items: ProcessedFaqItem[];
+};
+
+async function fetchFaqsFromNotion(): Promise<ProcessedFaqCategory[] | null> {
+  const notionApiKey = process.env.NOTION_INTEGRATION_SECRET;
+  const faqDatabaseId = process.env.NOTION_DATABASE_ID__FAQ;
+
+  if (!notionApiKey || !faqDatabaseId) {
+    console.error("Notion API Key or FAQ Database ID is not configured in environment variables.");
+    return null;
+  }
+
+  const notion = new Client({ auth: notionApiKey });
+
+  try {
+    const response = await notion.databases.query({
+      database_id: faqDatabaseId,
+      sorts: [
+        { property: "Category Order", direction: "ascending" },
+        { property: "Question Order", direction: "ascending" },
+      ],
+    });
+
+    if (!response.results || response.results.length === 0) {
+      console.log("No FAQ items found in Notion.");
+      return null;
+    }
+
+    const rawFaqItems: NotionFaqItemRaw[] = response.results.map((page: any) => {
+      const properties = page.properties;
+      // Helper to extract plain text from Notion rich text arrays
+      const getPlainText = (richTextArray: any[] | undefined) => {
+        if (!richTextArray || richTextArray.length === 0) return "";
+        return richTextArray.map((rt: any) => rt.plain_text).join('');
+      };
+      
+      return {
+        id: page.id,
+        question: getPlainText(properties.Name?.title) || "Unnamed Question",
+        answer: getPlainText(properties.Answer?.rich_text) || "No answer provided.",
+        category: properties.Category?.select?.name || "Uncategorized",
+        categoryOrder: properties["Category Order"]?.number ?? 999,
+        questionOrder: properties["Question Order"]?.number ?? 999,
+      };
+    });
+
+    const categoriesMap = new Map<string, { categoryOrder: number; items: ProcessedFaqItem[] }>();
+
+    for (const item of rawFaqItems) {
+      if (!categoriesMap.has(item.category)) {
+        categoriesMap.set(item.category, { categoryOrder: item.categoryOrder, items: [] });
+      }
+      const categoryEntry = categoriesMap.get(item.category);
+      if (categoryEntry) {
+        categoryEntry.items.push({ question: item.question, answer: item.answer });
+      }
+    }
+    
+    const processedCategories: ProcessedFaqCategory[] = Array.from(categoriesMap.entries())
+      .sort(([, aData], [, bData]) => aData.categoryOrder - bData.categoryOrder)
+      .map(([title, data]) => ({
+        title,
+        items: data.items, // Items are already sorted by questionOrder due to initial Notion query sort
+      }));
+
+    return processedCategories.length > 0 ? processedCategories : null;
+
+  } catch (error) {
+    console.error("Error fetching FAQs from Notion:", error);
+    return null;
+  }
+}
+
+export default async function FaqSection() {
+  const faqCategories = await fetchFaqsFromNotion();
+
+  if (!faqCategories) {
+    return null; // Hide section if no data or error, or if Notion env vars are not set
+  }
+
   return (
     <section id="faq" className="pt-24 pb-12 bg-background">
       <div className="container mx-auto px-6 lg:px-8">
