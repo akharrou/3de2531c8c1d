@@ -32,7 +32,7 @@ export default function ContactSection() {
                 {contactDetails.map((detail, index) => (
                   <li key={index} className="flex items-start gap-3">
                     {detail.icon}
-                    <span className="text-muted-foreground text-base">{detail.text}</span>
+                    <span className="text-secondary-foreground text-base">{detail.text}</span>
                   </li>
                 ))}
               </ul>
@@ -54,3 +54,4 @@ export default function ContactSection() {
     </section>
   );
 }
+
