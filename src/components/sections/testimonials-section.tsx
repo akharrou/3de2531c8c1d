@@ -52,7 +52,7 @@ const testimonialsData = [
 
 const AUTOPLAY_INTERVAL = 5000; // 5 seconds
 const X_OFFSET_FACTOR = 200; // Horizontal distance factor between cards
-const NUM_VISIBLE_CARDS = 5;
+const NUM_VISIBLE_CARDS = 5; // Defines how many cards are styled for visibility, others fade
 const TRANSITION_DURATION = 700; // ms, should match CSS
 
 export default function TestimonialsSection() {
@@ -132,57 +132,65 @@ export default function TestimonialsSection() {
             </p>
           </div>
 
-          <div className="relative mt-12 h-[500px] flex items-center justify-center overflow-hidden">
+          <div className="relative mt-12 h-[500px] w-full overflow-hidden">
+            {/* Left Fade Overlay */}
+            <div className="absolute left-0 top-0 bottom-0 z-30 w-32 md:w-48 bg-gradient-to-r from-secondary to-transparent pointer-events-none"></div>
+
             {displayItems.map((testimonial, extendedIndex) => {
               const trueOffset = extendedIndex - currentIndex;
               
               const isActive = trueOffset === 0;
               const isImmediateNeighbor = Math.abs(trueOffset) === 1;
               const isOuterNeighbor = Math.abs(trueOffset) === 2;
-              
-              let cardStyle: React.CSSProperties = {
-                width: '200px', 
-                height: '300px',
-                transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(0.6)`,
-                opacity: 0,
-                zIndex: 0,
-                pointerEvents: 'none', 
-              };
+
+              const horizontalTransformValue = trueOffset * X_OFFSET_FACTOR;
+              let scaleValue = 0.6;
+              let opacityValue = 0;
+              let zIndexValue = 0;
+              let cardWidth = '200px';
+              let cardHeight = '300px';
+              let pointerEventsValue: 'auto' | 'none' = 'none';
 
               if (isActive) {
-                cardStyle = {
-                  width: '320px',
-                  height: '450px',
-                  transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(1)`,
-                  opacity: 1,
-                  zIndex: 30,
-                  pointerEvents: 'auto',
-                };
+                scaleValue = 1;
+                opacityValue = 1;
+                zIndexValue = 30;
+                cardWidth = '320px';
+                cardHeight = '450px';
+                pointerEventsValue = 'auto';
               } else if (isImmediateNeighbor) {
-                cardStyle = {
-                  width: '280px',
-                  height: '390px',
-                  transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(0.85)`,
-                  opacity: 0.7,
-                  zIndex: 20,
-                  pointerEvents: 'auto',
-                };
+                scaleValue = 0.85;
+                opacityValue = 0.7;
+                zIndexValue = 20;
+                cardWidth = '280px';
+                cardHeight = '390px';
+                pointerEventsValue = 'auto';
               } else if (isOuterNeighbor) {
-                cardStyle = {
-                  width: '240px',
-                  height: '330px',
-                  transform: `translateX(${trueOffset * X_OFFSET_FACTOR}px) scale(0.7)`,
-                  opacity: 0.4,
-                  zIndex: 10,
-                  pointerEvents: 'auto',
-                };
+                scaleValue = 0.7;
+                opacityValue = 0.4;
+                zIndexValue = 10;
+                cardWidth = '240px';
+                cardHeight = '330px';
+                pointerEventsValue = 'auto';
               }
+              
+              const cardStyle: React.CSSProperties = {
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                width: cardWidth,
+                height: cardHeight,
+                transform: `translateX(calc(-50% + ${horizontalTransformValue}px)) translateY(-50%) scale(${scaleValue})`,
+                opacity: opacityValue,
+                zIndex: zIndexValue,
+                pointerEvents: pointerEventsValue,
+              };
               
               return (
                 <div
                   key={testimonial.name + extendedIndex} 
                   className={cn(
-                    "absolute ease-out",
+                    "ease-out", // No longer "absolute" here, it's in style
                     transitionEnabled ? "duration-700 transition-all" : "duration-0" 
                   )}
                   style={cardStyle}
@@ -207,10 +215,11 @@ export default function TestimonialsSection() {
                 </div>
               );
             })}
+            {/* Right Fade Overlay */}
+            <div className="absolute right-0 top-0 bottom-0 z-30 w-32 md:w-48 bg-gradient-to-l from-secondary to-transparent pointer-events-none"></div>
           </div>
         </div>
       </section>
     </React.Fragment>
   );
 }
-
