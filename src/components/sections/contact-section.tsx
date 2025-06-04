@@ -1,3 +1,4 @@
+
 import ContactForm from '@/components/contact-form';
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
 
@@ -10,7 +11,7 @@ const contactDetails = [
 
 export default function ContactSection() {
   return (
-    <section id="contact" className="py-24 bg-background">
+    <section id="contact" className="py-24 bg-secondary">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4">Get In Touch</h2>
@@ -53,3 +54,4 @@ export default function ContactSection() {
     </section>
   );
 }
+

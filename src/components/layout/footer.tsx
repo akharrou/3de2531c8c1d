@@ -34,7 +34,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-secondary text-secondary-foreground py-12">
+    <footer className="bg-card text-card-foreground py-12">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
@@ -42,10 +42,10 @@ export default function Footer() {
               <Heart className="w-7 h-7 text-accent" />
               Chen Cardiology
             </Link>
-            <p className="text-sm">Providing expert cardiac care with compassion and dedication.</p>
+            <p className="text-sm text-muted-foreground">Providing expert cardiac care with compassion and dedication.</p>
           </div>
           <div>
-            <h3 className="text-lg font-semibold font-headline mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold font-headline mb-4 text-primary">Quick Links</h3>
             <ul className="space-y-2">
               {navItems.map(item => (
                 <li key={item.label}>
@@ -57,8 +57,8 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-semibold font-headline mb-4">Connect With Us</h3>
-            <p className="text-sm mb-4">
+            <h3 className="text-lg font-semibold font-headline mb-4 text-primary">Connect With Us</h3>
+            <p className="text-sm mb-4 text-muted-foreground">
               123 Heartbeat Ave, Cardio City, CA 90210
               <br />
               (555) 123-4567
@@ -73,7 +73,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={link.label}
-                  className="text-secondary-foreground hover:text-accent transition-colors"
+                  className="text-card-foreground hover:text-accent transition-colors"
                 >
                   {link.icon}
                 </a>
@@ -81,7 +81,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center text-sm">
+        <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
           <p>&copy; {currentYear} Chen Cardiology. All rights reserved.</p>
           <div className="space-x-4 mt-4 md:mt-0">
             <Link href="/privacy-policy" className="hover:text-accent">Privacy Policy</Link>
@@ -92,3 +92,4 @@ export default function Footer() {
     </footer>
   );
 }
+
