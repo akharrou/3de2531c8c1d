@@ -72,6 +72,9 @@ export default function HeroSection() {
       <div className="container mx-auto px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
         {/* Text Content */}
         <div className="animate-fadeInUp max-w-3xl" style={{ animationDelay: '0.1s' }}>
+          <div className="mb-4 inline-block bg-muted/70 backdrop-blur-sm text-foreground/90 px-4 py-2 rounded-full text-sm font-medium shadow-sm border border-border/30">
+            Board-certified cardiac surgeon
+          </div>
           <h1 className="font-headline text-5xl md:text-6xl xl:text-7xl font-bold mb-6">
             Dr. Sarah Chen: <span className="text-primary">Expert Cardiac Care</span>
           </h1>
@@ -105,7 +108,7 @@ export default function HeroSection() {
           {stats.map((stat, index) => (
             <div key={index} className={cn(
                 "bg-card/80 backdrop-blur-sm px-2 py-4 rounded-xl shadow-lg text-center transition-transform hover:scale-105 duration-300",
-                "border border-white/20"
+                "border border-white/20" 
             )}>
               <div className="flex justify-center mb-2">{stat.icon}</div>
               <p className="text-2xl font-bold text-primary mb-0.5">{stat.value}</p>
@@ -135,3 +138,4 @@ export default function HeroSection() {
     </section>
   );
 }
+
