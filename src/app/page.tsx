@@ -5,6 +5,7 @@ import HeroSection from '@/components/sections/hero-section';
 import AboutSection from '@/components/sections/about-section';
 import ServicesSection from '@/components/sections/services-section';
 import TestimonialsSection from '@/components/sections/testimonials-section';
+import FaqSection from '@/components/sections/faq-section';
 import ContactSection from '@/components/sections/contact-section';
 
 export default function HomePage() {
@@ -28,6 +29,9 @@ export default function HomePage() {
         </div>
         <div className="animate-fadeInUp" style={{ animationDelay: '0.7s' }}>
           <TestimonialsSection />
+        </div>
+        <div className="animate-fadeInUp" style={{ animationDelay: '0.8s' }}>
+          <FaqSection />
         </div>
         <div className="animate-fadeInUp" style={{ animationDelay: '0.9s' }}>
           <ContactSection />

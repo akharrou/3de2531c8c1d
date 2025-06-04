@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Linkedin, Facebook, Heart, Youtube } from 'lucide-react';
 import NavLink from '@/components/nav-link';
@@ -6,6 +7,7 @@ const navItems = [
   { label: 'Home', href: '#hero' },
   { label: 'About', href: '#about' },
   { label: 'Services', href: '#services' },
+  { label: 'FAQ', href: '#faq' },
   { label: 'Contact', href: '#contact' },
 ];
 

@@ -14,6 +14,7 @@ const navItems = [
   { label: 'About', href: '#about' },
   { label: 'Services', href: '#services' },
   { label: 'Testimonials', href: '#testimonials' },
+  { label: 'FAQ', href: '#faq' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -76,7 +77,7 @@ export default function Header() {
                 className={cn(
                   "px-3 py-2 rounded-md font-medium transition-colors duration-200 hover:text-accent",
                   isScrolled ? "text-sm" : "text-base",
-                  item.label === "Contact" ? "mr-2" : "" 
+                  item.href === "#contact" ? "mr-2" : "" // Keep margin for the last actual nav item before button
                 )}
               >
                 {item.label}
