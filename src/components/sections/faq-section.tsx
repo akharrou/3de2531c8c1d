@@ -64,7 +64,7 @@ async function fetchFaqsFromNotion(): Promise<ProcessedFaqCategory[] | null> {
       
       return {
         id: page.id,
-        question: getPlainText(properties.Name?.title) || "Unnamed Question",
+        question: getPlainText(properties.Question?.title) || "Unnamed Question", // Changed from properties.Name to properties.Question
         answer: getPlainText(properties.Answer?.rich_text) || "No answer provided.",
         category: properties.Category?.select?.name || "Uncategorized",
         categoryOrder: properties["Category Order"]?.number ?? 999,
@@ -80,9 +80,6 @@ async function fetchFaqsFromNotion(): Promise<ProcessedFaqCategory[] | null> {
       }
       const categoryEntry = categoriesMap.get(item.category);
       if (categoryEntry) {
-        // Items are already sorted by questionOrder due to initial Notion query sort if categories are distinct
-        // If questions can have same questionOrder across different categories, this might need re-sorting here per category.
-        // However, given the sorts array, Notion should handle this.
         categoryEntry.items.push({ question: item.question, answer: item.answer });
       }
     }
