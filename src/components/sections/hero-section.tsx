@@ -35,6 +35,9 @@ export default function HeroSection() {
   ];
 
   const [scheduleUrl, setScheduleUrl] = useState<string | undefined>(undefined);
+  const [themeBackgroundHsl, setThemeBackgroundHsl] = useState<string>('');
+  const [themeSecondaryHsl, setThemeSecondaryHsl] = useState<string>('');
+
 
   useEffect(() => {
     // Check if NEXT_PUBLIC_SCHEDULE_URL is defined and not an empty string
@@ -42,7 +45,20 @@ export default function HeroSection() {
     if (envUrl && envUrl.trim() !== '') {
       setScheduleUrl(envUrl);
     }
+
+    // Fetch CSS variable values on client-side
+    if (typeof window !== 'undefined') {
+      const computedStyle = getComputedStyle(document.documentElement);
+      setThemeBackgroundHsl(computedStyle.getPropertyValue('--background').trim());
+      setThemeSecondaryHsl(computedStyle.getPropertyValue('--secondary').trim());
+    }
   }, []);
+
+
+  const fromColor = themeBackgroundHsl ? `hsl(${themeBackgroundHsl} / 1)` : 'rgba(255,255,255,1)'; // Fallback for SSR or if var not found
+  const toColor = themeBackgroundHsl ? `hsl(${themeBackgroundHsl} / 0.70)` : 'rgba(255,255,255,0.70)'; // Fallback
+  const gradientBottomFromColor = themeSecondaryHsl ? `hsl(${themeSecondaryHsl})` : 'hsl(var(--secondary))';
+
 
   return (
     <section id="hero" className="relative bg-background pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden min-h-screen flex flex-col justify-center">
@@ -62,23 +78,33 @@ export default function HeroSection() {
       </div>
 
       {/* Horizontal Gradient Overlay (Theme-aware) */}
-      <div className="absolute inset-0 z-[5] bg-gradient-to-l from-[hsl(var(--background))] to-[hsla(var(--background-raw,0,0%,98%),0.70)] pointer-events-none"></div>
+       <div
+        className="absolute inset-0 z-[5] bg-gradient-to-l pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(to left, ${fromColor}, ${toColor})`,
+        }}
+      ></div>
       
       {/* Vertical Gradient Overlay (Bottom to About Section color) */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 z-[6] bg-gradient-to-t from-[hsl(var(--secondary))] to-transparent pointer-events-none"></div>
+      <div
+        className="absolute bottom-0 left-0 right-0 h-48 z-[6] bg-gradient-to-t pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(to top, ${gradientBottomFromColor}, transparent)`,
+        }}
+      ></div>
 
 
       {/* Content */}
       <div className="container mx-auto px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
         {/* Text Content */}
         <div className="animate-fadeInUp max-w-3xl mt-8" style={{ animationDelay: '0.1s' }}>
-          <div className="mb-4 inline-block bg-muted/70 backdrop-blur-sm text-foreground/90 px-3 py-1 rounded-full text-xs font-medium shadow-sm border border-border/30">
+          <div className="mb-3 inline-block bg-muted/70 backdrop-blur-sm text-foreground/90 px-3 py-1 rounded-full text-xs font-medium shadow-sm border border-border/30">
             Board-certified cardiac surgeon
           </div>
           <h1 className="font-headline text-5xl md:text-6xl xl:text-7xl font-bold mb-6">
             Dr. Sarah Chen: <span className="text-primary">Expert Cardiac Care</span>
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-10">
+          <p className="text-lg md:text-xl text-muted-foreground mb-10">
             Leading cardiologist dedicated to advancing your heart health through compassionate, state-of-the-art care.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 sm:mb-10">
