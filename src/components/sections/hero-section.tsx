@@ -98,7 +98,7 @@ export default function HeroSection() {
       <div className="container mx-auto px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
         {/* Text Content */}
         <div className="animate-fadeInUp max-w-3xl mt-8" style={{ animationDelay: '0.1s' }}>
-          <div className="mb-3 inline-block bg-muted/70 backdrop-blur-sm text-foreground/90 px-3 py-1 rounded-full text-xs font-medium shadow-sm border border-border/30">
+          <div className="mb-6 inline-block bg-muted/70 backdrop-blur-sm text-foreground/90 px-3 py-1 rounded-full text-xs font-medium shadow-sm border border-border/30">
             Board-certified cardiac surgeon
           </div>
           <h1 className="font-headline text-5xl md:text-6xl xl:text-7xl font-bold mb-6">
@@ -164,3 +164,4 @@ export default function HeroSection() {
     </section>
   );
 }
+
