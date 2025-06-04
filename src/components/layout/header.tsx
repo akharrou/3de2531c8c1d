@@ -20,16 +20,10 @@ const navItems = [
 
 export default function Header() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [scheduleUrl, setScheduleUrl] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     setScheduleUrl(process.env.NEXT_PUBLIC_SCHEDULE_URL);
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const renderScheduleButton = (isMobile = false) => {
@@ -59,7 +53,7 @@ export default function Header() {
   return (
     <header className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      isScrolled ? "bg-card shadow-md py-4" : "bg-transparent py-6"
+      "bg-card shadow-md py-4" // Always apply these styles
     )}>
       <div className="container mx-auto px-6 lg:px-8 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 text-xl font-headline font-semibold text-primary">
@@ -76,8 +70,8 @@ export default function Header() {
                 href={item.href} 
                 className={cn(
                   "px-3 py-2 rounded-md font-medium transition-colors duration-200 hover:text-accent",
-                  isScrolled ? "text-sm" : "text-base",
-                  item.href === "#contact" ? "mr-2" : "" // Keep margin for the last actual nav item before button
+                  "text-sm", // Always use the "scrolled" text size
+                  item.href === "#contact" ? "mr-2" : "" 
                 )}
               >
                 {item.label}
