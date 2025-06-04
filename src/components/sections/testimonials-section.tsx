@@ -113,7 +113,7 @@ export default function TestimonialsSection() {
 
   if (numOriginalItems === 0) {
     return (
-      <section id="testimonials" className="py-24 bg-secondary text-foreground">
+      <section id="testimonials" className="pt-24 pb-16 bg-secondary text-foreground">
         <div className="container mx-auto px-6 lg:px-8 text-center">
           <p className="text-muted-foreground">No testimonials yet.</p>
         </div>
@@ -123,16 +123,16 @@ export default function TestimonialsSection() {
 
   return (
     <React.Fragment>
-      <section id="testimonials" className="py-24 bg-secondary text-foreground">
+      <section id="testimonials" className="pt-24 pb-16 bg-secondary text-foreground">
         <div className="container mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-primary">Patient Stories</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Hear from those whose lives we've touched.
             </p>
           </div>
 
-          <div className="relative mt-12 h-[500px] w-full overflow-hidden">
+          <div className="relative mt-10 h-[500px] w-full overflow-hidden">
             {/* Left Fade Overlay */}
             <div className="absolute left-0 top-0 bottom-0 z-30 w-32 md:w-48 bg-gradient-to-r from-secondary to-transparent pointer-events-none"></div>
 
@@ -190,7 +190,7 @@ export default function TestimonialsSection() {
                 <div
                   key={testimonial.name + extendedIndex} 
                   className={cn(
-                    "ease-out", // No longer "absolute" here, it's in style
+                    "ease-out", 
                     transitionEnabled ? "duration-700 transition-all" : "duration-0" 
                   )}
                   style={cardStyle}
