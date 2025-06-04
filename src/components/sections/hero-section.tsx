@@ -62,7 +62,7 @@ export default function HeroSection() {
       </div>
 
       {/* Horizontal Gradient Overlay (Theme-aware) */}
-      <div className="absolute inset-0 z-[5] bg-gradient-to-l from-[hsl(var(--background))] to-[hsl(var(--background)/0.7)] pointer-events-none"></div>
+      <div className="absolute inset-0 z-[5] bg-gradient-to-l from-[hsl(var(--background))] to-[hsla(var(--background-raw,0,0%,98%),0.70)] pointer-events-none"></div>
       
       {/* Vertical Gradient Overlay (Bottom to About Section color) */}
       <div className="absolute bottom-0 left-0 right-0 h-48 z-[6] bg-gradient-to-t from-[hsl(var(--secondary))] to-transparent pointer-events-none"></div>
@@ -71,8 +71,8 @@ export default function HeroSection() {
       {/* Content */}
       <div className="container mx-auto px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
         {/* Text Content */}
-        <div className="animate-fadeInUp max-w-3xl" style={{ animationDelay: '0.1s' }}>
-          <div className="mb-4 inline-block bg-muted/70 backdrop-blur-sm text-foreground/90 px-4 py-2 rounded-full text-sm font-medium shadow-sm border border-border/30">
+        <div className="animate-fadeInUp max-w-3xl mt-8" style={{ animationDelay: '0.1s' }}>
+          <div className="mb-4 inline-block bg-muted/70 backdrop-blur-sm text-foreground/90 px-3 py-1 rounded-full text-xs font-medium shadow-sm border border-border/30">
             Board-certified cardiac surgeon
           </div>
           <h1 className="font-headline text-5xl md:text-6xl xl:text-7xl font-bold mb-6">
@@ -81,7 +81,7 @@ export default function HeroSection() {
           <p className="text-xl md:text-2xl text-muted-foreground mb-10">
             Leading cardiologist dedicated to advancing your heart health through compassionate, state-of-the-art care.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10 sm:mb-12">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 sm:mb-10">
             {scheduleUrl ? (
               <a href={scheduleUrl} target="_blank" rel="noopener noreferrer">
                 <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Consultation</Button>
@@ -104,7 +104,7 @@ export default function HeroSection() {
         </div>
 
         {/* Stats */}
-        <div className="mt-12 md:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-xl w-full animate-fadeInUp" style={{ animationDelay: '0.3s' }}>
+        <div className="mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-xl w-full animate-fadeInUp" style={{ animationDelay: '0.3s' }}>
           {stats.map((stat, index) => (
             <div key={index} className={cn(
                 "bg-card/80 backdrop-blur-sm px-2 py-4 rounded-xl shadow-lg text-center transition-transform hover:scale-105 duration-300",
@@ -138,4 +138,3 @@ export default function HeroSection() {
     </section>
   );
 }
-
