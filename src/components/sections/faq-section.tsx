@@ -28,6 +28,12 @@ type ProcessedFaqCategory = {
   items: ProcessedFaqItem[];
 };
 
+// Helper to extract plain text from Notion rich text or title arrays
+const getPlainText = (textArray: any[] | undefined): string => {
+  if (!textArray || textArray.length === 0) return "";
+  return textArray.map((rt: any) => rt.plain_text || '').join('');
+};
+
 async function fetchFaqsFromNotion(): Promise<ProcessedFaqCategory[] | null> {
   const notionApiKey = process.env.NOTION_INTEGRATION_SECRET;
   const faqDatabaseId = process.env.NOTION_DATABASE_ID__FAQ;
@@ -55,11 +61,6 @@ async function fetchFaqsFromNotion(): Promise<ProcessedFaqCategory[] | null> {
 
     const rawFaqItems: NotionFaqItemRaw[] = response.results.map((page: any) => {
       const properties = page.properties;
-      // Helper to extract plain text from Notion rich text arrays
-      const getPlainText = (richTextArray: any[] | undefined) => {
-        if (!richTextArray || richTextArray.length === 0) return "";
-        return richTextArray.map((rt: any) => rt.plain_text).join('');
-      };
       
       return {
         id: page.id,
@@ -79,6 +80,9 @@ async function fetchFaqsFromNotion(): Promise<ProcessedFaqCategory[] | null> {
       }
       const categoryEntry = categoriesMap.get(item.category);
       if (categoryEntry) {
+        // Items are already sorted by questionOrder due to initial Notion query sort if categories are distinct
+        // If questions can have same questionOrder across different categories, this might need re-sorting here per category.
+        // However, given the sorts array, Notion should handle this.
         categoryEntry.items.push({ question: item.question, answer: item.answer });
       }
     }
@@ -87,7 +91,7 @@ async function fetchFaqsFromNotion(): Promise<ProcessedFaqCategory[] | null> {
       .sort(([, aData], [, bData]) => aData.categoryOrder - bData.categoryOrder)
       .map(([title, data]) => ({
         title,
-        items: data.items, // Items are already sorted by questionOrder due to initial Notion query sort
+        items: data.items, 
       }));
 
     return processedCategories.length > 0 ? processedCategories : null;
@@ -102,7 +106,7 @@ export default async function FaqSection() {
   const faqCategories = await fetchFaqsFromNotion();
 
   if (!faqCategories) {
-    return null; // Hide section if no data or error, or if Notion env vars are not set
+    return null; 
   }
 
   return (
