@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { Award, Medal, UserCheck, CheckCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -12,13 +13,8 @@ const achievements = [
 export default function AboutSection() {
   return (
     <section id="about" className="py-24 bg-secondary relative overflow-hidden">
-      {/* Top Fade from Hero */}
-      <div
-        className="absolute top-0 left-0 right-0 h-48 z-10 bg-gradient-to-b pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(to bottom, hsl(var(--background)), transparent)`, 
-        }}
-      />
+      {/* Top Fade from Hero removed to prevent content washout */}
+      {/* The HeroSection's bottom fade handles the visual transition */}
 
       <div className="container mx-auto px-6 lg:px-8 relative z-[1]">
         <div className="text-center mb-16">
@@ -69,8 +65,6 @@ export default function AboutSection() {
           </div>
         </div>
       </div>
-
-      {/* Removed Bottom Fade to Services */}
     </section>
   );
 }
