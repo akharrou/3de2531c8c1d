@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useFormState, useFormStatus } from 'react-dom';
@@ -63,7 +64,7 @@ export default function ContactForm() {
   }, [state, toast, reset]);
 
   return (
-    <form action={formAction} className="space-y-6">
+    <form action={formAction} className="flex flex-col flex-grow space-y-6">
       <div>
         <Label htmlFor="name" className="font-semibold">Full Name</Label>
         <Input
@@ -112,13 +113,12 @@ export default function ContactForm() {
         )}
       </div>
 
-      <div>
+      <div className="flex flex-col flex-grow">
         <Label htmlFor="message" className="font-semibold">Message</Label>
         <Textarea
           id="message"
-          rows={5}
           {...register('message')}
-          className="mt-1 rounded-lg min-h-[120px]"
+          className="mt-1 rounded-lg min-h-[120px] flex-grow"
           aria-invalid={errors.message || state?.errors?.message ? "true" : "false"}
         />
         {(errors.message || state?.errors?.message) && (
@@ -132,3 +132,4 @@ export default function ContactForm() {
     </form>
   );
 }
+

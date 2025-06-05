@@ -14,7 +14,7 @@ export default function ContactSection() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-start">
-          <div className="bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
+          <div className="bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp flex flex-col h-[700px]" style={{ animationDelay: '0.2s' }}>
             <h3 className="font-headline text-3xl font-semibold text-primary mb-6">Send Us a Message</h3>
             <ContactForm />
           </div>
@@ -36,3 +36,4 @@ export default function ContactSection() {
     </section>
   );
 }
+
