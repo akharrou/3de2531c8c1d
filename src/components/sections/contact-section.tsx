@@ -18,12 +18,13 @@ export default function ContactSection() {
             <h3 className="font-headline text-3xl font-semibold text-primary mb-6">Send Us a Message</h3>
             <ContactForm />
           </div>
-          <div className="animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
+          <div className="animate-fadeInUp flex flex-col h-[700px]" style={{ animationDelay: '0.4s' }}>
+            <h3 className="font-headline text-3xl font-semibold text-primary mb-6">Schedule Consultation</h3>
             {/* Calendly inline widget begin */}
             <div
-              className="calendly-inline-widget"
-              data-url="https://calendly.com/commons-aymen/30min?hide_gdpr_banner=1&primary_color=a41e39"
-              style={{ minWidth: '320px', height: '700px', overflow: 'hidden', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
+              className="calendly-inline-widget flex-grow"
+              data-url="https://calendly.com/commons-aymen/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=a41e39"
+              style={{ minWidth: '320px', /* height is managed by flex-grow on parent */ overflow: 'hidden', borderRadius: '1rem', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
             ></div>
             <Script
               src="https://assets.calendly.com/assets/external/widget.js"
@@ -36,4 +37,3 @@ export default function ContactSection() {
     </section>
   );
 }
-
