@@ -59,7 +59,7 @@ export default function HeroSection() {
 
 
   return (
-    <section id="hero" className="relative bg-background pt-32 pb-20 md:pt-40 md:pb-24 overflow-hidden min-h-screen flex flex-col justify-center">
+    <section id="hero" className="relative bg-background pt-24 pb-20 md:pt-28 md:pb-24 overflow-hidden min-h-screen flex flex-col justify-center">
       <Script
         src="https://unpkg.com/@splinetool/viewer@1.9.99/build/spline-viewer.js"
         type="module"
@@ -90,7 +90,7 @@ export default function HeroSection() {
 
 
       <div className="container mx-auto px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
-        <div className="animate-fadeInUp max-w-3xl mt-8" style={{ animationDelay: '0.1s' }}>
+        <div className="animate-fadeInUp max-w-3xl" style={{ animationDelay: '0.1s' }}>
           <div className="mb-6 inline-block bg-muted/70 backdrop-blur-sm text-foreground/90 px-3 py-1 rounded-full text-xs font-medium shadow-sm border border-border/30">
             Board-certified cardiac surgeon
           </div>
@@ -170,3 +170,4 @@ export default function HeroSection() {
     </section>
   );
 }
+
