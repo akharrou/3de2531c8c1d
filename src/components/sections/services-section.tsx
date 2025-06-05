@@ -34,13 +34,7 @@ const services = [
 export default function ServicesSection() {
   return (
     <section id="services" className="relative py-24 bg-background overflow-hidden">
-       {/* Top Fade */}
-      <div
-        className="absolute top-0 left-0 right-0 h-48 z-10 bg-gradient-to-b pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(to bottom, hsl(var(--secondary)), transparent)`,
-        }}
-      />
+       {/* Removed Top Fade from About */}
 
       <div className="container mx-auto px-6 lg:px-8 relative z-[1]">
         <div className="text-center mb-16">
@@ -72,13 +66,7 @@ export default function ServicesSection() {
           ))}
         </div>
       </div>
-      {/* Bottom Fade */}
-       <div
-        className="absolute bottom-0 left-0 right-0 h-48 z-10 bg-gradient-to-t pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(to top, hsl(var(--secondary)), transparent)`,
-        }}
-      />
+      {/* Removed Bottom Fade to Testimonials */}
     </section>
   );
 }

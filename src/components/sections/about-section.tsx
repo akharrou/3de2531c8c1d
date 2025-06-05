@@ -11,8 +11,16 @@ const achievements = [
 
 export default function AboutSection() {
   return (
-    <section id="about" className="py-24 bg-secondary">
-      <div className="container mx-auto px-6 lg:px-8">
+    <section id="about" className="py-24 bg-secondary relative overflow-hidden">
+      {/* Top Fade from Hero */}
+      <div
+        className="absolute top-0 left-0 right-0 h-48 z-10 bg-gradient-to-b pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, hsl(var(--background)), transparent)`, 
+        }}
+      />
+
+      <div className="container mx-auto px-6 lg:px-8 relative z-[1]">
         <div className="text-center mb-16">
           <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-primary">About Dr. Sarah Chen</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -61,6 +69,8 @@ export default function AboutSection() {
           </div>
         </div>
       </div>
+
+      {/* Removed Bottom Fade to Services */}
     </section>
   );
 }
