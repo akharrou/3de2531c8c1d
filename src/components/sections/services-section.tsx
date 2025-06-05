@@ -1,7 +1,6 @@
 
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-// Removed Button import as it's no longer directly used here for the link
 import { HeartPulse, Stethoscope, FlaskConical, ShieldCheck, ArrowRight } from 'lucide-react';
 
 const services = [
@@ -45,20 +44,20 @@ export default function ServicesSection() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
             <Card key={index} className="flex flex-col rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 animate-fadeInUp" style={{ animationDelay: `${0.1 * (index + 1)}s` }}>
-              <CardHeader className="items-center text-center">
+              <CardHeader className="items-start text-left"> {/* Changed alignment */}
                 {service.icon}
                 <CardTitle className="font-headline text-2xl text-primary">{service.title}</CardTitle>
               </CardHeader>
-              <CardContent className="flex-grow text-center">
+              <CardContent className="flex-grow text-left"> {/* Changed alignment */}
                 <CardDescription className="leading-relaxed text-muted-foreground">{service.description}</CardDescription>
               </CardContent>
-              <CardFooter className="justify-center pt-4">
+              <CardFooter className="justify-start pt-4"> {/* Changed alignment */}
                 <Link
                   href={service.href}
                   className="group inline-flex items-center text-primary font-medium text-sm hover:text-primary/80 transition-colors duration-200"
                 >
                   Learn more
-                  <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 ease-in-out group-hover:rotate-90" />
+                  <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 ease-in-out rotate-45 group-hover:rotate-90" /> {/* Added rotate-45 */}
                 </Link>
               </CardFooter>
             </Card>
@@ -68,4 +67,3 @@ export default function ServicesSection() {
     </section>
   );
 }
-
