@@ -15,16 +15,22 @@ export default function ContactSection() {
 
         <div className="grid md:grid-cols-2 gap-12 items-start">
           <div className="bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp flex flex-col h-[700px]" style={{ animationDelay: '0.2s' }}>
-            <h3 className="font-headline text-3xl font-semibold text-primary mb-6">Send Us a Message</h3>
+            <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Send Us a Message</h3>
+            <p className="text-sm text-muted-foreground mb-6">
+              Our team will review your inquiry and get back to you shortly.
+            </p>
             <ContactForm />
           </div>
           <div className="bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp flex flex-col h-[700px]" style={{ animationDelay: '0.4s' }}>
-            <h3 className="font-headline text-3xl font-semibold text-primary mb-6">Schedule Consultation</h3>
+            <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Schedule Consultation</h3>
+            <p className="text-sm text-muted-foreground mb-6">
+              Book a free 30-minute consultation with one of our specialist cardiologists.
+            </p>
             {/* Calendly inline widget begin */}
             <div
               className="calendly-inline-widget flex-grow"
               data-url="https://calendly.com/commons-aymen/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=a41e39"
-              style={{ minWidth: '320px', overflow: 'hidden', borderRadius: '0.5rem' /* Keep internal rounding if desired, or remove for full frame fit */ }}
+              style={{ minWidth: '100%', width: '100%', overflow: 'hidden' }}
             ></div>
             <Script
               src="https://assets.calendly.com/assets/external/widget.js"
@@ -37,4 +43,3 @@ export default function ContactSection() {
     </section>
   );
 }
-
