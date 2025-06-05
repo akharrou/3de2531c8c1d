@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+// Removed Button import as it's no longer directly used here for the link
 import { HeartPulse, Stethoscope, FlaskConical, ShieldCheck, ArrowRight } from 'lucide-react';
 
 const services = [
@@ -34,8 +34,6 @@ const services = [
 export default function ServicesSection() {
   return (
     <section id="services" className="relative py-24 bg-background overflow-hidden">
-       {/* Removed Top Fade from About */}
-
       <div className="container mx-auto px-6 lg:px-8 relative z-[1]">
         <div className="text-center mb-16">
           <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-primary">Our Cardiology Services</h2>
@@ -55,18 +53,19 @@ export default function ServicesSection() {
                 <CardDescription className="leading-relaxed text-muted-foreground">{service.description}</CardDescription>
               </CardContent>
               <CardFooter className="justify-center pt-4">
-                <Link href={service.href} legacyBehavior passHref>
-                  <Button variant="outline" className="rounded-xl border-primary text-primary hover:bg-primary hover:text-primary-foreground group">
-                    Learn more
-                    <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                  </Button>
+                <Link
+                  href={service.href}
+                  className="group inline-flex items-center text-primary font-medium text-sm hover:text-primary/80 transition-colors duration-200"
+                >
+                  Learn more
+                  <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 ease-in-out group-hover:rotate-90" />
                 </Link>
               </CardFooter>
             </Card>
           ))}
         </div>
       </div>
-      {/* Removed Bottom Fade to Testimonials */}
     </section>
   );
 }
+
