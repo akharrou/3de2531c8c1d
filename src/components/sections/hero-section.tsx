@@ -98,7 +98,7 @@ export default function HeroSection() {
             Dr. Sarah Chen: <span className="text-primary">Expert Cardiac Care</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-10">
-            Leading cardiologist dedicated to advancing your heart health through compassionate, state-of-the-art care.
+            We are a multidisciplinary team of cardiac surgeons and cardiologists dedicated to delivering world-class heart care using cutting-edge techniques.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 sm:mb-10">
             {scheduleUrl ? (
