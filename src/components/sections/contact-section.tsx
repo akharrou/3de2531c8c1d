@@ -14,6 +14,7 @@ export default function ContactSection() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-start">
+          {/* Send us a message Form */}
           <div className="bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp flex flex-col h-[700px]" style={{ animationDelay: '0.2s' }}>
             <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Send Us a Message</h3>
             <p className="text-sm text-muted-foreground mb-6">
@@ -21,6 +22,8 @@ export default function ContactSection() {
             </p>
             <ContactForm />
           </div>
+
+          {/* Schedule Consultation Calendly Embed */}
           <div className="bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp flex flex-col h-[700px]" style={{ animationDelay: '0.4s' }}>
             <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Schedule Consultation</h3>
             <p className="text-sm text-muted-foreground mb-6">
@@ -28,13 +31,14 @@ export default function ContactSection() {
             </p>
             {/* Calendly inline widget begin */}
             <div
-              className="calendly-inline-widget flex-grow"
-              data-url="https://calendly.com/commons-aymen/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=a41e39"
-              style={{ minWidth: '100%', width: '100%', overflow: 'hidden' }}
+              className="calendly-inline-widget flex-grow" // Added flex-grow
+              data-url="https://calendly.com/commons-aymen/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=a41e39" // Ensure this URL is precise
+              style={{ width: '100%', overflow: 'hidden' }} // Adjusted style for full width and to allow flex-grow to manage height
             ></div>
             <Script
+              id="calendly-widget-script" // Added an ID for clarity
               src="https://assets.calendly.com/assets/external/widget.js"
-              strategy="lazyOnload"
+              strategy="lazyOnload" // Continues to use lazyOnload, generally good for non-critical third-party scripts
             />
             {/* Calendly inline widget end */}
           </div>
