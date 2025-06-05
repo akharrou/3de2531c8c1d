@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { Linkedin, Facebook, Heart, Youtube } from 'lucide-react';
+import { Linkedin, Facebook, Heart, Youtube, MapPin, MessagesSquare, CalendarDays, Phone, Mail } from 'lucide-react';
 import NavLink from '@/components/nav-link';
 
 const navItems = [
@@ -33,12 +33,14 @@ const socialLinks = [
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const address = "123 Heartbeat Avenue, Cardio City, CA 90210";
+  const encodedAddress = encodeURIComponent(address);
 
   return (
     <footer className="bg-card text-card-foreground py-10">
       <div className="container mx-auto px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-start mb-8">
-          {/* Left Block: Logo, Tagline, Horizontal Quick Links */}
+        {/* Top Section: Logo, Tagline, Quick Links, Social */}
+        <div className="flex flex-col md:flex-row justify-between items-start mb-10">
           <div className="flex flex-col items-start mb-6 md:mb-0">
             <Link href="/" className="flex items-center gap-2 text-xl font-headline font-semibold text-primary mb-2">
               <Heart className="w-7 h-7 text-accent" />
@@ -60,7 +62,6 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* Right Block: Social Media Icons */}
           <div className="flex space-x-4 mt-4 md:mt-0 self-center md:self-start">
             {socialLinks.map(link => (
               <a
@@ -77,8 +78,62 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* Info Columns Section */}
+        <div className="grid md:grid-cols-3 gap-x-8 gap-y-10 text-sm mb-10 py-10 border-t border-b border-border">
+          {/* Column 1: Location */}
+          <div>
+            <div className="flex items-center mb-4">
+              <MapPin className="w-5 h-5 mr-3 text-primary shrink-0" />
+              <span className="font-headline text-xl font-semibold text-primary">Location</span>
+            </div>
+            <p className="text-muted-foreground">{address.split(',')[0]}</p>
+            <p className="text-muted-foreground">{address.split(',').slice(1).join(',').trim()}</p>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent hover:text-primary transition-colors mt-3 inline-block text-sm font-medium"
+            >
+              Get Directions &rarr;
+            </a>
+          </div>
+
+          {/* Column 2: Contact Us */}
+          <div>
+            <div className="flex items-center mb-4">
+              <MessagesSquare className="w-5 h-5 mr-3 text-primary shrink-0" />
+              <span className="font-headline text-xl font-semibold text-primary">Contact Us</span>
+            </div>
+            <div className="space-y-2.5">
+              <div className="flex items-center text-muted-foreground">
+                <Phone className="w-4 h-4 mr-2.5 text-accent shrink-0" />
+                <a href="tel:+15553622273" className="hover:text-accent transition-colors">(555) 362-2273</a>
+              </div>
+              <div className="flex items-center text-muted-foreground">
+                <Mail className="w-4 h-4 mr-2.5 text-accent shrink-0" />
+                <a href="mailto:contact@chencardiology.com" className="hover:text-accent transition-colors">
+                  contact@chencardiology.com
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Column 3: Office Hours */}
+          <div>
+            <div className="flex items-center mb-4">
+              <CalendarDays className="w-5 h-5 mr-3 text-primary shrink-0" />
+              <span className="font-headline text-xl font-semibold text-primary">Office Hours</span>
+            </div>
+            <div className="space-y-1 text-muted-foreground">
+              <p>Mon – Thu: 9:00 AM – 5:00 PM</p>
+              <p>Friday: 9:00 AM – 3:00 PM</p>
+              <p>Sat – Sun: Closed</p>
+            </div>
+          </div>
+        </div>
+
         {/* Bottom Bar: Copyright, Legal Links */}
-        <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
+        <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
           <p>&copy; {currentYear} Chen Cardiology. All rights reserved.</p>
           <div className="flex flex-wrap justify-center space-x-4 mt-4 md:mt-0">
             <Link href="/privacy-policy" className="hover:text-accent">Privacy Policy</Link>

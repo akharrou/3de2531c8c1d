@@ -7,7 +7,6 @@ import ServicesSection from '@/components/sections/services-section';
 import TestimonialsSection from '@/components/sections/testimonials-section';
 import FaqSection from '@/components/sections/faq-section';
 import ContactSection from '@/components/sections/contact-section';
-import InfoBar from '@/components/layout/info-bar';
 
 export default function HomePage() {
   return (
@@ -36,9 +35,6 @@ export default function HomePage() {
         </div>
         <div className="animate-fadeInUp" style={{ animationDelay: '0.9s' }}>
           <ContactSection />
-        </div>
-        <div className="animate-fadeInUp" style={{ animationDelay: '1.0s' }}>
-          <InfoBar />
         </div>
       </main>
       <Footer />
