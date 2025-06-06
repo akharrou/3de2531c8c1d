@@ -47,26 +47,13 @@ const navItems = [
 
 export default function Header() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [scheduleUrl, setScheduleUrl] = useState<string | undefined>(undefined);
-
-  useEffect(() => {
-    setScheduleUrl(process.env.NEXT_PUBLIC_SCHEDULE_URL);
-  }, []);
+  // Removed scheduleUrl state as the button will now always link to #contact
 
   const renderScheduleButton = (isMobile = false) => {
     const buttonProps = isMobile 
       ? { size: "default" as const, className: "w-full rounded-xl py-3 text-base" }
       : { size: "sm" as const, className: "rounded-xl" };
 
-    if (scheduleUrl) {
-      return (
-        <a href={scheduleUrl} target="_blank" rel="noopener noreferrer" className={cn(!isMobile && "ml-2")}>
-          <Button {...buttonProps} onClick={() => isMobile && setIsSheetOpen(false)}>
-            Schedule Consultation
-          </Button>
-        </a>
-      );
-    }
     return (
       <NavLink href="/#contact" onClick={() => isMobile && setIsSheetOpen(false)} className={cn(!isMobile && "ml-2")}>
         <Button {...buttonProps}>
@@ -129,7 +116,7 @@ export default function Header() {
                   href={item.href} 
                   className={cn(
                     "px-3 py-2 rounded-md font-medium transition-colors duration-200 hover:text-accent text-sm",
-                     item.href === "/#contact" ? "mr-2" : "" 
+                     item.href === "/#contact" ? "mr-2" : "" // Keep margin if it's the contact link, adjust if needed
                   )}
                 >
                   {item.label}

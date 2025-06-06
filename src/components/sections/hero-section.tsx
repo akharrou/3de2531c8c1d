@@ -34,17 +34,12 @@ export default function HeroSection() {
     { value: '24/7', label: 'Patient Care', icon: <Clock className="w-6 h-6 text-accent" /> },
   ];
 
-  const [scheduleUrl, setScheduleUrl] = useState<string | undefined>(undefined);
+  // Removed scheduleUrl state as the button will now always link to #contact
   const [themeBackgroundHsl, setThemeBackgroundHsl] = useState<string>('');
   const [themeSecondaryHsl, setThemeSecondaryHsl] = useState<string>('');
 
 
   useEffect(() => {
-    const envUrl = process.env.NEXT_PUBLIC_SCHEDULE_URL;
-    if (envUrl && envUrl.trim() !== '') {
-      setScheduleUrl(envUrl);
-    }
-
     if (typeof window !== 'undefined') {
       const computedStyle = getComputedStyle(document.documentElement);
       setThemeBackgroundHsl(computedStyle.getPropertyValue('--background').trim());
@@ -101,15 +96,9 @@ export default function HeroSection() {
             We are a multidisciplinary team of cardiac surgeons and cardiologists dedicated to delivering world-class heart care using cutting-edge techniques.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 sm:mb-10">
-            {scheduleUrl ? (
-              <a href={scheduleUrl} target="_blank" rel="noopener noreferrer">
-                <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Consultation</Button>
-              </a>
-            ) : (
-              <NavLink href="#contact">
-                <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Consultation</Button>
-              </NavLink>
-            )}
+            <NavLink href="/#contact">
+              <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Consultation</Button>
+            </NavLink>
             <NavLink href="#about">
               <Button 
                 size="lg" 
@@ -170,4 +159,3 @@ export default function HeroSection() {
     </section>
   );
 }
-
