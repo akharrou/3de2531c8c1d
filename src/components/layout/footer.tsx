@@ -1,10 +1,10 @@
 
 import Link from 'next/link';
-import { Linkedin, Facebook, Heart, Youtube, MapPin, MessagesSquare, CalendarDays, Phone, Mail } from 'lucide-react';
+import Image from 'next/image';
+import { Linkedin, Facebook, Youtube, MapPin, MessagesSquare, CalendarDays, Phone, Mail } from 'lucide-react';
 import NavLink from '@/components/nav-link';
 
 const navItems = [
-  { label: 'Home', href: '#hero' },
   { label: 'About', href: '#about' },
   { label: 'Services', href: '#services' },
   { label: 'Testimonials', href: '#testimonials' },
@@ -42,9 +42,14 @@ export default function Footer() {
         {/* Top Section: Logo, Tagline, Quick Links, Social */}
         <div className="flex flex-col md:flex-row justify-between items-start mb-10">
           <div className="flex flex-col items-start mb-6 md:mb-0">
-            <Link href="/" className="flex items-center gap-2 text-xl font-headline font-semibold text-primary mb-2">
-              <Heart className="w-7 h-7 text-accent" />
-              Chen Cardiology
+            <Link href="/" className="block mb-3">
+              <Image
+                src="/images/logo-red-blank.png"
+                alt="Chen Cardiology"
+                width={130}
+                height={35}
+                className="h-9 w-auto"
+              />
             </Link>
             <p className="text-sm text-muted-foreground mb-4 max-w-xs">
               Providing expert cardiac care with compassion and dedication.

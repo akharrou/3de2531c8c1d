@@ -3,7 +3,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, Heart, ChevronDown } from 'lucide-react';
+import Image from 'next/image';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
@@ -22,17 +23,25 @@ const serviceSubItems = [
   { label: 'Post-Operative Care', href: '/services/post-operative-care' },
 ];
 
+const resourcesSubItems = [
+  { label: 'Testimonials', href: '/#testimonials' },
+  { label: 'FAQ', href: '/#faq' },
+];
+
 const navItems = [
-  { label: 'Home', href: '/' }, // Changed from #hero for clarity when on other pages
-  { label: 'About', href: '/#about' }, // Ensuring hash links work from other pages
+  { label: 'About', href: '/#about' },
   {
     label: 'Services',
     isDropdown: true,
     subItems: serviceSubItems,
     href: '/#services' // Fallback/main link for the "Services" text itself
   },
-  { label: 'Testimonials', href: '/#testimonials' },
-  { label: 'FAQ', href: '/#faq' },
+  {
+    label: 'Resources',
+    isDropdown: true,
+    subItems: resourcesSubItems,
+    href: '/#resources' // Generic href for main Resources link, could point to first subitem or a new page
+  },
   { label: 'Contact', href: '/#contact' },
 ];
 
@@ -70,12 +79,18 @@ export default function Header() {
   return (
     <header className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      "bg-card shadow-md py-4"
+      "bg-card shadow-md py-3" // Adjusted padding slightly for image logo
     )}>
       <div className="container mx-auto px-6 lg:px-8 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 text-xl font-headline font-semibold text-primary">
-          <Heart className="w-7 h-7 text-accent" />
-          Chen Cardiology
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/images/logo-red-blank.png"
+            alt="Chen Cardiology"
+            width={130} 
+            height={35} 
+            className="h-9 w-auto" // Adjust height as needed, e.g., h-8, h-9, h-10
+            priority
+          />
         </Link>
 
         {/* Desktop Navigation & Button */}
@@ -89,7 +104,6 @@ export default function Header() {
                       variant="ghost"
                       className={cn(
                         "px-3 py-2 rounded-md font-medium transition-colors duration-200 hover:text-accent focus-visible:ring-0 focus-visible:ring-offset-0 text-sm",
-                        item.href === "/#contact" ? "mr-2" : "" // Keep potential margin if needed
                       )}
                     >
                       {item.label}
@@ -112,7 +126,7 @@ export default function Header() {
                   href={item.href} 
                   className={cn(
                     "px-3 py-2 rounded-md font-medium transition-colors duration-200 hover:text-accent text-sm",
-                    item.href === "/#contact" ? "mr-2" : "" 
+                     item.href === "/#contact" ? "mr-2" : "" 
                   )}
                 >
                   {item.label}
@@ -134,9 +148,14 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[280px] bg-card p-6 flex flex-col">
               <div>
-                <Link href="/" className="flex items-center gap-2 text-lg font-headline font-semibold text-primary mb-6" onClick={() => setIsSheetOpen(false)}>
-                  <Heart className="w-6 h-6 text-accent" />
-                  Chen Cardiology
+                <Link href="/" className="block mb-6" onClick={() => setIsSheetOpen(false)}>
+                  <Image
+                    src="/images/logo-red-blank.png"
+                    alt="Chen Cardiology"
+                    width={120}
+                    height={32}
+                    className="h-8 w-auto"
+                  />
                 </Link>
                 <nav className="flex flex-col space-y-1">
                   {navItems.map((item) =>
