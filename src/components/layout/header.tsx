@@ -34,13 +34,13 @@ const navItems = [
     label: 'Services',
     isDropdown: true,
     subItems: serviceSubItems,
-    href: '/#services' // Fallback/main link for the "Services" text itself
+    href: '/#services'
   },
   {
     label: 'Resources',
     isDropdown: true,
     subItems: resourcesSubItems,
-    href: '/#resources' // Generic href for main Resources link, could point to first subitem or a new page
+    href: '/#resources' 
   },
   { label: 'Contact', href: '/#contact' },
 ];
@@ -79,18 +79,21 @@ export default function Header() {
   return (
     <header className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      "bg-card shadow-md py-3" // Adjusted padding slightly for image logo
+      "bg-card shadow-md py-3" 
     )}>
       <div className="container mx-auto px-6 lg:px-8 flex items-center justify-between">
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="flex items-center gap-2 group">
           <Image
             src="/images/logo-red-blank.png"
-            alt="Chen Cardiology"
-            width={130} 
+            alt="Chen Cardiology Logo"
+            width={35} 
             height={35} 
-            className="h-9 w-auto" // Adjust height as needed, e.g., h-8, h-9, h-10
+            className="h-9 w-auto" 
             priority
           />
+          <span className="font-headline text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors">
+            Chen Cardiology
+          </span>
         </Link>
 
         {/* Desktop Navigation & Button */}
@@ -148,14 +151,17 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[280px] bg-card p-6 flex flex-col">
               <div>
-                <Link href="/" className="block mb-6" onClick={() => setIsSheetOpen(false)}>
+                <Link href="/" className="flex items-center gap-2 mb-6" onClick={() => setIsSheetOpen(false)}>
                   <Image
                     src="/images/logo-red-blank.png"
-                    alt="Chen Cardiology"
-                    width={120}
+                    alt="Chen Cardiology Logo"
+                    width={32}
                     height={32}
                     className="h-8 w-auto"
                   />
+                   <span className="font-headline text-lg font-semibold text-primary">
+                    Chen Cardiology
+                  </span>
                 </Link>
                 <nav className="flex flex-col space-y-1">
                   {navItems.map((item) =>
