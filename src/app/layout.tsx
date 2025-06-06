@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
@@ -22,6 +23,10 @@ export default function RootLayout({
       <body className="font-body antialiased">
         {children}
         <Toaster />
+        <Script
+          src='https://cdn.jotfor.ms/agent/embedjs/01973c7171c87645a8f8cb025bf2bdeb6f45/embed.js?skipWelcome=1&maximizable=1'
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );
