@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Star, Smile, TrendingUp, Award } from 'lucide-react';
+import { Star, Smile, TrendingUp, Award, Users, ShieldCheck } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
@@ -66,19 +66,29 @@ const testimonialsData: TestimonialData[] = [
 
 const kpiData = [
   {
-    icon: <Smile className="w-10 h-10 md:w-12 md:h-12 text-accent mx-auto mb-3" />,
+    icon: <Smile className="w-8 h-8 text-accent mx-auto mb-2" />,
     value: '98%',
-    label: 'Patient Satisfaction Rate',
+    label: 'Patient Satisfaction',
   },
   {
-    icon: <TrendingUp className="w-10 h-10 md:w-12 md:h-12 text-accent mx-auto mb-3" />,
+    icon: <TrendingUp className="w-8 h-8 text-accent mx-auto mb-2" />,
     value: '10,000+',
     label: 'Successful Interventions',
   },
   {
-    icon: <Award className="w-10 h-10 md:w-12 md:h-12 text-accent mx-auto mb-3" />,
+    icon: <Award className="w-8 h-8 text-accent mx-auto mb-2" />,
     value: 'Top 1%',
-    label: 'Nationally Recognized Care',
+    label: 'Nationally Recognized',
+  },
+  {
+    icon: <Users className="w-8 h-8 text-accent mx-auto mb-2" />,
+    value: '20+',
+    label: 'Years Combined Experience',
+  },
+  {
+    icon: <ShieldCheck className="w-8 h-8 text-accent mx-auto mb-2" />,
+    value: '99%',
+    label: 'Procedure Success Rate',
   },
 ];
 
@@ -159,16 +169,16 @@ export default function TestimonialsSection() {
         {/* KPI Section */}
         {kpiData.length > 0 && (
           <div className="mb-16 md:mb-20">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
               {kpiData.map((kpi, index) => (
                 <div
                   key={index}
-                  className="bg-card p-6 rounded-2xl shadow-xl text-center flex flex-col items-center justify-center transform transition-all duration-300 hover:scale-105"
-                  style={{ animationDelay: `${index * 0.1}s` }} // Optional: add animate-fadeInUp if defined globally
+                  className="bg-card p-4 rounded-2xl shadow-xl text-center flex flex-col items-center justify-center transform transition-all duration-300 hover:scale-105"
+                  style={{ animationDelay: `${index * 0.1}s` }} 
                 >
                   {kpi.icon}
-                  <p className="text-3xl md:text-4xl font-bold text-primary mb-1">{kpi.value}</p>
-                  <p className="text-sm md:text-base text-muted-foreground font-medium">{kpi.label}</p>
+                  <p className="text-2xl font-bold text-primary mb-0.5">{kpi.value}</p>
+                  <p className="text-xs text-muted-foreground font-medium">{kpi.label}</p>
                 </div>
               ))}
             </div>
