@@ -66,7 +66,7 @@ export default function OurOfficeFacilitiesPage() {
           <div className="container mx-auto px-6 lg:px-8">
             <Building className="w-16 h-16 text-primary mx-auto mb-6" />
             <h1 className="font-headline text-4xl md:text-5xl xl:text-6xl font-bold text-primary mb-6">
-              Our Office &amp; Facilities
+              Our Offices
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
               Step into a space designed for healing, comfort, and cutting-edge cardiac care.
@@ -191,7 +191,7 @@ export default function OurOfficeFacilitiesPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/#contact" passHref legacyBehavior>
                 <Button size="lg" variant="secondary" className="rounded-xl text-base px-8 py-3">
-                  Schedule Appointment <ArrowRight className="w-5 h-5 ml-2" />
+                  Schedule Visit <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
                <Link href="/#contact" passHref legacyBehavior>

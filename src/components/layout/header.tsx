@@ -20,7 +20,7 @@ const aboutSubItems = [
   { label: 'Our Practice', href: '/about/our-practice' },
   { label: 'Our Mission & Values', href: '/about/our-mission-values' },
   { label: 'Our Team', href: '/about/our-team' },
-  { label: 'Our Office & Facilities', href: '/about/our-office-facilities' },
+  { label: 'Our Offices', href: '/about/our-office-facilities' },
 ];
 
 const serviceSubItems = [
