@@ -19,7 +19,7 @@ export default function OurTeamPage() {
               Our Dedicated Team
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-              A collaborative force of skilled physicians, nurses, technicians, and support staff committed to your cardiovascular well-being.
+              A collaborative multidisciplinary group of surgeons, cardiologists, care providers, technicians, and support staff dedicated to your well-being.
             </p>
           </div>
         </section>
