@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Star, Smile, TrendingUp, Award, Users, ShieldCheck } from 'lucide-react';
+import { Star, Smile, TrendingUp, Award, ShieldCheck, CalendarDays } from 'lucide-react'; // Added CalendarDays, removed Users
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
@@ -66,29 +66,29 @@ const testimonialsData: TestimonialData[] = [
 
 const kpiData = [
   {
-    icon: <Smile className="w-8 h-8 text-accent mx-auto mb-2" />,
-    value: '98%',
-    label: 'Patient Satisfaction',
-  },
-  {
-    icon: <TrendingUp className="w-8 h-8 text-accent mx-auto mb-2" />,
-    value: '10,000+',
-    label: 'Successful Interventions',
-  },
-  {
     icon: <Award className="w-8 h-8 text-accent mx-auto mb-2" />,
     value: 'Top 1%',
     label: 'Nationally Recognized',
   },
   {
-    icon: <Users className="w-8 h-8 text-accent mx-auto mb-2" />,
-    value: '20+',
-    label: 'Years Combined Experience',
+    icon: <CalendarDays className="w-8 h-8 text-accent mx-auto mb-2" />,
+    value: '15+',
+    label: 'Years of Experience',
+  },
+  {
+    icon: <TrendingUp className="w-8 h-8 text-accent mx-auto mb-2" />,
+    value: '5000+',
+    label: 'Successful Interventions',
   },
   {
     icon: <ShieldCheck className="w-8 h-8 text-accent mx-auto mb-2" />,
     value: '99%',
     label: 'Procedure Success Rate',
+  },
+  {
+    icon: <Smile className="w-8 h-8 text-accent mx-auto mb-2" />,
+    value: '98%',
+    label: 'Patient Satisfaction',
   },
 ];
 
