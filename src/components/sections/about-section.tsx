@@ -118,11 +118,11 @@ export default function AboutSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 md:mb-24">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 md:mb-24">
           {doctorsData.map((doctor, index) => (
             <div
               key={doctor.id}
-              className="relative rounded-2xl shadow-xl overflow-hidden aspect-square cursor-pointer group animate-fadeInUp"
+              className="relative rounded-2xl shadow-xl overflow-hidden aspect-[4/5] cursor-pointer group animate-fadeInUp"
               style={{ animationDelay: `${0.2 + index * 0.1}s` }}
               onClick={() => openModal(doctor)}
               tabIndex={0}
@@ -141,8 +141,8 @@ export default function AboutSection() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white z-10">
-                <h3 className="font-headline text-2xl sm:text-3xl font-semibold">{doctor.name}</h3>
-                <p className="text-md sm:text-lg opacity-90">{doctor.shortTitle}</p>
+                <h3 className="font-headline text-xl sm:text-2xl font-semibold">{doctor.name}</h3>
+                <p className="text-sm sm:text-base opacity-90">{doctor.shortTitle}</p>
               </div>
             </div>
           ))}
