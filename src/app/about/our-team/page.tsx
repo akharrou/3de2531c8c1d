@@ -1,12 +1,119 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Users, UserCheck, BriefcaseMedical } from 'lucide-react';
+import { ArrowRight, Users, BriefcaseMedical, Search as SearchIcon, Eye } from 'lucide-react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import TeamGalleryWrapper from '@/components/team-gallery-wrapper'; // New component
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  imageUrl: string;
+  dataAiHint: string;
+  bio: string[];
+  department?: string;
+  responsibilities?: string[];
+  contact?: {
+    email?: string;
+    phone?: string;
+  };
+}
+
+const teamMembersData: TeamMember[] = [
+  {
+    id: 'jane-doe',
+    name: 'Jane Doe',
+    role: 'Cardiac Nurse',
+    imageUrl: 'https://placehold.co/400x400.png',
+    dataAiHint: 'nurse portrait friendly woman',
+    bio: ["Jane is a compassionate cardiac nurse with 10 years of experience in providing exceptional patient care in fast-paced cardiology units.", "She specializes in post-operative care, patient education on heart-healthy lifestyles, and managing chronic heart conditions."],
+    department: "Nursing Unit",
+    responsibilities: ["Monitoring patient vital signs & recovery", "Administering medications & treatments", "Educating patients and families", "Collaborating with cardiologists on care plans"]
+  },
+  {
+    id: 'john-smith',
+    name: 'John Smith',
+    role: 'Cardiology Technician',
+    imageUrl: 'https://placehold.co/400x400.png',
+    dataAiHint: 'technician portrait professional man',
+    bio: ["John is a skilled cardiology technician proficient in a wide array of diagnostic procedures, including ECG, stress testing, and Holter monitoring.", "He is committed to ensuring equipment accuracy and patient comfort during tests."],
+    department: "Diagnostic Lab",
+    responsibilities: ["Performing ECG and stress tests", "Applying and managing Holter monitors", "Maintaining diagnostic equipment", "Assisting with echocardiograms"]
+  },
+  {
+    id: 'alice-brown',
+    name: 'Alice Brown',
+    role: 'Admin Staff',
+    imageUrl: 'https://placehold.co/400x400.png',
+    dataAiHint: 'admin staff portrait welcoming',
+    bio: ["Alice plays a pivotal role in ensuring our clinic operations run smoothly and efficiently.", "She's often the first friendly face or voice patients interact with, dedicated to providing excellent administrative support."],
+    department: "Administration",
+    responsibilities: ["Scheduling appointments", "Managing patient records and billing", "Handling patient inquiries and communication", "Coordinating referrals"]
+  },
+  {
+    id: 'robert-jones',
+    name: 'Robert Jones',
+    role: 'Surgical Assistant',
+    imageUrl: 'https://placehold.co/400x400.png',
+    dataAiHint: 'surgical assistant portrait focused',
+    bio: ["Robert is a dedicated surgical assistant with extensive experience in cardiac procedures.", "He works closely with our surgeons to ensure optimal patient outcomes in the operating room."],
+    department: "Surgical Team",
+    responsibilities: ["Preparing operating rooms and sterile equipment", "Assisting surgeons during procedures", "Post-operative patient monitoring", "Maintaining surgical inventory"]
+  },
+  {
+    id: 'lisa-green',
+    name: 'Lisa Green',
+    role: 'Cardiac Nurse',
+    imageUrl: 'https://placehold.co/400x400.png',
+    dataAiHint: 'nurse portrait smiling woman',
+    bio: ["Lisa brings warmth and expertise to her role as a cardiac nurse, focusing on patient advocacy and comprehensive care.", "She has a passion for preventive cardiology education and empowers patients to take active roles in their health."],
+    department: "Outpatient Clinic",
+    responsibilities: ["Conducting patient assessments", "Developing and implementing nursing care plans", "Community health outreach and education programs", "Managing patient follow-ups"]
+  },
+  {
+    id: 'mark-white',
+    name: 'Mark White',
+    role: 'Cardiology Technician',
+    imageUrl: 'https://placehold.co/400x400.png',
+    dataAiHint: 'technician portrait serious man',
+    bio: ["Mark is an expert in non-invasive cardiac imaging, ensuring our diagnostic capabilities are top-notch.", "He specializes in echocardiography and vascular ultrasound, providing critical data for patient diagnosis."],
+    department: "Imaging Suite",
+    responsibilities: ["Operating echocardiogram and ultrasound machines", "Analyzing cardiac and vascular images", "Collaborating with cardiologists on diagnostic reports", "Ensuring quality control for imaging equipment"]
+  },
+  {
+    id: 'sandra-adams',
+    name: 'Sandra Adams',
+    role: 'Practice Manager',
+    imageUrl: 'https://placehold.co/400x400.png',
+    dataAiHint: 'manager portrait professional woman',
+    bio: ["Sandra oversees the daily operations of Chen Cardiology, ensuring a high standard of service and patient satisfaction.", "With a background in healthcare administration, she focuses on efficiency and team coordination."],
+    department: "Management",
+    responsibilities: ["Overseeing clinic operations", "Staff management and development", "Ensuring regulatory compliance", "Patient satisfaction initiatives"]
+  },
+  {
+    id: 'kevin-harris',
+    name: 'Kevin Harris',
+    role: 'Clinical Research Coordinator',
+    imageUrl: 'https://placehold.co/400x400.png',
+    dataAiHint: 'researcher portrait thoughtful man',
+    bio: ["Kevin manages our clinical trials and research projects, contributing to advancements in cardiac care.", "He is meticulous in data collection and ensuring ethical research practices."],
+    department: "Research & Development",
+    responsibilities: ["Coordinating clinical trials", "Managing research data and documentation", "Liaising with research partners", "Ensuring adherence to research protocols"]
+  }
+];
+
 
 export default function OurTeamPage() {
+  const roles = Array.from(new Set(teamMembersData.map(member => member.role))).sort();
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
@@ -58,24 +165,20 @@ export default function OurTeamPage() {
         </section>
 
         {/* Meet the Team Section */}
-        <section className="py-16 md:py-20 bg-secondary">
-          <div className="container mx-auto px-6 lg:px-8 text-center">
-            <BriefcaseMedical className="w-12 h-12 text-primary mx-auto mb-4" />
-            <h2 className="font-headline text-3xl md:text-4xl font-semibold text-primary mb-6">
-              Meet Our Team
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
-              We are proud of our entire team, including specialized nurses, certified technicians, and dedicated administrative professionals who ensure our practice runs smoothly and efficiently. Detailed profiles and more information about our diverse team members will be featured here soon.
-            </p>
-            <div className="relative h-80 md:h-[450px] rounded-2xl overflow-hidden shadow-xl max-w-4xl mx-auto">
-               <Image
-                  src="https://placehold.co/800x450.png"
-                  alt="Placeholder for group team photo"
-                  fill
-                  className="object-cover"
-                  data-ai-hint="medical team group"
-                />
+        <section id="meet-the-team" className="py-16 md:py-20 bg-secondary">
+          <div className="container mx-auto px-6 lg:px-8">
+            <div className="text-center mb-12 md:mb-16">
+              <BriefcaseMedical className="w-12 h-12 text-primary mx-auto mb-4" />
+              <h2 className="font-headline text-3xl md:text-4xl font-semibold text-primary mb-6">
+                Meet Our Team
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                Explore the profiles of our dedicated professionals. Use the filters to find team members by role or search by name.
+              </p>
             </div>
+            
+            <TeamGalleryWrapper teamMembers={teamMembersData} allRoles={roles} />
+
           </div>
         </section>
 
