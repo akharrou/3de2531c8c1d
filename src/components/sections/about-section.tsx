@@ -3,7 +3,8 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Award, Medal, UserCheck, CheckCircle, Briefcase, Sparkles, BookOpen } from 'lucide-react';
+import Link from 'next/link';
+import { Award, Medal, UserCheck, CheckCircle, Briefcase, Sparkles, BookOpen, Eye, ArrowRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -118,7 +119,7 @@ export default function AboutSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 md:mb-24">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 md:mb-16">
           {doctorsData.map((doctor, index) => (
             <div
               key={doctor.id}
@@ -136,15 +137,27 @@ export default function AboutSection() {
                 fill
                 className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"
                 data-ai-hint={doctor.dataAiHint}
-                priority={index < 2} 
+                priority={index < 3} 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute top-4 right-4 z-20 p-2 bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+                <Eye className="w-5 h-5 text-white" />
+              </div>
               <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white z-10">
                 <h3 className="font-headline text-xl sm:text-2xl font-semibold">{doctor.name}</h3>
                 <p className="text-sm sm:text-base opacity-90">{doctor.shortTitle}</p>
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="text-center mt-12 md:mt-16">
+          <Link href="/about/our-team" passHref legacyBehavior>
+            <Button size="lg" className="rounded-xl">
+              Meet The Rest of The Team
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </Link>
         </div>
 
         {selectedDoctor && (
@@ -198,3 +211,4 @@ export default function AboutSection() {
     </section>
   );
 }
+
