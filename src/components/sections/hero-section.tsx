@@ -97,7 +97,7 @@ export default function HeroSection() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 sm:mb-10">
             <NavLink href="/#contact">
-              <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Consultation</Button>
+              <Button size="lg" className="w-full sm:w-auto rounded-xl text-base px-8 py-6">Schedule Visit</Button>
             </NavLink>
             <NavLink href="#about">
               <Button 

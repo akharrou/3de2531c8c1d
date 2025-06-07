@@ -68,7 +68,7 @@ export default function Header() {
     return (
       <NavLink href="/#contact" onClick={() => isMobile && setIsSheetOpen(false)} className={cn(!isMobile && "ml-2")}>
         <Button {...buttonProps}>
-          Schedule Consultation
+          Schedule Visit
         </Button>
       </NavLink>
     );

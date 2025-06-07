@@ -129,7 +129,7 @@ export default function OurMissionValuesPage() {
                 </Link>
                 <Link href="/#contact" passHref legacyBehavior>
                 <Button size="lg" variant="outline" className="rounded-xl text-base px-8 py-3 border-primary-foreground text-primary hover:bg-primary-foreground hover:text-primary">
-                    Schedule Consultation <ArrowRight className="w-5 h-5 ml-2" />
+                    Schedule Visit <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
                 </Link>
             </div>

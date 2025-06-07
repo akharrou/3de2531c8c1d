@@ -49,7 +49,7 @@ export default function AdvancedCardiacDiagnosticsPage() {
                 </p>
                 <Link href="/#contact" passHref legacyBehavior>
                   <Button size="lg" className="rounded-xl">
-                    Schedule a Consultation <ArrowRight className="w-5 h-5 ml-2" />
+                    Schedule a Visit <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
                 </Link>
               </div>
