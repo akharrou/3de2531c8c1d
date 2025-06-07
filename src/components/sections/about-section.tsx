@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Award, Medal, UserCheck, CheckCircle, Briefcase, Sparkles } from 'lucide-react';
+import { Award, Medal, UserCheck, CheckCircle, Briefcase, Sparkles, BookOpen } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -67,6 +67,30 @@ const doctorsData: Doctor[] = [
       { title: 'Pioneer in Transcatheter Valve Therapies', icon: <Sparkles className="w-5 h-5 mr-2 text-primary" /> },
       { title: 'Clinical Excellence Award (2022)', icon: <UserCheck className="w-5 h-5 mr-2 text-primary" /> },
     ]
+  },
+  {
+    id: 'emily-carter',
+    name: 'Dr. Emily Carter',
+    shortTitle: 'Preventive Cardiology Specialist',
+    longTitle: 'MD, MPH, Preventive Cardiology Specialist',
+    imageUrl: 'https://placehold.co/600x800.png',
+    dataAiHint: 'doctor portrait woman friendly',
+    bio: [
+      "Dr. Emily Carter is dedicated to the proactive prevention of heart disease. She focuses on early detection, risk factor modification, and patient education to empower individuals to take control of their cardiovascular health. Dr. Carter is known for her thorough, personalized approach to developing lifestyle and medical strategies for long-term wellness.",
+      "She is passionate about community health and frequently engages in outreach programs to promote heart-healthy living. Her research interests include the impact of nutrition and exercise on cardiac outcomes."
+    ],
+    education: [
+      "MD, Duke University School of Medicine",
+      "MPH, Harvard T.H. Chan School of Public Health",
+      "Residency in Internal Medicine, Brigham and Women's Hospital",
+      "Fellowship in Preventive Cardiology, Mayo Clinic"
+    ],
+    achievements: [
+      { title: 'Board Certified in Cardiovascular Disease', icon: <Award className="w-5 h-5 mr-2 text-primary" /> },
+      { title: 'Specialist in Lipidology', icon: <CheckCircle className="w-5 h-5 mr-2 text-primary" /> },
+      { title: 'Author of \"Heart Smart Living\"', icon: <BookOpen className="w-5 h-5 mr-2 text-primary" /> },
+      { title: 'Community Health Advocate Award', icon: <UserCheck className="w-5 h-5 mr-2 text-primary" /> },
+    ]
   }
 ];
 
@@ -82,9 +106,6 @@ export default function AboutSection() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    // Consider setting selectedDoctor to null if it improves cleanup or state logic,
-    // though Dialog's onOpenChange might handle this sufficiently.
-    // setSelectedDoctor(null);
   };
 
   return (
@@ -97,7 +118,7 @@ export default function AboutSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-12 mb-12 md:mb-24">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 md:mb-24">
           {doctorsData.map((doctor, index) => (
             <div
               key={doctor.id}
@@ -130,15 +151,15 @@ export default function AboutSection() {
         {selectedDoctor && (
           <Dialog open={isModalOpen} onOpenChange={(open) => {
             if (!open) closeModal();
-            else setIsModalOpen(true); // This ensures the modal opens if controlled externally via onOpenChange.
+            else setIsModalOpen(true);
           }}>
             <DialogContent className="sm:max-w-3xl max-h-[90vh] flex flex-col p-0 rounded-lg shadow-2xl">
               <DialogHeader className="p-6 pb-2 border-b border-border">
                 <DialogTitle className="font-headline text-2xl md:text-3xl text-primary">{selectedDoctor.name}</DialogTitle>
                 <p className="text-sm md:text-base text-accent font-medium pt-1">{selectedDoctor.longTitle}</p>
               </DialogHeader>
-              <ScrollArea className="flex-grow overflow-y-auto px-6"> {/* Added px-6 for padding consistency */}
-                <div className="space-y-6 py-6"> {/* Added py-6 for vertical padding */}
+              <ScrollArea className="flex-grow overflow-y-auto px-6">
+                <div className="space-y-6 py-6">
                   <div>
                     <h4 className="text-lg font-semibold font-headline mb-2 text-primary">Biography</h4>
                     {selectedDoctor.bio.map((paragraph, index) => (
@@ -158,7 +179,6 @@ export default function AboutSection() {
                     <div className="flex flex-wrap gap-2 sm:gap-3">
                       {selectedDoctor.achievements.map((achievement, index) => (
                         <Badge key={index} variant="secondary" className="py-1.5 px-3 rounded-md text-xs sm:text-sm flex items-center bg-card border-primary/20 text-primary shadow-sm">
-                          {/* Ensure icon is cloned correctly and has appropriate styling if needed */}
                           {React.cloneElement(achievement.icon as React.ReactElement, { className: "w-4 h-4 mr-1.5" })}
                           {achievement.title}
                         </Badge>
@@ -179,3 +199,4 @@ export default function AboutSection() {
     </section>
   );
 }
+
