@@ -13,11 +13,12 @@ export default function ContactSection() {
   const officeCoords = { lat: 37.4220, lng: -122.0841 }; // Placeholder: Googleplex
   const officePlaceId = "ChIJj61_rTxdj4AR0AoADvfwitA"; // Placeholder: Googleplex Place ID
 
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_APIKEY || process.env.GOOGLE_MAPS_APIKEY;
+  // Only use NEXT_PUBLIC_ prefixed variables for client-side access
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_APIKEY;
 
   useEffect(() => {
     if (!apiKey) {
-      console.error("Google Maps API Key is not defined. Please set NEXT_PUBLIC_GOOGLE_MAPS_APIKEY or GOOGLE_MAPS_APIKEY.");
+      console.error("Google Maps API Key is not defined. Please ensure NEXT_PUBLIC_GOOGLE_MAPS_APIKEY is set in your .env.local file and the server is restarted.");
       return;
     }
 
@@ -148,3 +149,4 @@ export default function ContactSection() {
     </section>
   );
 }
+
