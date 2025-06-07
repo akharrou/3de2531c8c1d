@@ -6,11 +6,26 @@ declare global {
         React.HTMLAttributes<HTMLElement> & {
           url: string;
           'loading-anim-type'?: string;
-          // To add other Spline attributes, extend this type.
-          // For example: events-target?: string;
         },
         HTMLElement
       >;
+      'gmpx-api-loader': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement> & {
+          key: string; // API Key
+          'solution-channel'?: string;
+        },
+        HTMLElement
+      >;
+      'gmpx-store-locator': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement> & {
+          'map-id'?: string;
+          // This element will be configured via JavaScript
+        },
+        HTMLElement
+      > & {
+        // Adding configureFromQuickBuilder method for TypeScript
+        configureFromQuickBuilder?: (configuration: any) => void;
+      };
     }
   }
 }
