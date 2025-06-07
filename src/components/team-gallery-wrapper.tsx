@@ -10,13 +10,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogDe
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Search as SearchIcon, Mail, Phone, Linkedin as LinkedinIcon } from 'lucide-react';
-import type { TeamMember } from '@/app/about/our-team/page'; // Ensure this path is correct
+import type { TeamMember } from '@/app/about/our-team/page';
 import { cn } from '@/lib/utils';
 
-// Define XLogo here or ensure it's importable and stylable
 const XLogo = ({ className }: { className?: string }) => (
   <svg
-    className={cn("h-4 w-4", className)} // Default size for card icons
+    className={cn("h-4 w-4", className)}
     fill="currentColor"
     viewBox="0 0 50 50"
     xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +51,6 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ member, onViewProfile }
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
       
-      {/* Social Icons */}
       {(member.socials?.x || member.socials?.linkedin) && (
         <div className="absolute top-3 right-3 z-20 flex space-x-1.5">
           {member.socials.x && (
@@ -102,7 +100,7 @@ const TeamMemberModal: React.FC<TeamMemberModalProps> = ({ member, isOpen, onClo
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] flex flex-col p-0 rounded-lg shadow-2xl">
-        <DialogHeader className="p-6 pb-4 border-b border-border">
+        <DialogHeader className="p-6 pb-4 border-b border-border flex flex-row justify-between items-start">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="relative w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden shadow-md flex-shrink-0">
               <Image src={member.imageUrl} alt={member.name} fill className="object-cover" data-ai-hint={member.dataAiHint} />
@@ -113,6 +111,32 @@ const TeamMemberModal: React.FC<TeamMemberModalProps> = ({ member, isOpen, onClo
               {member.department && <p className="text-sm text-muted-foreground mt-1">Department: {member.department}</p>}
             </div>
           </div>
+          {(member.socials?.x || member.socials?.linkedin) && (
+            <div className="flex space-x-2 items-center flex-shrink-0 ml-4 mt-1">
+              {member.socials.x && (
+                <a
+                  href={member.socials.x}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-200 p-1"
+                  aria-label={`${member.name} on X`}
+                >
+                  <XLogo className="h-5 w-5" />
+                </a>
+              )}
+              {member.socials.linkedin && (
+                <a
+                  href={member.socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-200 p-1"
+                  aria-label={`${member.name} on LinkedIn`}
+                >
+                  <LinkedinIcon className="h-5 w-5" />
+                </a>
+              )}
+            </div>
+          )}
         </DialogHeader>
         <ScrollArea className="flex-grow overflow-y-auto px-6">
           <div className="space-y-5 py-6">
@@ -145,35 +169,6 @@ const TeamMemberModal: React.FC<TeamMemberModalProps> = ({ member, isOpen, onClo
                      <p className="flex items-center text-muted-foreground">
                       <Phone className="w-4 h-4 mr-2 text-accent"/> <a href={`tel:${member.contact.phone}`} className="hover:text-primary">{member.contact.phone}</a>
                     </p>
-                  )}
-                </div>
-              </div>
-            )}
-            {(member.socials?.x || member.socials?.linkedin) && (
-              <div>
-                <h4 className="text-lg font-semibold font-headline mb-1.5 text-primary">Socials</h4>
-                <div className="flex space-x-4 items-center">
-                  {member.socials.x && (
-                    <a
-                      href={member.socials.x}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-muted-foreground hover:text-primary transition-colors duration-200"
-                      aria-label={`${member.name} on X`}
-                    >
-                      <XLogo className="h-5 w-5 mr-1.5" /> X Profile
-                    </a>
-                  )}
-                  {member.socials.linkedin && (
-                    <a
-                      href={member.socials.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-muted-foreground hover:text-primary transition-colors duration-200"
-                      aria-label={`${member.name} on LinkedIn`}
-                    >
-                      <LinkedinIcon className="h-5 w-5 mr-1.5" /> LinkedIn
-                    </a>
                   )}
                 </div>
               </div>

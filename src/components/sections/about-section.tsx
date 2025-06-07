@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Award, Medal, UserCheck, CheckCircle, Briefcase, Sparkles, BookOpen, ArrowRight, Linkedin as LinkedinIcon, MessageSquare } from 'lucide-react';
+import { Award, Medal, UserCheck, CheckCircle, Briefcase, Sparkles, BookOpen, ArrowRight, Linkedin as LinkedinIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
 
 const XLogo = ({ className }: { className?: string }) => (
   <svg
-    className={cn("h-4 w-4", className)} // Adjusted size for card icon
+    className={cn("h-4 w-4", className)}
     fill="currentColor"
     viewBox="0 0 50 50"
     xmlns="http://www.w3.org/2000/svg"
@@ -168,19 +168,18 @@ export default function AboutSection() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
               
-              {/* Social Icons */}
               {(doctor.socials?.x || doctor.socials?.linkedin) && (
-                <div className="absolute top-4 right-4 z-20 flex space-x-2">
+                <div className="absolute top-3 right-3 z-20 flex space-x-1.5">
                   {doctor.socials.x && (
                     <a
                       href={doctor.socials.x}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white hover:text-primary transition-colors duration-200"
+                      className="text-white/80 hover:text-primary transition-colors duration-200 p-1 rounded-full hover:bg-white/20"
                       aria-label={`${doctor.name} on X`}
-                      onClick={(e) => e.stopPropagation()} // Prevent card click when icon is clicked
+                      onClick={(e) => e.stopPropagation()} 
                     >
-                      <XLogo className="h-5 w-5" />
+                      <XLogo className="h-4 w-4" />
                     </a>
                   )}
                   {doctor.socials.linkedin && (
@@ -188,11 +187,11 @@ export default function AboutSection() {
                       href={doctor.socials.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-white hover:text-primary transition-colors duration-200"
+                      className="text-white/80 hover:text-primary transition-colors duration-200 p-1 rounded-full hover:bg-white/20"
                       aria-label={`${doctor.name} on LinkedIn`}
-                      onClick={(e) => e.stopPropagation()} // Prevent card click when icon is clicked
+                      onClick={(e) => e.stopPropagation()} 
                     >
-                      <LinkedinIcon className="h-5 w-5" />
+                      <LinkedinIcon className="h-4 w-4" />
                     </a>
                   )}
                 </div>
@@ -221,9 +220,37 @@ export default function AboutSection() {
             else setIsModalOpen(true);
           }}>
             <DialogContent className="sm:max-w-3xl max-h-[90vh] flex flex-col p-0 rounded-lg shadow-2xl">
-              <DialogHeader className="p-6 pb-2 border-b border-border">
-                <DialogTitle className="font-headline text-2xl md:text-3xl text-primary">{selectedDoctor.name}</DialogTitle>
-                <p className="text-sm md:text-base text-accent font-medium pt-1">{selectedDoctor.longTitle}</p>
+              <DialogHeader className="p-6 pb-4 border-b border-border flex flex-row justify-between items-start">
+                <div>
+                  <DialogTitle className="font-headline text-2xl md:text-3xl text-primary">{selectedDoctor.name}</DialogTitle>
+                  <p className="text-sm md:text-base text-accent font-medium pt-1">{selectedDoctor.longTitle}</p>
+                </div>
+                {(selectedDoctor.socials?.x || selectedDoctor.socials?.linkedin) && (
+                  <div className="flex space-x-2 items-center flex-shrink-0 ml-4 mt-1">
+                    {selectedDoctor.socials.x && (
+                      <a
+                        href={selectedDoctor.socials.x}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-primary transition-colors duration-200 p-1"
+                        aria-label={`${selectedDoctor.name} on X`}
+                      >
+                        <XLogo className="h-5 w-5" />
+                      </a>
+                    )}
+                    {selectedDoctor.socials.linkedin && (
+                      <a
+                        href={selectedDoctor.socials.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-primary transition-colors duration-200 p-1"
+                        aria-label={`${selectedDoctor.name} on LinkedIn`}
+                      >
+                        <LinkedinIcon className="h-5 w-5" />
+                      </a>
+                    )}
+                  </div>
+                )}
               </DialogHeader>
               <ScrollArea className="flex-grow overflow-y-auto px-6">
                 <div className="space-y-6 py-6">
@@ -252,35 +279,6 @@ export default function AboutSection() {
                       ))}
                     </div>
                   </div>
-                  {(selectedDoctor.socials?.x || selectedDoctor.socials?.linkedin) && (
-                    <div>
-                      <h4 className="text-lg font-semibold font-headline mb-2 text-primary">Socials</h4>
-                      <div className="flex space-x-4 items-center">
-                        {selectedDoctor.socials.x && (
-                          <a
-                            href={selectedDoctor.socials.x}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center text-muted-foreground hover:text-primary transition-colors duration-200"
-                            aria-label={`${selectedDoctor.name} on X`}
-                          >
-                            <XLogo className="h-5 w-5 mr-1.5" /> X Profile
-                          </a>
-                        )}
-                        {selectedDoctor.socials.linkedin && (
-                          <a
-                            href={selectedDoctor.socials.linkedin}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center text-muted-foreground hover:text-primary transition-colors duration-200"
-                            aria-label={`${selectedDoctor.name} on LinkedIn`}
-                          >
-                            <LinkedinIcon className="h-5 w-5 mr-1.5" /> LinkedIn
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  )}
                 </div>
               </ScrollArea>
               <div className="p-6 border-t border-border flex justify-end">
