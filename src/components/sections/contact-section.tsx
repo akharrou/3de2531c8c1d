@@ -5,15 +5,6 @@ import ContactForm from '@/components/contact-form';
 import Script from 'next/script';
 
 export default function ContactSection() {
-  // The complex map setup is no longer needed with the direct iframe.
-  // Office details might still be useful if you want to display them textually elsewhere,
-  // but they are not directly used by this iframe embed.
-  // const officeAddressLine1 = "1600 Amphitheatre Parkway"; 
-  // const officeAddressLine2 = "Mountain View, CA 94043"; 
-  // const officeTitle = "Chen Cardiology (Example Location)";
-  // const officeCoords = { lat: 37.4220, lng: -122.0841 }; 
-  // const officePlaceId = "ChIJj61_rTxdj4AR0AoADvfwitA"; 
-
   return (
     <section id="contact" className="pt-12 pb-24 bg-secondary">
       <div className="container mx-auto px-6 lg:px-8">
@@ -29,7 +20,7 @@ export default function ContactSection() {
           <div className="bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp flex flex-col h-[700px]" style={{ animationDelay: '0.2s' }}>
             <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Inquiries</h3>
             <p className="text-sm text-muted-foreground mb-6">
-              Have a question, comment, or just want to say hello? We’re here to help. Reach out with the form below and our team will get back to you—usually within one business day.
+              Have a question, comment, or just want to say hello? Reach out to us with the form below and our team will get back to you—usually within one business day.
             </p>
             <ContactForm />
           </div>
@@ -63,7 +54,7 @@ export default function ContactSection() {
             <iframe 
               src="https://storage.googleapis.com/maps-solutions-ynlwz9bjem/locator-plus/veyv/locator-plus.html"
               width="100%" 
-              height="100%" // Will fill the h-[300px] of the parent
+              height="100%"
               style={{ border:0 }}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
@@ -72,7 +63,7 @@ export default function ContactSection() {
           </div>
         </div>
       </div>
-      {/* Removed the Google Maps Extended Component Library script as it's no longer needed */}
     </section>
   );
 }
+
