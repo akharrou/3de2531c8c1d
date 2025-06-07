@@ -3,6 +3,7 @@
 
 import ContactForm from '@/components/contact-form';
 import Script from 'next/script';
+import { CalendarDays } from 'lucide-react';
 
 export default function ContactSection() {
   return (
@@ -15,7 +16,7 @@ export default function ContactSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-start">
+        <div className="grid md:grid-cols-2 gap-8 items-start"> {/* Reduced gap from 12 to 8 */}
           {/* Inquiries Form */}
           <div className="bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp flex flex-col h-[700px]" style={{ animationDelay: '0.2s' }}>
             <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Inquiries</h3>
@@ -46,11 +47,24 @@ export default function ContactSection() {
         </div>
 
         {/* Walk-in Clinic Map Section */}
-        <div className="mt-12 bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp" style={{ animationDelay: '0.6s' }}>
+        <div className="mt-8 bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp" style={{ animationDelay: '0.6s' }}> {/* Reduced mt from 12 to 8 */}
           <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Walk-in Clinic</h3>
           <p className="text-sm text-muted-foreground mb-6">
             No appointment needed—walk in whenever it’s convenient during clinic hours—our cardiac team is ready for quick questions, routine care, or urgent check-ins.
           </p>
+          
+          <div className="text-sm text-muted-foreground mb-6">
+            <div className="flex items-start">
+              <CalendarDays className="w-5 h-5 mr-3 text-primary shrink-0 mt-0.5" />
+              <div>
+                <h4 className="font-semibold text-foreground mb-1">Clinic Hours:</h4>
+                <p>Mon – Thu: 9:00 AM – 5:00 PM</p>
+                <p>Friday: 9:00 AM – 3:00 PM</p>
+                <p>Sat – Sun: Closed</p>
+              </div>
+            </div>
+          </div>
+
           <div className="rounded-lg overflow-hidden h-[300px] shadow-md">
             <iframe 
               src="https://storage.googleapis.com/maps-solutions-ynlwz9bjem/locator-plus/veyv/locator-plus.html"
@@ -67,3 +81,4 @@ export default function ContactSection() {
     </section>
   );
 }
+
