@@ -1,88 +1,18 @@
 
-"use client"; // Required for useEffect and Script
+"use client"; 
 
-import { useEffect } from 'react';
 import ContactForm from '@/components/contact-form';
 import Script from 'next/script';
 
 export default function ContactSection() {
-  const officeAddressLine1 = "1600 Amphitheatre Parkway"; // Placeholder: Googleplex
-  const officeAddressLine2 = "Mountain View, CA 94043"; // Placeholder
-  const officeTitle = "Chen Cardiology (Example Location)";
-  // IMPORTANT: Replace with your actual coordinates and Place ID
-  const officeCoords = { lat: 37.4220, lng: -122.0841 }; // Placeholder: Googleplex
-  const officePlaceId = "ChIJj61_rTxdj4AR0AoADvfwitA"; // Placeholder: Googleplex Place ID
-
-  // Only use NEXT_PUBLIC_ prefixed variables for client-side access
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_APIKEY;
-
-  useEffect(() => {
-    if (!apiKey) {
-      console.error("Google Maps API Key is not defined. Please ensure NEXT_PUBLIC_GOOGLE_MAPS_APIKEY is set in your .env.local file and the server is restarted.");
-      return;
-    }
-
-    const configureMap = async () => {
-      // Wait for the custom element to be defined
-      await customElements.whenDefined('gmpx-store-locator');
-      
-      const locator = document.querySelector('gmpx-store-locator') as HTMLElement & { configureFromQuickBuilder?: (config: any) => void };
-
-      if (locator?.configureFromQuickBuilder) {
-        const CONFIGURATION = {
-          locations: [
-            {
-              title: officeTitle,
-              address1: officeAddressLine1,
-              address2: officeAddressLine2,
-              coords: officeCoords,
-              placeId: officePlaceId,
-            },
-          ],
-          mapOptions: {
-            center: officeCoords,
-            fullscreenControl: true,
-            mapTypeControl: false,
-            streetViewControl: false,
-            zoom: 15, // Zoom level for a single location
-            mapId: "", // Optional: Your Map ID if you have one
-          },
-          mapsApiKey: apiKey,
-          capabilities: {
-            input: false,
-            autocomplete: false,
-            directions: false,
-            distanceMatrix: false,
-            details: false,
-            actions: false,
-          },
-        };
-        locator.configureFromQuickBuilder(CONFIGURATION);
-      } else {
-        console.error("gmpx-store-locator element or configureFromQuickBuilder method not found.");
-      }
-    };
-
-    // Ensure the external library is loaded before trying to configure
-    const libraryScript = document.querySelector('script[src*="@googlemaps/extended-component-library"]');
-    if ((window as any).google && (window as any).google.maps && (window as any).customElements && (window as any).customElements.get('gmpx-store-locator')) {
-      // If already loaded and defined (e.g., on fast refresh)
-      configureMap();
-    } else if (libraryScript) {
-      libraryScript.addEventListener('load', configureMap);
-    } else {
-      // This case should ideally be handled by the Script component's onLoad or strategy
-      // For safety, we wait for DOMContentLoaded if script tag isn't found immediately.
-      document.addEventListener('DOMContentLoaded', configureMap);
-    }
-
-    return () => {
-      if (libraryScript) {
-        libraryScript.removeEventListener('load', configureMap);
-      }
-      document.removeEventListener('DOMContentLoaded', configureMap);
-    };
-  }, [apiKey, officeTitle, officeAddressLine1, officeAddressLine2, officeCoords, officePlaceId]);
+  // The complex map setup is no longer needed with the direct iframe.
+  // Office details might still be useful if you want to display them textually elsewhere,
+  // but they are not directly used by this iframe embed.
+  // const officeAddressLine1 = "1600 Amphitheatre Parkway"; 
+  // const officeAddressLine2 = "Mountain View, CA 94043"; 
+  // const officeTitle = "Chen Cardiology (Example Location)";
+  // const officeCoords = { lat: 37.4220, lng: -122.0841 }; 
+  // const officePlaceId = "ChIJj61_rTxdj4AR0AoADvfwitA"; 
 
   return (
     <section id="contact" className="pt-12 pb-24 bg-secondary">
@@ -130,23 +60,19 @@ export default function ContactSection() {
             No appointment needed—walk in whenever it’s convenient during clinic hours—our cardiac team is ready for quick questions, routine care, or urgent check-ins.
           </p>
           <div className="rounded-lg overflow-hidden h-[300px] shadow-md">
-            {apiKey ? (
-              <>
-                <gmpx-api-loader key={apiKey} solution-channel="GMP_QB_locatorplus_v11_c"></gmpx-api-loader>
-                <gmpx-store-locator></gmpx-store-locator>
-              </>
-            ) : (
-              <p className="text-center text-destructive p-4">Google Maps API Key is missing. Map cannot be displayed.</p>
-            )}
+            <iframe 
+              src="https://storage.googleapis.com/maps-solutions-ynlwz9bjem/locator-plus/veyv/locator-plus.html"
+              width="100%" 
+              height="100%" // Will fill the h-[300px] of the parent
+              style={{ border:0 }}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            >
+            </iframe>
           </div>
         </div>
       </div>
-      <Script 
-        type="module" 
-        src="https://ajax.googleapis.com/ajax/libs/@googlemaps/extended-component-library/0.6.11/index.min.js" 
-        strategy="lazyOnload" // Loads after the page is idle
-      />
+      {/* Removed the Google Maps Extended Component Library script as it's no longer needed */}
     </section>
   );
 }
-

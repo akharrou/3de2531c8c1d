@@ -1,3 +1,4 @@
+
 // src/types/global.d.ts
 declare global {
   namespace JSX {
@@ -9,23 +10,7 @@ declare global {
         },
         HTMLElement
       >;
-      'gmpx-api-loader': React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement> & {
-          key: string; // API Key
-          'solution-channel'?: string;
-        },
-        HTMLElement
-      >;
-      'gmpx-store-locator': React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLElement> & {
-          'map-id'?: string;
-          // This element will be configured via JavaScript
-        },
-        HTMLElement
-      > & {
-        // Adding configureFromQuickBuilder method for TypeScript
-        configureFromQuickBuilder?: (configuration: any) => void;
-      };
+      // gmpx-api-loader and gmpx-store-locator are no longer used
     }
   }
 }
