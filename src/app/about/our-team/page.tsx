@@ -1,16 +1,27 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Users, BriefcaseMedical, Search as SearchIcon, Eye } from 'lucide-react';
+import { ArrowRight, Users, BriefcaseMedical, Linkedin as LinkedinIcon } from 'lucide-react';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import TeamGalleryWrapper from '@/components/team-gallery-wrapper'; // New component
+import TeamGalleryWrapper from '@/components/team-gallery-wrapper'; 
+import { cn } from '@/lib/utils';
+
+
+// Define XLogo here or import if it's made globally available
+const XLogo = ({ className }: { className?: string }) => (
+  <svg
+    className={cn("h-4 w-4", className)}
+    fill="currentColor"
+    viewBox="0 0 50 50"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path d="M6.5605469,3 L20.001953,20.6875 L6.96875,38 L10.03125,38 L21.53125,22.65625 L31.599609,38 L43.439453,38 L28.908203,19.160156 L42.439453,3 L39.371094,3 L27.341797,17.34375 L18.400391,3 L6.5605469,3 z M12.03125,5 L16.96875,5 L37.96875,36 L33.03125,36 L12.03125,5 z" />
+  </svg>
+);
+
 
 export interface TeamMember {
   id: string;
@@ -25,6 +36,10 @@ export interface TeamMember {
     email?: string;
     phone?: string;
   };
+  socials?: {
+    x?: string;
+    linkedin?: string;
+  };
 }
 
 const teamMembersData: TeamMember[] = [
@@ -36,7 +51,11 @@ const teamMembersData: TeamMember[] = [
     dataAiHint: 'nurse portrait friendly woman',
     bio: ["Jane is a compassionate cardiac nurse with 10 years of experience in providing exceptional patient care in fast-paced cardiology units.", "She specializes in post-operative care, patient education on heart-healthy lifestyles, and managing chronic heart conditions."],
     department: "Nursing Unit",
-    responsibilities: ["Monitoring patient vital signs & recovery", "Administering medications & treatments", "Educating patients and families", "Collaborating with cardiologists on care plans"]
+    responsibilities: ["Monitoring patient vital signs & recovery", "Administering medications & treatments", "Educating patients and families", "Collaborating with cardiologists on care plans"],
+    socials: {
+      x: 'https://x.com/janedoe_placeholder',
+      linkedin: 'https://linkedin.com/in/janedoe_placeholder'
+    }
   },
   {
     id: 'john-smith',
@@ -46,7 +65,8 @@ const teamMembersData: TeamMember[] = [
     dataAiHint: 'technician portrait professional man',
     bio: ["John is a skilled cardiology technician proficient in a wide array of diagnostic procedures, including ECG, stress testing, and Holter monitoring.", "He is committed to ensuring equipment accuracy and patient comfort during tests."],
     department: "Diagnostic Lab",
-    responsibilities: ["Performing ECG and stress tests", "Applying and managing Holter monitors", "Maintaining diagnostic equipment", "Assisting with echocardiograms"]
+    responsibilities: ["Performing ECG and stress tests", "Applying and managing Holter monitors", "Maintaining diagnostic equipment", "Assisting with echocardiograms"],
+    socials: {} // No socials
   },
   {
     id: 'alice-brown',
@@ -56,7 +76,10 @@ const teamMembersData: TeamMember[] = [
     dataAiHint: 'admin staff portrait welcoming',
     bio: ["Alice plays a pivotal role in ensuring our clinic operations run smoothly and efficiently.", "She's often the first friendly face or voice patients interact with, dedicated to providing excellent administrative support."],
     department: "Administration",
-    responsibilities: ["Scheduling appointments", "Managing patient records and billing", "Handling patient inquiries and communication", "Coordinating referrals"]
+    responsibilities: ["Scheduling appointments", "Managing patient records and billing", "Handling patient inquiries and communication", "Coordinating referrals"],
+    socials: {
+      linkedin: 'https://linkedin.com/in/alicebrown_placeholder'
+    }
   },
   {
     id: 'robert-jones',
@@ -66,7 +89,10 @@ const teamMembersData: TeamMember[] = [
     dataAiHint: 'surgical assistant portrait focused',
     bio: ["Robert is a dedicated surgical assistant with extensive experience in cardiac procedures.", "He works closely with our surgeons to ensure optimal patient outcomes in the operating room."],
     department: "Surgical Team",
-    responsibilities: ["Preparing operating rooms and sterile equipment", "Assisting surgeons during procedures", "Post-operative patient monitoring", "Maintaining surgical inventory"]
+    responsibilities: ["Preparing operating rooms and sterile equipment", "Assisting surgeons during procedures", "Post-operative patient monitoring", "Maintaining surgical inventory"],
+    socials: {
+      x: 'https://x.com/robertjones_placeholder'
+    }
   },
   {
     id: 'lisa-green',
@@ -76,7 +102,11 @@ const teamMembersData: TeamMember[] = [
     dataAiHint: 'nurse portrait smiling woman',
     bio: ["Lisa brings warmth and expertise to her role as a cardiac nurse, focusing on patient advocacy and comprehensive care.", "She has a passion for preventive cardiology education and empowers patients to take active roles in their health."],
     department: "Outpatient Clinic",
-    responsibilities: ["Conducting patient assessments", "Developing and implementing nursing care plans", "Community health outreach and education programs", "Managing patient follow-ups"]
+    responsibilities: ["Conducting patient assessments", "Developing and implementing nursing care plans", "Community health outreach and education programs", "Managing patient follow-ups"],
+    socials: {
+      x: 'https://x.com/lisagreen_placeholder',
+      linkedin: 'https://linkedin.com/in/lisagreen_placeholder'
+    }
   },
   {
     id: 'mark-white',
@@ -86,7 +116,8 @@ const teamMembersData: TeamMember[] = [
     dataAiHint: 'technician portrait serious man',
     bio: ["Mark is an expert in non-invasive cardiac imaging, ensuring our diagnostic capabilities are top-notch.", "He specializes in echocardiography and vascular ultrasound, providing critical data for patient diagnosis."],
     department: "Imaging Suite",
-    responsibilities: ["Operating echocardiogram and ultrasound machines", "Analyzing cardiac and vascular images", "Collaborating with cardiologists on diagnostic reports", "Ensuring quality control for imaging equipment"]
+    responsibilities: ["Operating echocardiogram and ultrasound machines", "Analyzing cardiac and vascular images", "Collaborating with cardiologists on diagnostic reports", "Ensuring quality control for imaging equipment"],
+    // No socials property means undefined, handled as no socials
   },
   {
     id: 'sandra-adams',
@@ -96,7 +127,10 @@ const teamMembersData: TeamMember[] = [
     dataAiHint: 'manager portrait professional woman',
     bio: ["Sandra oversees the daily operations of Chen Cardiology, ensuring a high standard of service and patient satisfaction.", "With a background in healthcare administration, she focuses on efficiency and team coordination."],
     department: "Management",
-    responsibilities: ["Overseeing clinic operations", "Staff management and development", "Ensuring regulatory compliance", "Patient satisfaction initiatives"]
+    responsibilities: ["Overseeing clinic operations", "Staff management and development", "Ensuring regulatory compliance", "Patient satisfaction initiatives"],
+    socials: {
+      linkedin: 'https://linkedin.com/in/sandraadams_placeholder'
+    }
   },
   {
     id: 'kevin-harris',
@@ -106,7 +140,10 @@ const teamMembersData: TeamMember[] = [
     dataAiHint: 'researcher portrait thoughtful man',
     bio: ["Kevin manages our clinical trials and research projects, contributing to advancements in cardiac care.", "He is meticulous in data collection and ensuring ethical research practices."],
     department: "Research & Development",
-    responsibilities: ["Coordinating clinical trials", "Managing research data and documentation", "Liaising with research partners", "Ensuring adherence to research protocols"]
+    responsibilities: ["Coordinating clinical trials", "Managing research data and documentation", "Liaising with research partners", "Ensuring adherence to research protocols"],
+    socials: {
+      x: 'https://x.com/kevinharris_placeholder'
+    }
   }
 ];
 

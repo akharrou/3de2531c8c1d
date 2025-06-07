@@ -9,8 +9,22 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogDescription } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { Search as SearchIcon, Mail, Phone } from 'lucide-react';
+import { Search as SearchIcon, Mail, Phone, Linkedin as LinkedinIcon } from 'lucide-react';
 import type { TeamMember } from '@/app/about/our-team/page'; // Ensure this path is correct
+import { cn } from '@/lib/utils';
+
+// Define XLogo here or ensure it's importable and stylable
+const XLogo = ({ className }: { className?: string }) => (
+  <svg
+    className={cn("h-4 w-4", className)} // Default size for card icons
+    fill="currentColor"
+    viewBox="0 0 50 50"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path d="M6.5605469,3 L20.001953,20.6875 L6.96875,38 L10.03125,38 L21.53125,22.65625 L31.599609,38 L43.439453,38 L28.908203,19.160156 L42.439453,3 L39.371094,3 L27.341797,17.34375 L18.400391,3 L6.5605469,3 z M12.03125,5 L16.96875,5 L37.96875,36 L33.03125,36 L12.03125,5 z" />
+  </svg>
+);
 
 interface TeamMemberCardProps {
   member: TeamMember;
@@ -37,6 +51,37 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ member, onViewProfile }
         priority
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
+      
+      {/* Social Icons */}
+      {(member.socials?.x || member.socials?.linkedin) && (
+        <div className="absolute top-3 right-3 z-20 flex space-x-1.5">
+          {member.socials.x && (
+            <a
+              href={member.socials.x}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/80 hover:text-primary transition-colors duration-200 p-1 rounded-full hover:bg-white/20"
+              aria-label={`${member.name} on X`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <XLogo className="h-4 w-4" />
+            </a>
+          )}
+          {member.socials.linkedin && (
+            <a
+              href={member.socials.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/80 hover:text-primary transition-colors duration-200 p-1 rounded-full hover:bg-white/20"
+              aria-label={`${member.name} on LinkedIn`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <LinkedinIcon className="h-4 w-4" />
+            </a>
+          )}
+        </div>
+      )}
+
       <div className="absolute bottom-0 left-0 right-0 p-4 text-white z-10">
         <h3 className="font-headline text-lg sm:text-xl font-semibold truncate">{member.name}</h3>
         <p className="text-xs sm:text-sm opacity-90 truncate">{member.role}</p>
@@ -87,7 +132,7 @@ const TeamMemberModal: React.FC<TeamMemberModalProps> = ({ member, isOpen, onClo
                 </ul>
               </div>
             )}
-            {member.contact && (member.contact.email || member.contact.phone) && (
+            {(member.contact && (member.contact.email || member.contact.phone)) && (
               <div>
                 <h4 className="text-lg font-semibold font-headline mb-1.5 text-primary">Contact</h4>
                 <div className="space-y-1 text-sm">
@@ -100,6 +145,35 @@ const TeamMemberModal: React.FC<TeamMemberModalProps> = ({ member, isOpen, onClo
                      <p className="flex items-center text-muted-foreground">
                       <Phone className="w-4 h-4 mr-2 text-accent"/> <a href={`tel:${member.contact.phone}`} className="hover:text-primary">{member.contact.phone}</a>
                     </p>
+                  )}
+                </div>
+              </div>
+            )}
+            {(member.socials?.x || member.socials?.linkedin) && (
+              <div>
+                <h4 className="text-lg font-semibold font-headline mb-1.5 text-primary">Socials</h4>
+                <div className="flex space-x-4 items-center">
+                  {member.socials.x && (
+                    <a
+                      href={member.socials.x}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center text-muted-foreground hover:text-primary transition-colors duration-200"
+                      aria-label={`${member.name} on X`}
+                    >
+                      <XLogo className="h-5 w-5 mr-1.5" /> X Profile
+                    </a>
+                  )}
+                  {member.socials.linkedin && (
+                    <a
+                      href={member.socials.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center text-muted-foreground hover:text-primary transition-colors duration-200"
+                      aria-label={`${member.name} on LinkedIn`}
+                    >
+                      <LinkedinIcon className="h-5 w-5 mr-1.5" /> LinkedIn
+                    </a>
                   )}
                 </div>
               </div>
@@ -131,21 +205,14 @@ const TeamGalleryWrapper: React.FC<TeamGalleryWrapperProps> = ({ teamMembers, al
   const handleRoleChange = (role: string, checked: boolean) => {
     setSelectedRoles(prev => {
       const newRoles = checked ? [...prev, role] : prev.filter(r => r !== role);
-      // If "All" was implicitly active (no roles selected) and now a specific role is selected,
-      // or if "All" is explicitly managed by its own checkbox, ensure "All" is deselected.
-      // For simplicity, we assume "All" is handled by selectedRoles.length === 0.
       return newRoles;
     });
   };
   
   const handleSelectAllRoles = (checked: boolean) => {
     if (checked) {
-      setSelectedRoles([]); // Empty array means "All"
+      setSelectedRoles([]); 
     } 
-    // If unchecking "All", typically nothing happens unless other roles become selected.
-    // If you want "All" to be explicitly toggleable to clear other selections,
-    // you might set selectedRoles to a specific non-empty state if nothing else is selected.
-    // For now, checking "All" clears specific selections.
   };
 
   const filteredMembers = useMemo(() => {
@@ -204,10 +271,6 @@ const TeamGalleryWrapper: React.FC<TeamGalleryWrapperProps> = ({ teamMembers, al
                   checked={selectedRoles.includes(role)}
                   onCheckedChange={(checked) => {
                     handleRoleChange(role, Boolean(checked));
-                    if (Boolean(checked) && isAllSelected) {
-                        // If "All" was selected and a specific role is now checked, deselect "All" implicitly
-                        // This is handled by selectedRoles no longer being empty.
-                    }
                   }}
                 />
                 <Label htmlFor={`role-${role.toLowerCase().replace(/\s+/g, '-')}`} className="text-sm cursor-pointer">
@@ -223,8 +286,12 @@ const TeamGalleryWrapper: React.FC<TeamGalleryWrapperProps> = ({ teamMembers, al
       <div className="md:col-span-9 lg:col-span-9">
         {filteredMembers.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredMembers.map(member => (
-              <TeamMemberCard key={member.id} member={member} onViewProfile={handleViewProfile} />
+            {filteredMembers.map((member, index) => (
+              <TeamMemberCard 
+                key={member.id} 
+                member={member} 
+                onViewProfile={handleViewProfile} 
+              />
             ))}
           </div>
         ) : (

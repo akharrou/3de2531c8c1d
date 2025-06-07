@@ -4,11 +4,24 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Award, Medal, UserCheck, CheckCircle, Briefcase, Sparkles, BookOpen, ArrowRight } from 'lucide-react';
+import { Award, Medal, UserCheck, CheckCircle, Briefcase, Sparkles, BookOpen, ArrowRight, Linkedin as LinkedinIcon, MessageSquare } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import { cn } from '@/lib/utils';
+
+const XLogo = ({ className }: { className?: string }) => (
+  <svg
+    className={cn("h-4 w-4", className)} // Adjusted size for card icon
+    fill="currentColor"
+    viewBox="0 0 50 50"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path d="M6.5605469,3 L20.001953,20.6875 L6.96875,38 L10.03125,38 L21.53125,22.65625 L31.599609,38 L43.439453,38 L28.908203,19.160156 L42.439453,3 L39.371094,3 L27.341797,17.34375 L18.400391,3 L6.5605469,3 z M12.03125,5 L16.96875,5 L37.96875,36 L33.03125,36 L12.03125,5 z" />
+  </svg>
+);
 
 interface Doctor {
   id: string;
@@ -20,6 +33,10 @@ interface Doctor {
   bio: string[];
   education: string[];
   achievements: Array<{ title: string; icon: React.ReactNode }>;
+  socials?: {
+    x?: string;
+    linkedin?: string;
+  };
 }
 
 const doctorsData: Doctor[] = [
@@ -44,7 +61,11 @@ const doctorsData: Doctor[] = [
       { title: 'Fellow of the American College of Cardiology (FACC)', icon: <Medal className="w-5 h-5 mr-2 text-primary" /> },
       { title: 'Top Doctor Award (2021-2023)', icon: <UserCheck className="w-5 h-5 mr-2 text-primary" /> },
       { title: 'Advanced Heart Failure & Transplant Cardiology Specialist', icon: <CheckCircle className="w-5 h-5 mr-2 text-primary" /> },
-    ]
+    ],
+    socials: {
+      x: 'https://x.com/drsarahchen_placeholder',
+      linkedin: 'https://linkedin.com/in/drsarahchen_placeholder'
+    }
   },
   {
     id: 'james-lee',
@@ -67,7 +88,10 @@ const doctorsData: Doctor[] = [
       { title: 'Director of Cardiac Catheterization Laboratory', icon: <Briefcase className="w-5 h-5 mr-2 text-primary" /> },
       { title: 'Pioneer in Transcatheter Valve Therapies', icon: <Sparkles className="w-5 h-5 mr-2 text-primary" /> },
       { title: 'Clinical Excellence Award (2022)', icon: <UserCheck className="w-5 h-5 mr-2 text-primary" /> },
-    ]
+    ],
+    socials: {
+      linkedin: 'https://linkedin.com/in/drjameslee_placeholder'
+    }
   },
   {
     id: 'emily-carter',
@@ -91,7 +115,10 @@ const doctorsData: Doctor[] = [
       { title: 'Specialist in Lipidology', icon: <CheckCircle className="w-5 h-5 mr-2 text-primary" /> },
       { title: 'Author of \"Heart Smart Living\"', icon: <BookOpen className="w-5 h-5 mr-2 text-primary" /> },
       { title: 'Community Health Advocate Award', icon: <UserCheck className="w-5 h-5 mr-2 text-primary" /> },
-    ]
+    ],
+    socials: {
+      x: 'https://x.com/dremilycarter_placeholder'
+    }
   }
 ];
 
@@ -140,6 +167,37 @@ export default function AboutSection() {
                 priority={index < 3} 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              {/* Social Icons */}
+              {(doctor.socials?.x || doctor.socials?.linkedin) && (
+                <div className="absolute top-4 right-4 z-20 flex space-x-2">
+                  {doctor.socials.x && (
+                    <a
+                      href={doctor.socials.x}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white hover:text-primary transition-colors duration-200"
+                      aria-label={`${doctor.name} on X`}
+                      onClick={(e) => e.stopPropagation()} // Prevent card click when icon is clicked
+                    >
+                      <XLogo className="h-5 w-5" />
+                    </a>
+                  )}
+                  {doctor.socials.linkedin && (
+                    <a
+                      href={doctor.socials.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white hover:text-primary transition-colors duration-200"
+                      aria-label={`${doctor.name} on LinkedIn`}
+                      onClick={(e) => e.stopPropagation()} // Prevent card click when icon is clicked
+                    >
+                      <LinkedinIcon className="h-5 w-5" />
+                    </a>
+                  )}
+                </div>
+              )}
+
               <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white z-10">
                 <h3 className="font-headline text-xl sm:text-2xl font-semibold">{doctor.name}</h3>
                 <p className="text-sm sm:text-base opacity-90">{doctor.shortTitle}</p>
@@ -194,6 +252,35 @@ export default function AboutSection() {
                       ))}
                     </div>
                   </div>
+                  {(selectedDoctor.socials?.x || selectedDoctor.socials?.linkedin) && (
+                    <div>
+                      <h4 className="text-lg font-semibold font-headline mb-2 text-primary">Socials</h4>
+                      <div className="flex space-x-4 items-center">
+                        {selectedDoctor.socials.x && (
+                          <a
+                            href={selectedDoctor.socials.x}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center text-muted-foreground hover:text-primary transition-colors duration-200"
+                            aria-label={`${selectedDoctor.name} on X`}
+                          >
+                            <XLogo className="h-5 w-5 mr-1.5" /> X Profile
+                          </a>
+                        )}
+                        {selectedDoctor.socials.linkedin && (
+                          <a
+                            href={selectedDoctor.socials.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center text-muted-foreground hover:text-primary transition-colors duration-200"
+                            aria-label={`${selectedDoctor.name} on LinkedIn`}
+                          >
+                            <LinkedinIcon className="h-5 w-5 mr-1.5" /> LinkedIn
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </ScrollArea>
               <div className="p-6 border-t border-border flex justify-end">
@@ -208,4 +295,3 @@ export default function AboutSection() {
     </section>
   );
 }
-
