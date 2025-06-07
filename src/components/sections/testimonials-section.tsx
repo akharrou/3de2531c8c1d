@@ -1,6 +1,8 @@
 
-import React from 'react';
-import { Star, Smile, TrendingUp, Award, ShieldCheck, CalendarDays } from 'lucide-react'; // Added CalendarDays, removed Users
+"use client";
+
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { Star, Smile, TrendingUp, Award, ShieldCheck, CalendarDays } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
@@ -94,7 +96,7 @@ const kpiData = [
 
 const TestimonialCard: React.FC<{ testimonial: TestimonialData }> = ({ testimonial }) => {
   return (
-    <Card className="bg-card text-card-foreground rounded-xl shadow-lg w-[300px] md:w-[350px] h-auto flex-shrink-0 mx-4">
+    <Card className="bg-card text-card-foreground rounded-xl shadow-lg w-[300px] md:w-[350px] h-auto flex-shrink-0 mx-4 cursor-grab">
       <CardContent className="p-6 flex flex-col justify-between h-full">
         <div>
           <div className="flex justify-between items-start mb-3">
@@ -124,16 +126,78 @@ const TestimonialCard: React.FC<{ testimonial: TestimonialData }> = ({ testimoni
 };
 
 const MarqueeRow: React.FC<{ testimonials: TestimonialData[]; direction: 'left' | 'right'; className?: string }> = ({ testimonials, direction, className }) => {
-  const animationClass = direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right';
-  const itemsToRender = testimonials.length > 0 ? [...testimonials, ...testimonials, ...testimonials, ...testimonials] : []; 
+  const baseAnimationClass = direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right';
+  const itemsToRender = testimonials.length > 0 ? [...Array(4)].flatMap(() => testimonials) : []; 
+
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [currentX, setCurrentX] = useState(0); // Tracks the current translateX
+  const [hasDragged, setHasDragged] = useState(false); // To disable CSS animation after first drag
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!marqueeRef.current) return;
+    e.preventDefault(); // Prevent text selection/default drag behavior
+    setIsDragging(true);
+    setHasDragged(true); // Permanently disable CSS animation after first drag
+    setStartX(e.pageX - currentX); // Adjust startX by current translation
+    marqueeRef.current.style.cursor = 'grabbing';
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging || !marqueeRef.current) return;
+    e.preventDefault();
+    const x = e.pageX;
+    setCurrentX(x - startX);
+  };
+
+  const handleMouseUpOrLeave = () => {
+    if (!marqueeRef.current || !isDragging) return;
+    setIsDragging(false);
+    marqueeRef.current.style.cursor = 'grab';
+  };
+  
+  // Effect to apply transform style
+  useEffect(() => {
+    if (marqueeRef.current && hasDragged) {
+      marqueeRef.current.style.transform = `translateX(${currentX}px)`;
+    }
+  }, [currentX, hasDragged]);
+  
+  // Effect to set initial position for right-to-left if CSS animation was used
+  // And handle disabling animation class after drag
+  useEffect(() => {
+    if (marqueeRef.current && !hasDragged && direction === 'right') {
+      // This approximates the -50% starting point of the CSS animation
+      // It assumes the content is duplicated enough to fill 2x its visible container initially
+      // This might need adjustment based on actual container/content widths
+      // For simplicity, we are removing this initial offset if using drag from start.
+      // setCurrentX(-marqueeRef.current.scrollWidth / 2);
+    }
+  }, [direction, hasDragged, itemsToRender.length]);
+
 
   if (itemsToRender.length === 0) return null;
 
   return (
-    <div className={cn("flex", className)}>
-      <div className={cn("flex py-4", animationClass)} style={{ animationDuration: `${testimonials.length * 15}s`}}>
+    <div 
+      className={cn("flex overflow-hidden", className)} // Added overflow-hidden to parent
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUpOrLeave}
+      onMouseLeave={handleMouseUpOrLeave} // Stop dragging if mouse leaves container
+    >
+      <div 
+        ref={marqueeRef}
+        className={cn(
+          "flex py-4", 
+          !hasDragged && baseAnimationClass, // Apply CSS animation only if not dragged
+          isDragging ? '' : 'hover:animate-pause' // Pause CSS animation on hover if not dragging
+        )}
+        style={hasDragged ? { transform: `translateX(${currentX}px)` } : { cursor: 'grab' }}
+      >
         {itemsToRender.map((testimonial, index) => (
-          <TestimonialCard key={`${testimonial.id}-${index}`} testimonial={testimonial} />
+          <TestimonialCard key={`${testimonial.id}-${index}-${direction}`} testimonial={testimonial} />
         ))}
       </div>
     </div>
@@ -166,7 +230,6 @@ export default function TestimonialsSection() {
           </p>
         </div>
 
-        {/* KPI Section */}
         {kpiData.length > 0 && (
           <div className="mb-16 md:mb-20">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
