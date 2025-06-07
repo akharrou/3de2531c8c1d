@@ -160,7 +160,7 @@ export default function AboutSection() {
           {doctorsData.map((doctor, index) => (
             <div
               key={doctor.id}
-              className="relative rounded-2xl shadow-xl overflow-hidden aspect-[3/4] cursor-pointer group animate-fadeInUp"
+              className="relative rounded-2xl shadow-xl overflow-hidden aspect-[9/16] cursor-pointer group animate-fadeInUp"
               style={{ animationDelay: `${0.2 + index * 0.1}s` }}
               onClick={() => openModal(doctor)}
               tabIndex={0}
@@ -256,3 +256,4 @@ export default function AboutSection() {
     </section>
   );
 }
+
