@@ -12,7 +12,7 @@ export default function ContactSection() {
         <div className="text-center mb-16">
           <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-primary">Contact Us & Plan Your Visit</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Whether you have a question, wish to schedule an appointment, or need to find our clinic, all the information you need is right here.
+            Reach out, book your visit, or stop by—our team is ready to help.
           </p>
         </div>
 
@@ -86,4 +86,3 @@ export default function ContactSection() {
     </section>
   );
 }
-
