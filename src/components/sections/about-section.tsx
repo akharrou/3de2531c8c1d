@@ -51,7 +51,7 @@ const doctorsData: Doctor[] = [
     shortTitle: 'Lead Interventional Cardiologist',
     longTitle: 'MD, PhD, FACC, Lead Interventional Cardiologist',
     imageUrl: 'https://placehold.co/600x800.png',
-    dataAiHint: 'doctor portrait man professional',
+    dataAiHint: 'doctor portrait man professional depth',
     bio: [
       "Dr. James Lee is a distinguished interventional cardiologist known for his pioneering work in minimally invasive cardiac procedures. With a strong background in both clinical practice and cardiovascular research, Dr. Lee brings a wealth of knowledge to complex cases, always prioritizing patient safety and optimal outcomes.",
       "He is particularly recognized for his expertise in transcatheter valve replacement and repair, offering patients advanced alternatives to traditional open-heart surgery. Dr. Lee is dedicated to innovation and actively contributes to clinical trials shaping the future of cardiology."
@@ -74,7 +74,7 @@ const doctorsData: Doctor[] = [
     shortTitle: 'Preventive Cardiology Specialist',
     longTitle: 'MD, MPH, Preventive Cardiology Specialist',
     imageUrl: 'https://placehold.co/600x800.png',
-    dataAiHint: 'doctor portrait woman friendly',
+    dataAiHint: 'doctor portrait woman friendly office',
     bio: [
       "Dr. Emily Carter is dedicated to the proactive prevention of heart disease. She focuses on early detection, risk factor modification, and patient education to empower individuals to take control of their cardiovascular health. Dr. Carter is known for her thorough, personalized approach to developing lifestyle and medical strategies for long-term wellness.",
       "She is passionate about community health and frequently engages in outreach programs to promote heart-healthy living. Her research interests include the impact of nutrition and exercise on cardiac outcomes."
@@ -133,9 +133,8 @@ export default function AboutSection() {
               <Image
                 src={doctor.imageUrl}
                 alt={doctor.name}
-                layout="fill"
-                objectFit="cover"
-                className="transform group-hover:scale-105 transition-transform duration-500 ease-in-out"
+                fill
+                className="object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"
                 data-ai-hint={doctor.dataAiHint}
                 priority={index < 2} 
               />
@@ -199,4 +198,3 @@ export default function AboutSection() {
     </section>
   );
 }
-
