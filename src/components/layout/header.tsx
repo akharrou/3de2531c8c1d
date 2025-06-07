@@ -16,6 +16,12 @@ import {
 import NavLink from '@/components/nav-link';
 import { cn } from "@/lib/utils";
 
+const aboutSubItems = [
+  { label: 'Our Practice', href: '/about/our-practice' },
+  { label: 'Our Mission & Values', href: '/about/our-mission-values' },
+  { label: 'Our Team', href: '/about/our-team' },
+];
+
 const serviceSubItems = [
   { label: 'Advanced Cardiac Diagnostics', href: '/services/advanced-cardiac-diagnostics' },
   { label: 'Minimally Invasive Surgery', href: '/services/minimally-invasive-surgery' },
@@ -29,25 +35,29 @@ const resourcesSubItems = [
 ];
 
 const navItems = [
-  { label: 'About', href: '/#about' },
+  {
+    label: 'About',
+    isDropdown: true,
+    subItems: aboutSubItems,
+    // No top-level href, it's just a dropdown trigger
+  },
   {
     label: 'Services',
     isDropdown: true,
     subItems: serviceSubItems,
-    href: '/#services'
+    href: '/#services' // Main services link still points to section
   },
   {
     label: 'Resources',
     isDropdown: true,
     subItems: resourcesSubItems,
-    href: '/#resources' 
+    href: '/#resources' // Main resources link could point to a general resources page or a key section
   },
   { label: 'Contact', href: '/#contact' },
 ];
 
 export default function Header() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  // Removed scheduleUrl state as the button will now always link to #contact
 
   const renderScheduleButton = (isMobile = false) => {
     const buttonProps = isMobile 
@@ -94,9 +104,20 @@ export default function Header() {
                       variant="ghost"
                       className={cn(
                         "px-3 py-2 rounded-md font-medium transition-colors duration-200 hover:text-accent focus-visible:ring-0 focus-visible:ring-offset-0 text-sm",
+                         // If item.href exists, it means this dropdown trigger might also be a link
+                        item.href ? "data-[state=open]:bg-accent/50" : "data-[state=open]:bg-accent/50"
                       )}
+                      // Conditionally render as NavLink if item.href exists
+                      // For now, all dropdown triggers are just buttons.
+                      // If we want the main dropdown item to also be a link, we'd need different logic.
                     >
-                      {item.label}
+                      {item.href ? (
+                        <NavLink href={item.href} className="!p-0 !hover:bg-transparent !text-current">
+                          {item.label}
+                        </NavLink>
+                      ) : (
+                        item.label
+                      )}
                       <ChevronDown className="ml-1 h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -113,10 +134,9 @@ export default function Header() {
               ) : (
                 <NavLink 
                   key={item.label} 
-                  href={item.href} 
+                  href={item.href as string} 
                   className={cn(
-                    "px-3 py-2 rounded-md font-medium transition-colors duration-200 hover:text-accent text-sm",
-                     item.href === "/#contact" ? "mr-2" : "" // Keep margin if it's the contact link, adjust if needed
+                    "px-3 py-2 rounded-md font-medium transition-colors duration-200 hover:text-accent text-sm"
                   )}
                 >
                   {item.label}
@@ -154,7 +174,24 @@ export default function Header() {
                   {navItems.map((item) =>
                     item.isDropdown ? (
                       <div key={item.label} className="py-1">
-                        <span className="block text-lg hover:text-accent py-1 font-medium text-muted-foreground cursor-default">{item.label}</span>
+                        <span 
+                          className={cn(
+                            "block text-lg hover:text-accent py-1 font-medium cursor-default",
+                            item.href ? "text-foreground" : "text-muted-foreground"
+                          )}
+                          onClick={() => {
+                            if(item.href) {
+                              // Handle navigation if main dropdown is a link
+                              const targetId = item.href.substring(1);
+                              const targetElement = document.getElementById(targetId);
+                              if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });
+                              setIsSheetOpen(false);
+                            }
+                          }}
+                        >
+                          {item.label}
+                          {!item.href && <ChevronDown className="inline-block ml-1 h-4 w-4 relative -top-0.5" />}
+                        </span>
                         <div className="pl-4 mt-1 space-y-1 border-l border-border ml-2">
                           {item.subItems?.map((subItem) => (
                             <NavLink
@@ -171,7 +208,7 @@ export default function Header() {
                     ) : (
                       <NavLink
                         key={item.label}
-                        href={item.href}
+                        href={item.href as string}
                         onClick={() => setIsSheetOpen(false)}
                         className="block text-lg hover:text-accent py-2"
                       >
