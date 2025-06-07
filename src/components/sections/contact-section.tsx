@@ -10,9 +10,9 @@ export default function ContactSection() {
     <section id="contact" className="pt-12 pb-24 bg-secondary">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-primary">Get In Touch</h2>
+          <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-primary">Contact Us & Plan Your Visit</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            We&apos;re here to help. Reach out to schedule an appointment or ask any questions.
+            Whether you have a question, wish to schedule an appointment, or need to find our clinic, all the information you need is right here.
           </p>
         </div>
 
@@ -52,7 +52,7 @@ export default function ContactSection() {
             {/* Left: Title and Tagline */}
             <div>
               <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Walk-in Clinic</h3>
-              <p className="text-sm text-muted-foreground max-w-md"> {/* Added max-w-md to prevent tagline from being too wide */}
+              <p className="text-sm text-muted-foreground max-w-md"> 
                 No appointment needed—walk in whenever it’s convenient during clinic hours—our cardiac team is ready for quick questions, routine care, or urgent check-ins.
               </p>
             </div>
@@ -86,3 +86,4 @@ export default function ContactSection() {
     </section>
   );
 }
+
