@@ -66,7 +66,7 @@ export default function OurOfficeFacilitiesPage() {
           <div className="container mx-auto px-6 lg:px-8">
             <Building className="w-16 h-16 text-primary mx-auto mb-6" />
             <h1 className="font-headline text-4xl md:text-5xl xl:text-6xl font-bold text-primary mb-6">
-              Our Office & Facilities
+              Our Office &amp; Facilities
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
               Step into a space designed for healing, comfort, and cutting-edge cardiac care.
@@ -195,8 +195,8 @@ export default function OurOfficeFacilitiesPage() {
                 </Button>
               </Link>
                <Link href="/#contact" passHref legacyBehavior>
-                <Button size="lg" variant="outline" className="rounded-xl text-base px-8 py-3 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                  View Map & Directions
+                <Button size="lg" variant="outline" className="rounded-xl text-base px-8 py-3 border-primary-foreground text-primary hover:bg-primary-foreground hover:text-primary">
+                  View Map &amp; Directions
                 </Button>
               </Link>
             </div>
