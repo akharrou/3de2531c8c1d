@@ -4,7 +4,7 @@ import Script from 'next/script';
 
 export default function ContactSection() {
   const officeAddress = "123 Heartbeat Avenue, Cardio City, CA 90210";
-  const googleMapsEmbedUrl = `https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&q=${encodeURIComponent(officeAddress)}`;
+  const googleMapsEmbedUrl = `https://www.google.com/maps/embed/v1/place?key=${process.env.GOOGLE_MAPS_APIKEY}&q=${encodeURIComponent(officeAddress)}`;
 
   return (
     <section id="contact" className="pt-12 pb-24 bg-secondary">
