@@ -20,9 +20,10 @@ export default function ContactSection() {
           <div className="bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp flex flex-col h-[700px]" style={{ animationDelay: '0.2s' }}>
             <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Inquiries</h3>
             <p className="text-sm text-muted-foreground mb-6">
-              Have a question, comment, or just want to say hello? Reach out to us with the form below and our team will get back to you—usually within one business day.
+              Have a question, comment, or just want to say hello? Send us a message below and our team will get back to you—usually within one business day.
             </p>
             <ContactForm />
+            <div className="flex-grow"></div> {/* This spacer pushes the form content up */}
           </div>
 
           {/* Schedule Visit Calendly Embed */}
@@ -66,4 +67,3 @@ export default function ContactSection() {
     </section>
   );
 }
-
