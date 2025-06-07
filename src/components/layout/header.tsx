@@ -132,7 +132,7 @@ export default function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const renderScheduleButton = (isMobile = false) => {
-    const desktopButtonClass = "rounded-md bg-white text-primary hover:bg-white/90 focus-visible:ring-white";
+    const desktopButtonClass = "rounded-md bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-primary";
     const mobileButtonClass = "w-full rounded-md py-3 text-base bg-primary text-primary-foreground hover:bg-primary/90";
     
     return (
@@ -147,19 +147,19 @@ export default function Header() {
   return (
     <header className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      "bg-primary text-primary-foreground shadow-lg py-3" // Main navbar: crimson background, white text
+      "bg-card text-foreground shadow-lg py-3" 
     )}>
       <div className="container mx-auto px-6 lg:px-8 flex items-center justify-between h-12">
         <Link href="/" className="flex items-center gap-2 group">
           <Image
-            src="/images/logo-red-blank.png" // Ensure this logo has a transparent background or is suitable for crimson
+            src="/images/logo-red-blank.png" 
             alt="Chen Cardiology Logo"
             width={32}
             height={32}
             className="h-8 w-auto"
             priority
           />
-          <span className="font-headline text-xl font-semibold text-primary-foreground group-hover:text-primary-foreground/90 transition-colors">
+          <span className="font-headline text-xl font-semibold text-primary group-hover:text-primary/90 transition-colors">
             Chen Cardiology
           </span>
         </Link>
@@ -173,9 +173,9 @@ export default function Header() {
                   <Button
                     variant="ghost"
                     className={cn(
-                      "px-3 py-2 rounded-md font-medium transition-colors duration-150 hover:text-primary-foreground focus-visible:ring-0 focus-visible:ring-offset-0 text-sm text-primary-foreground",
-                      "hover:bg-primary/80", // Hover for nav items on crimson bar
-                      openDropdown === item.label && "bg-primary/80 text-primary-foreground" // Active nav item
+                      "px-3 py-2 rounded-md font-medium transition-colors duration-150 focus-visible:ring-0 focus-visible:ring-offset-0 text-sm",
+                      "text-foreground hover:bg-secondary hover:text-primary", 
+                      openDropdown === item.label && "bg-secondary text-primary" 
                     )}
                   >
                     {item.href && !item.isMegaMenu && !item.isSimpleDropdown ? (
@@ -185,14 +185,14 @@ export default function Header() {
                     ) : (
                       item.label
                     )}
-                    {(item.isMegaMenu || item.isSimpleDropdown) && <ChevronDown className="ml-1 h-4 w-4 text-primary-foreground" />}
+                    {(item.isMegaMenu || item.isSimpleDropdown) && <ChevronDown className="ml-1 h-4 w-4 text-foreground" />}
                   </Button>
                 </DropdownMenuTrigger>
                 
                 {item.isMegaMenu && item.megaMenuGroups && item.megaMenuCta && (
                   <DropdownMenuContent
                     align="start"
-                    className="bg-card shadow-2xl rounded-lg border-border mt-2 p-0 min-w-[720px] max-w-5xl text-card-foreground" // Dropdown: white bg, black text
+                    className="bg-card shadow-2xl rounded-lg border-border mt-2 p-0 min-w-[720px] max-w-5xl text-card-foreground" 
                   >
                     <div className="flex">
                       <div className="grid grid-cols-2 gap-x-6 gap-y-4 p-6 flex-grow">
@@ -212,7 +212,7 @@ export default function Header() {
                           </div>
                         ))}
                       </div>
-                      <div className="bg-secondary p-6 rounded-r-lg w-[300px] flex-shrink-0"> {/* CTA block: light grey bg */}
+                      <div className="bg-secondary p-6 rounded-r-lg w-[300px] flex-shrink-0"> 
                         <h4 className="font-semibold text-primary mb-2 text-md">{item.megaMenuCta.title}</h4>
                         <p className="text-xs text-muted-foreground mb-3">{item.megaMenuCta.description}</p>
                         <div className="aspect-video rounded-md overflow-hidden mb-4 relative">
@@ -247,12 +247,12 @@ export default function Header() {
         <div className="md:hidden">
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-primary-foreground/90 hover:bg-primary/80">
+              <Button variant="ghost" size="icon" className="text-foreground hover:text-primary hover:bg-secondary">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[280px] bg-background p-6 flex flex-col text-foreground border-l border-border"> {/* Mobile sheet: white bg, black text */}
+            <SheetContent side="right" className="w-[280px] bg-background p-6 flex flex-col text-foreground border-l border-border"> 
               <div>
                 <Link href="/" className="flex items-center gap-2 mb-6" onClick={() => setIsSheetOpen(false)}>
                   <Image
@@ -262,14 +262,14 @@ export default function Header() {
                     height={32}
                     className="h-8 w-auto"
                   />
-                   <span className="font-headline text-lg font-semibold text-primary"> {/* Logo text: crimson */}
+                   <span className="font-headline text-lg font-semibold text-primary"> 
                     Chen Cardiology
                   </span>
                 </Link>
                 <nav className="flex flex-col space-y-1">
                   {navItems.map((item) => {
                     if (item.isMegaMenu || item.isSimpleDropdown) {
-                      const subItems = item.isMegaMenu ? item.megaMenuGroups?.flatMap(g => g.items) : item.subItems;
+                      const subItems = item.isMegaMenu ? item.megaMenuGroups?.flatMap(g => g.items.map(si => ({ label: si.label, href: si.href }))) : item.subItems;
                       return (
                         <div key={item.label} className="py-1">
                           <span
@@ -289,14 +289,14 @@ export default function Header() {
                             <ChevronDown className="inline-block ml-1 h-4 w-4 relative -top-0.5 text-foreground" />
                           </span>
                           <div className="pl-4 mt-1 space-y-1 border-l border-border ml-2">
-                            {subItems?.map((subItem) => (
+                            {subItems?.map((subItemLink) => (
                               <NavLink
-                                key={subItem.label}
-                                href={subItem.href}
+                                key={subItemLink.label}
+                                href={subItemLink.href}
                                 onClick={() => setIsSheetOpen(false)}
                                 className="block text-base hover:text-primary py-1.5 !px-2 !font-normal text-muted-foreground"
                               >
-                                {subItem.label}
+                                {subItemLink.label}
                               </NavLink>
                             ))}
                           </div>
