@@ -29,7 +29,7 @@ const doctorsData: Doctor[] = [
     name: 'Dr. Sarah Chen',
     shortTitle: 'Chief of Cardiology',
     longTitle: 'MD, FACC, Chief of Cardiology, Cardiac Surgeon',
-    imageUrl: 'https://placehold.co/600x800.png',
+    imageUrl: 'https://placehold.co/600x800.png', // Will be displayed with aspect-square
     dataAiHint: 'doctor portrait woman professional',
     bio: [
       "Dr. Sarah Chen is a highly respected and experienced cardiologist renowned for her expertise in diagnosing and treating a wide range of cardiovascular conditions. With over 15 years of dedicated service, Dr. Chen combines cutting-edge medical advancements with a compassionate, patient-centered approach.",
@@ -52,7 +52,7 @@ const doctorsData: Doctor[] = [
     name: 'Dr. James Lee',
     shortTitle: 'Lead Interventional Cardiologist',
     longTitle: 'MD, PhD, FACC, Lead Interventional Cardiologist',
-    imageUrl: 'https://placehold.co/600x800.png',
+    imageUrl: 'https://placehold.co/600x800.png', // Will be displayed with aspect-square
     dataAiHint: 'doctor portrait man professional',
     bio: [
       "Dr. James Lee is a distinguished interventional cardiologist known for his pioneering work in minimally invasive cardiac procedures. With a strong background in both clinical practice and cardiovascular research, Dr. Lee brings a wealth of knowledge to complex cases, always prioritizing patient safety and optimal outcomes.",
@@ -138,8 +138,6 @@ export default function AboutSection() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    // Optional: Delay clearing selectedDoctor to allow fade-out animation of modal
-    // setTimeout(() => setSelectedDoctor(null), 300); // Dialog handles its own state for content
   };
 
   const midPoint = Math.ceil(teamMembersData.length / 2);
@@ -160,7 +158,7 @@ export default function AboutSection() {
           {doctorsData.map((doctor, index) => (
             <div
               key={doctor.id}
-              className="relative rounded-2xl shadow-xl overflow-hidden aspect-[9/16] cursor-pointer group animate-fadeInUp"
+              className="relative rounded-2xl shadow-xl overflow-hidden aspect-square cursor-pointer group animate-fadeInUp"
               style={{ animationDelay: `${0.2 + index * 0.1}s` }}
               onClick={() => openModal(doctor)}
               tabIndex={0}
@@ -175,7 +173,7 @@ export default function AboutSection() {
                 objectFit="cover"
                 className="transform group-hover:scale-105 transition-transform duration-500 ease-in-out"
                 data-ai-hint={doctor.dataAiHint}
-                priority={index < 2} // Prioritize loading for above-the-fold images
+                priority={index < 2} 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white z-10">
