@@ -132,13 +132,12 @@ export default function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const renderScheduleButton = (isMobile = false) => {
-    const buttonProps = isMobile
-      ? { size: "default" as const, className: "w-full rounded-md py-3 text-base bg-primary text-primary-foreground hover:bg-primary/90" }
-      : { size: "sm" as const, className: "rounded-md bg-primary text-primary-foreground hover:bg-primary/90" };
-
+    const desktopButtonClass = "rounded-md bg-white text-primary hover:bg-white/90 focus-visible:ring-white";
+    const mobileButtonClass = "w-full rounded-md py-3 text-base bg-primary text-primary-foreground hover:bg-primary/90";
+    
     return (
       <NavLink href="/#contact" onClick={() => isMobile && setIsSheetOpen(false)} className={cn(!isMobile && "ml-4")}>
-        <Button {...buttonProps}>
+        <Button size={isMobile ? "default" : "sm"} className={isMobile ? mobileButtonClass : desktopButtonClass}>
           Schedule Visit
         </Button>
       </NavLink>
@@ -148,19 +147,19 @@ export default function Header() {
   return (
     <header className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      "bg-slate-900 text-slate-200 shadow-lg py-3"
+      "bg-primary text-primary-foreground shadow-lg py-3" // Main navbar: crimson background, white text
     )}>
       <div className="container mx-auto px-6 lg:px-8 flex items-center justify-between h-12">
         <Link href="/" className="flex items-center gap-2 group">
           <Image
-            src="/images/logo-red-blank.png" // Assuming this logo works on dark, otherwise use a white variant
+            src="/images/logo-red-blank.png" // Ensure this logo has a transparent background or is suitable for crimson
             alt="Chen Cardiology Logo"
             width={32}
             height={32}
             className="h-8 w-auto"
             priority
           />
-          <span className="font-headline text-xl font-semibold text-white group-hover:text-slate-300 transition-colors">
+          <span className="font-headline text-xl font-semibold text-primary-foreground group-hover:text-primary-foreground/90 transition-colors">
             Chen Cardiology
           </span>
         </Link>
@@ -174,10 +173,9 @@ export default function Header() {
                   <Button
                     variant="ghost"
                     className={cn(
-                      "px-3 py-2 rounded-md font-medium transition-colors duration-150 hover:text-white focus-visible:ring-0 focus-visible:ring-offset-0 text-sm",
-                      item.href && "hover:bg-slate-700", // if it's also a link
-                      !item.href && "hover:bg-slate-700", // if it's just a dropdown trigger
-                      openDropdown === item.label && "bg-slate-700 text-white"
+                      "px-3 py-2 rounded-md font-medium transition-colors duration-150 hover:text-primary-foreground focus-visible:ring-0 focus-visible:ring-offset-0 text-sm text-primary-foreground",
+                      "hover:bg-primary/80", // Hover for nav items on crimson bar
+                      openDropdown === item.label && "bg-primary/80 text-primary-foreground" // Active nav item
                     )}
                   >
                     {item.href && !item.isMegaMenu && !item.isSimpleDropdown ? (
@@ -187,26 +185,26 @@ export default function Header() {
                     ) : (
                       item.label
                     )}
-                    {(item.isMegaMenu || item.isSimpleDropdown) && <ChevronDown className="ml-1 h-4 w-4" />}
+                    {(item.isMegaMenu || item.isSimpleDropdown) && <ChevronDown className="ml-1 h-4 w-4 text-primary-foreground" />}
                   </Button>
                 </DropdownMenuTrigger>
                 
                 {item.isMegaMenu && item.megaMenuGroups && item.megaMenuCta && (
                   <DropdownMenuContent
                     align="start"
-                    className="bg-slate-800 shadow-2xl rounded-lg border-slate-700 mt-2 p-0 min-w-[720px] max-w-5xl text-slate-200"
+                    className="bg-card shadow-2xl rounded-lg border-border mt-2 p-0 min-w-[720px] max-w-5xl text-card-foreground" // Dropdown: white bg, black text
                   >
                     <div className="flex">
                       <div className="grid grid-cols-2 gap-x-6 gap-y-4 p-6 flex-grow">
                         {item.megaMenuGroups.map((group) => (
                           <div key={group.title}>
-                            <h3 className="text-xs uppercase font-semibold text-slate-400 mb-3 tracking-wider">{group.title}</h3>
+                            <h3 className="text-xs uppercase font-semibold text-muted-foreground mb-3 tracking-wider">{group.title}</h3>
                             <ul className="space-y-1">
                               {group.items.map((subItem) => (
                                 <li key={subItem.label}>
-                                  <Link href={subItem.href} className="block p-2 -ml-2 rounded-md hover:bg-slate-700 transition-colors group">
-                                    <span className="font-medium text-sm text-white group-hover:text-primary-foreground">{subItem.label}</span>
-                                    <p className="text-xs text-slate-400 group-hover:text-slate-300">{subItem.description}</p>
+                                  <Link href={subItem.href} className="block p-2 -ml-2 rounded-md hover:bg-secondary transition-colors group">
+                                    <span className="font-medium text-sm text-card-foreground group-hover:text-primary">{subItem.label}</span>
+                                    <p className="text-xs text-muted-foreground group-hover:text-muted-foreground/80">{subItem.description}</p>
                                   </Link>
                                 </li>
                               ))}
@@ -214,9 +212,9 @@ export default function Header() {
                           </div>
                         ))}
                       </div>
-                      <div className="bg-slate-700/50 p-6 rounded-r-lg w-[300px] flex-shrink-0">
-                        <h4 className="font-semibold text-white mb-2 text-md">{item.megaMenuCta.title}</h4>
-                        <p className="text-xs text-slate-300 mb-3">{item.megaMenuCta.description}</p>
+                      <div className="bg-secondary p-6 rounded-r-lg w-[300px] flex-shrink-0"> {/* CTA block: light grey bg */}
+                        <h4 className="font-semibold text-primary mb-2 text-md">{item.megaMenuCta.title}</h4>
+                        <p className="text-xs text-muted-foreground mb-3">{item.megaMenuCta.description}</p>
                         <div className="aspect-video rounded-md overflow-hidden mb-4 relative">
                            <Image src={item.megaMenuCta.imageUrl} alt={item.megaMenuCta.title} fill className="object-cover" data-ai-hint={item.megaMenuCta.imageHint} />
                         </div>
@@ -229,10 +227,10 @@ export default function Header() {
                 )}
 
                 {item.isSimpleDropdown && item.subItems && (
-                   <DropdownMenuContent align="start" className="bg-slate-800 shadow-lg rounded-lg border-slate-700 mt-2 w-56 text-slate-200">
+                   <DropdownMenuContent align="start" className="bg-card shadow-lg rounded-lg border-border mt-2 w-56 text-card-foreground">
                     {item.subItems.map((subItem) => (
-                      <DropdownMenuItem key={subItem.label} asChild className="cursor-pointer focus:bg-slate-700 focus:text-white">
-                        <Link href={subItem.href} className="block px-4 py-2 text-sm text-slate-200 hover:text-white w-full">
+                      <DropdownMenuItem key={subItem.label} asChild className="cursor-pointer focus:bg-secondary focus:text-primary">
+                        <Link href={subItem.href} className="block px-4 py-2 text-sm text-card-foreground hover:text-primary w-full">
                           {subItem.label}
                         </Link>
                       </DropdownMenuItem>
@@ -249,22 +247,22 @@ export default function Header() {
         <div className="md:hidden">
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-slate-200 hover:text-white hover:bg-slate-700">
+              <Button variant="ghost" size="icon" className="text-primary-foreground hover:text-primary-foreground/90 hover:bg-primary/80">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Open menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[280px] bg-slate-900 p-6 flex flex-col text-slate-200 border-l border-slate-700">
+            <SheetContent side="right" className="w-[280px] bg-background p-6 flex flex-col text-foreground border-l border-border"> {/* Mobile sheet: white bg, black text */}
               <div>
                 <Link href="/" className="flex items-center gap-2 mb-6" onClick={() => setIsSheetOpen(false)}>
                   <Image
-                    src="/images/logo-red-blank.png"
+                    src="/images/logo-red-blank.png" 
                     alt="Chen Cardiology Logo"
                     width={32}
                     height={32}
                     className="h-8 w-auto"
                   />
-                   <span className="font-headline text-lg font-semibold text-white">
+                   <span className="font-headline text-lg font-semibold text-primary"> {/* Logo text: crimson */}
                     Chen Cardiology
                   </span>
                 </Link>
@@ -276,29 +274,27 @@ export default function Header() {
                         <div key={item.label} className="py-1">
                           <span
                             className={cn(
-                              "block text-lg hover:text-white py-1 font-medium cursor-default",
-                              item.href ? "text-slate-100" : "text-slate-300" // Main item that's also a link vs just a category
+                              "block text-lg hover:text-primary py-1 font-medium cursor-default text-foreground"
                             )}
                             onClick={() => {
-                              if(item.href) { // If the main dropdown item is a link itself
-                                const targetId = item.href.substring(1); // Assuming hash links
+                              if(item.href) { 
+                                const targetId = item.href.substring(1); 
                                 const targetElement = document.getElementById(targetId);
                                 if (targetElement) targetElement.scrollIntoView({ behavior: 'smooth' });
                                 setIsSheetOpen(false);
                               }
-                              // Could add toggle for sub-items here if needed
                             }}
                           >
                             {item.label}
-                            <ChevronDown className="inline-block ml-1 h-4 w-4 relative -top-0.5" />
+                            <ChevronDown className="inline-block ml-1 h-4 w-4 relative -top-0.5 text-foreground" />
                           </span>
-                          <div className="pl-4 mt-1 space-y-1 border-l border-slate-700 ml-2">
+                          <div className="pl-4 mt-1 space-y-1 border-l border-border ml-2">
                             {subItems?.map((subItem) => (
                               <NavLink
                                 key={subItem.label}
                                 href={subItem.href}
                                 onClick={() => setIsSheetOpen(false)}
-                                className="block text-base hover:text-primary py-1.5 !px-2 !font-normal text-slate-300"
+                                className="block text-base hover:text-primary py-1.5 !px-2 !font-normal text-muted-foreground"
                               >
                                 {subItem.label}
                               </NavLink>
@@ -312,7 +308,7 @@ export default function Header() {
                         key={item.label}
                         href={item.href as string}
                         onClick={() => setIsSheetOpen(false)}
-                        className="block text-lg hover:text-primary py-2 text-slate-100"
+                        className="block text-lg hover:text-primary py-2 text-foreground"
                       >
                         {item.label}
                       </NavLink>
