@@ -42,14 +42,17 @@ export default function Footer() {
         {/* Top Section: Logo, Tagline, Quick Links, Social */}
         <div className="flex flex-col md:flex-row justify-between items-start mb-10">
           <div className="flex flex-col items-start mb-6 md:mb-0">
-            <Link href="/" className="block mb-3">
+            <Link href="/" className="flex items-center gap-2 mb-3 group">
               <Image
                 src="/images/logo-red-blank.png"
-                alt="Chen Cardiology"
-                width={130}
+                alt="Chen Cardiology Logo"
+                width={35}
                 height={35}
                 className="h-9 w-auto"
               />
+              <span className="font-headline text-lg font-semibold text-primary group-hover:text-primary/80 transition-colors">
+                Chen Cardiology
+              </span>
             </Link>
             <p className="text-sm text-muted-foreground mb-4 max-w-xs">
               Providing expert cardiac care with compassion and dedication.
