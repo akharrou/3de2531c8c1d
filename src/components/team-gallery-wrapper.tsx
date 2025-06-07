@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose, DialogDescription } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { Search as SearchIcon, Eye, Mail, Phone } from 'lucide-react';
+import { Search as SearchIcon, Mail, Phone } from 'lucide-react';
 import type { TeamMember } from '@/app/about/our-team/page'; // Ensure this path is correct
 
 interface TeamMemberCardProps {
@@ -37,9 +37,6 @@ const TeamMemberCard: React.FC<TeamMemberCardProps> = ({ member, onViewProfile }
         priority
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
-      <div className="absolute top-3 right-3 z-20 p-1.5 bg-black/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out backdrop-blur-sm">
-        <Eye className="w-4 h-4 text-white" />
-      </div>
       <div className="absolute bottom-0 left-0 right-0 p-4 text-white z-10">
         <h3 className="font-headline text-lg sm:text-xl font-semibold truncate">{member.name}</h3>
         <p className="text-xs sm:text-sm opacity-90 truncate">{member.role}</p>
