@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Star } from 'lucide-react';
+import { Star, Smile, TrendingUp, Award } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
@@ -64,6 +64,24 @@ const testimonialsData: TestimonialData[] = [
   }
 ];
 
+const kpiData = [
+  {
+    icon: <Smile className="w-10 h-10 md:w-12 md:h-12 text-accent mx-auto mb-3" />,
+    value: '98%',
+    label: 'Patient Satisfaction Rate',
+  },
+  {
+    icon: <TrendingUp className="w-10 h-10 md:w-12 md:h-12 text-accent mx-auto mb-3" />,
+    value: '10,000+',
+    label: 'Successful Interventions',
+  },
+  {
+    icon: <Award className="w-10 h-10 md:w-12 md:h-12 text-accent mx-auto mb-3" />,
+    value: 'Top 1%',
+    label: 'Nationally Recognized Care',
+  },
+];
+
 const TestimonialCard: React.FC<{ testimonial: TestimonialData }> = ({ testimonial }) => {
   return (
     <Card className="bg-card text-card-foreground rounded-xl shadow-lg w-[300px] md:w-[350px] h-auto flex-shrink-0 mx-4">
@@ -97,15 +115,13 @@ const TestimonialCard: React.FC<{ testimonial: TestimonialData }> = ({ testimoni
 
 const MarqueeRow: React.FC<{ testimonials: TestimonialData[]; direction: 'left' | 'right'; className?: string }> = ({ testimonials, direction, className }) => {
   const animationClass = direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right';
-  // Ensure there are enough items for a smooth scroll, especially if the list is very short.
-  // For very short lists, more duplication might be needed or adjust animation.
-  const itemsToRender = testimonials.length > 0 ? [...testimonials, ...testimonials, ...testimonials, ...testimonials] : []; // Duplicate 4 times for longer marquee
+  const itemsToRender = testimonials.length > 0 ? [...testimonials, ...testimonials, ...testimonials, ...testimonials] : []; 
 
   if (itemsToRender.length === 0) return null;
 
   return (
     <div className={cn("flex", className)}>
-      <div className={cn("flex py-4", animationClass)} style={{ animationDuration: `${testimonials.length * 15}s`}}> {/* Adjust speed based on number of items */}
+      <div className={cn("flex py-4", animationClass)} style={{ animationDuration: `${testimonials.length * 15}s`}}>
         {itemsToRender.map((testimonial, index) => (
           <TestimonialCard key={`${testimonial.id}-${index}`} testimonial={testimonial} />
         ))}
@@ -116,17 +132,16 @@ const MarqueeRow: React.FC<{ testimonials: TestimonialData[]; direction: 'left' 
 
 
 export default function TestimonialsSection() {
-  if (testimonialsData.length === 0) {
+  if (testimonialsData.length === 0 && kpiData.length === 0) {
     return (
       <section id="testimonials" className="py-16 bg-secondary text-foreground">
         <div className="container mx-auto px-6 lg:px-8 text-center">
-          <p className="text-muted-foreground">No testimonials yet.</p>
+          <p className="text-muted-foreground">Information coming soon.</p>
         </div>
       </section>
     );
   }
 
-  // Split testimonials into two rows for the marquee
   const midPoint = Math.ceil(testimonialsData.length / 2);
   const row1Testimonials = testimonialsData.slice(0, midPoint);
   const row2Testimonials = testimonialsData.slice(midPoint);
@@ -135,24 +150,40 @@ export default function TestimonialsSection() {
     <section id="testimonials" className="py-20 bg-secondary text-foreground overflow-hidden">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-primary">Patient Stories</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Hear from those whose lives we've touched.
+          <h2 className="font-headline text-4xl md:text-5xl font-bold mb-4 text-primary">Our Track Record & Patient Stories</h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            Discover the impact of our dedicated care through proven results and heartfelt testimonials from those we've served.
           </p>
         </div>
-      </div>
-      
-      {/* Marquee Container - need to remove container padding for full-width effect or manage carefully */}
-      <div className="relative w-full max-w-none"> 
-        {/* Optional: Add fades if desired, currently removed for cleaner marquee */}
-        {/* <div className="absolute left-0 top-0 bottom-0 z-10 w-16 md:w-24 bg-gradient-to-r from-secondary to-transparent pointer-events-none"></div> */}
-        {/* <div className="absolute right-0 top-0 bottom-0 z-10 w-16 md:w-24 bg-gradient-to-l from-secondary to-transparent pointer-events-none"></div> */}
-        
-        <MarqueeRow testimonials={row1Testimonials} direction="left" />
-        {row2Testimonials.length > 0 && (
-           <MarqueeRow testimonials={row2Testimonials} direction="right" className="mt-4" />
+
+        {/* KPI Section */}
+        {kpiData.length > 0 && (
+          <div className="mb-16 md:mb-20">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {kpiData.map((kpi, index) => (
+                <div
+                  key={index}
+                  className="bg-card p-6 rounded-2xl shadow-xl text-center flex flex-col items-center justify-center transform transition-all duration-300 hover:scale-105"
+                  style={{ animationDelay: `${index * 0.1}s` }} // Optional: add animate-fadeInUp if defined globally
+                >
+                  {kpi.icon}
+                  <p className="text-3xl md:text-4xl font-bold text-primary mb-1">{kpi.value}</p>
+                  <p className="text-sm md:text-base text-muted-foreground font-medium">{kpi.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         )}
       </div>
+      
+      {testimonialsData.length > 0 && (
+        <div className="relative w-full max-w-none"> 
+          <MarqueeRow testimonials={row1Testimonials} direction="left" />
+          {row2Testimonials.length > 0 && (
+             <MarqueeRow testimonials={row2Testimonials} direction="right" className="mt-4" />
+          )}
+        </div>
+      )}
     </section>
   );
 }
