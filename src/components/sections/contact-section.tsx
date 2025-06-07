@@ -17,11 +17,11 @@ export default function ContactSection() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-start">
-          {/* Send us a message Form */}
+          {/* Inquiries Form */}
           <div className="bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp flex flex-col h-[700px]" style={{ animationDelay: '0.2s' }}>
-            <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Send Us a Message</h3>
+            <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Inquiries</h3>
             <p className="text-sm text-muted-foreground mb-6">
-              Our team will review your inquiry and get back to you shortly.
+              Have a question, comment, or just want to say hello? We’re here to help. Reach out with the form below and our team will get back to you—usually within one business day.
             </p>
             <ContactForm />
           </div>
@@ -30,30 +30,30 @@ export default function ContactSection() {
           <div className="bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp flex flex-col h-[700px]" style={{ animationDelay: '0.4s' }}>
             <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Schedule Visit</h3>
             <p className="text-sm text-muted-foreground mb-6">
-              Book a free 30-minute visit with one of our specialist cardiologists.
+              Choose a convenient date and time below, or call us at (555) 123-4567.
             </p>
             {/* Calendly inline widget begin */}
             <div
-              className="calendly-inline-widget flex-grow" // Added flex-grow
-              data-url="https://calendly.com/commons-aymen/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=a41e39" // Ensure this URL is precise
-              style={{ width: '100%', overflow: 'hidden' }} // Adjusted style for full width and to allow flex-grow to manage height
+              className="calendly-inline-widget flex-grow" 
+              data-url="https://calendly.com/commons-aymen/30min?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=a41e39" 
+              style={{ width: '100%', overflow: 'hidden' }} 
             ></div>
             <Script
-              id="calendly-widget-script" // Added an ID for clarity
+              id="calendly-widget-script" 
               src="https://assets.calendly.com/assets/external/widget.js"
-              strategy="lazyOnload" // Continues to use lazyOnload, generally good for non-critical third-party scripts
+              strategy="lazyOnload" 
             />
             {/* Calendly inline widget end */}
           </div>
         </div>
 
-        {/* Find Us Map Section */}
+        {/* Walk-in Clinic Map Section */}
         <div className="mt-12 bg-card p-8 md:p-10 rounded-2xl shadow-xl animate-fadeInUp" style={{ animationDelay: '0.6s' }}>
-          <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Find Us</h3>
+          <h3 className="font-headline text-3xl font-semibold text-primary mb-2">Walk-in Clinic</h3>
           <p className="text-sm text-muted-foreground mb-6">
-            Our office location.
+            No appointment needed—walk in whenever it’s convenient during clinic hours—our cardiac team is ready for quick questions, routine care, or urgent check-ins.
           </p>
-          <div className="rounded-lg overflow-hidden h-[450px] shadow-md">
+          <div className="rounded-lg overflow-hidden h-[300px] shadow-md">
             <iframe
               src={googleMapsEmbedUrl}
               width="100%"
