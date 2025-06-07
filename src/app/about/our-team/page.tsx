@@ -57,12 +57,12 @@ export default function OurTeamPage() {
           </div>
         </section>
 
-        {/* Meet the Extended Family Section (Placeholder) */}
+        {/* Meet the Team Section */}
         <section className="py-16 md:py-20 bg-secondary">
           <div className="container mx-auto px-6 lg:px-8 text-center">
             <BriefcaseMedical className="w-12 h-12 text-primary mx-auto mb-4" />
             <h2 className="font-headline text-3xl md:text-4xl font-semibold text-primary mb-6">
-              Meet Our Extended Cardiac Family
+              Meet Our Team
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
               We are proud of our entire team, including specialized nurses, certified technicians, and dedicated administrative professionals who ensure our practice runs smoothly and efficiently. Detailed profiles and more information about our diverse team members will be featured here soon.
