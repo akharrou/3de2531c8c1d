@@ -94,9 +94,19 @@ const kpiData = [
   },
 ];
 
-const TestimonialCard: React.FC<{ testimonial: TestimonialData }> = ({ testimonial }) => {
+interface TestimonialCardProps {
+  testimonial: TestimonialData;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+}
+
+const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, onMouseEnter, onMouseLeave }) => {
   return (
-    <Card className="bg-card text-card-foreground rounded-xl shadow-lg w-[300px] md:w-[350px] h-auto flex-shrink-0 mx-4 cursor-grab">
+    <Card 
+      className="bg-card text-card-foreground rounded-xl shadow-lg w-[300px] md:w-[350px] h-auto flex-shrink-0 mx-4 cursor-grab"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       <CardContent className="p-6 flex flex-col justify-between h-full">
         <div>
           <div className="flex justify-between items-start mb-3">
@@ -132,15 +142,17 @@ const MarqueeRow: React.FC<{ testimonials: TestimonialData[]; direction: 'left' 
   const marqueeRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-  const [currentX, setCurrentX] = useState(0); // Tracks the current translateX
-  const [hasDragged, setHasDragged] = useState(false); // To disable CSS animation after first drag
+  const [currentX, setCurrentX] = useState(0); 
+  const [hasDragged, setHasDragged] = useState(false);
+  const [isHoverPaused, setIsHoverPaused] = useState(false);
+
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!marqueeRef.current) return;
-    e.preventDefault(); // Prevent text selection/default drag behavior
+    e.preventDefault(); 
     setIsDragging(true);
-    setHasDragged(true); // Permanently disable CSS animation after first drag
-    setStartX(e.pageX - currentX); // Adjust startX by current translation
+    setHasDragged(true); 
+    setStartX(e.pageX - currentX); 
     marqueeRef.current.style.cursor = 'grabbing';
   };
 
@@ -157,47 +169,38 @@ const MarqueeRow: React.FC<{ testimonials: TestimonialData[]; direction: 'left' 
     marqueeRef.current.style.cursor = 'grab';
   };
   
-  // Effect to apply transform style
   useEffect(() => {
     if (marqueeRef.current && hasDragged) {
       marqueeRef.current.style.transform = `translateX(${currentX}px)`;
     }
   }, [currentX, hasDragged]);
   
-  // Effect to set initial position for right-to-left if CSS animation was used
-  // And handle disabling animation class after drag
-  useEffect(() => {
-    if (marqueeRef.current && !hasDragged && direction === 'right') {
-      // This approximates the -50% starting point of the CSS animation
-      // It assumes the content is duplicated enough to fill 2x its visible container initially
-      // This might need adjustment based on actual container/content widths
-      // For simplicity, we are removing this initial offset if using drag from start.
-      // setCurrentX(-marqueeRef.current.scrollWidth / 2);
-    }
-  }, [direction, hasDragged, itemsToRender.length]);
-
-
   if (itemsToRender.length === 0) return null;
 
   return (
     <div 
-      className={cn("flex overflow-hidden", className)} // Added overflow-hidden to parent
+      className={cn("flex overflow-hidden", className)} 
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUpOrLeave}
-      onMouseLeave={handleMouseUpOrLeave} // Stop dragging if mouse leaves container
+      onMouseLeave={handleMouseUpOrLeave} 
     >
       <div 
         ref={marqueeRef}
         className={cn(
           "flex py-4", 
-          !hasDragged && baseAnimationClass, // Apply CSS animation only if not dragged
-          isDragging ? '' : 'hover:animate-pause' // Pause CSS animation on hover if not dragging
+          !hasDragged && baseAnimationClass,
+          !hasDragged && isHoverPaused && 'animate-pause'
         )}
         style={hasDragged ? { transform: `translateX(${currentX}px)` } : { cursor: 'grab' }}
       >
         {itemsToRender.map((testimonial, index) => (
-          <TestimonialCard key={`${testimonial.id}-${index}-${direction}`} testimonial={testimonial} />
+          <TestimonialCard 
+            key={`${testimonial.id}-${index}-${direction}`} 
+            testimonial={testimonial}
+            onMouseEnter={() => setIsHoverPaused(true)}
+            onMouseLeave={() => setIsHoverPaused(false)}
+          />
         ))}
       </div>
     </div>
@@ -260,3 +263,4 @@ export default function TestimonialsSection() {
     </section>
   );
 }
+
