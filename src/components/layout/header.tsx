@@ -106,6 +106,7 @@ const resourcesMegaMenuGroups: MegaMenuGroup[] = [
     items: [
       { label: 'Testimonials', description: 'Real stories from our patients.', href: '/#testimonials' },
       { label: 'FAQ', description: 'Answers to common questions.', href: '/#faq' },
+      { label: 'News & Content', description: 'Latest articles, podcasts, and more.', href: '/news' },
     ],
   },
 ];
