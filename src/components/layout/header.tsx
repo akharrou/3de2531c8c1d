@@ -100,10 +100,32 @@ const servicesMegaMenuCta: MegaMenuCta = {
   buttonHref: '/#services',
 };
 
-const resourcesSubItems = [
-  { label: 'Testimonials', href: '/#testimonials' },
-  { label: 'FAQ', href: '/#faq' },
+const resourcesMegaMenuGroups: MegaMenuGroup[] = [
+  {
+    title: 'Patient Information',
+    items: [
+      { label: 'Testimonials', description: 'Hear from our satisfied patients and their experiences.', href: '/#testimonials' },
+      { label: 'FAQ', description: 'Find answers to common questions about our services and practice.', href: '/#faq' },
+    ],
+  },
+  {
+    title: 'Quick Links',
+    items: [
+       { label: 'Privacy Policy', description: 'Understand how we protect your data.', href: '/privacy-policy' },
+       { label: 'Terms of Service', description: 'Our website usage terms.', href: '/terms-of-service' },
+    ],
+  }
 ];
+
+const resourcesMegaMenuCta: MegaMenuCta = {
+  title: 'Stay Informed & Prepared',
+  description: 'Access valuable resources to support your heart health journey and understand your care options with Chen Cardiology.',
+  imageUrl: 'https://placehold.co/300x180.png',
+  imageHint: 'health information document',
+  buttonText: 'View FAQs',
+  buttonHref: '/#faq',
+};
+
 
 const navItems: NavItem[] = [
   {
@@ -117,12 +139,13 @@ const navItems: NavItem[] = [
     isMegaMenu: true,
     megaMenuGroups: servicesMegaMenuGroups,
     megaMenuCta: servicesMegaMenuCta,
-    href: '/#services' // Main services link can still point to section
+    href: '/#services' 
   },
   {
     label: 'Resources',
-    isSimpleDropdown: true,
-    subItems: resourcesSubItems,
+    isMegaMenu: true,
+    megaMenuGroups: resourcesMegaMenuGroups,
+    megaMenuCta: resourcesMegaMenuCta,
   },
   { label: 'Contact', href: '/#contact' },
 ];
@@ -228,10 +251,10 @@ export default function Header() {
 
                 {item.isSimpleDropdown && item.subItems && (
                    <DropdownMenuContent align="start" className="bg-card shadow-lg rounded-lg border-border mt-2 w-56 text-card-foreground">
-                    {item.subItems.map((subItem) => (
-                      <DropdownMenuItem key={subItem.label} asChild className="cursor-pointer focus:bg-secondary focus:text-primary">
-                        <Link href={subItem.href} className="block px-4 py-2 text-sm text-card-foreground hover:text-primary w-full">
-                          {subItem.label}
+                    {item.subItems.map((subItemLink) => (
+                      <DropdownMenuItem key={subItemLink.label} asChild className="cursor-pointer focus:bg-secondary focus:text-primary">
+                        <Link href={subItemLink.href} className="block px-4 py-2 text-sm text-card-foreground hover:text-primary w-full">
+                          {subItemLink.label}
                         </Link>
                       </DropdownMenuItem>
                     ))}
