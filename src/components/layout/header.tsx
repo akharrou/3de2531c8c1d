@@ -100,10 +100,24 @@ const servicesMegaMenuCta: MegaMenuCta = {
   buttonHref: '/#services',
 };
 
-const resourcesSubItems = [
-  { label: 'Testimonials', href: '/#testimonials' },
-  { label: 'FAQ', href: '/#faq' },
+const resourcesMegaMenuGroups: MegaMenuGroup[] = [
+  {
+    title: 'Patient Resources',
+    items: [
+      { label: 'Testimonials', description: 'Real stories from our patients.', href: '/#testimonials' },
+      { label: 'FAQ', description: 'Answers to common questions.', href: '/#faq' },
+    ],
+  },
 ];
+
+const resourcesMegaMenuCta: MegaMenuCta = {
+  title: 'Helpful Tools & Answers',
+  description: 'Explore patient experiences and find quick answers to your concerns.',
+  imageUrl: 'https://placehold.co/300x180.png',
+  imageHint: 'patients reading resources',
+  buttonText: 'View Resources',
+  buttonHref: '/#testimonials',
+};
 
 const navItems: NavItem[] = [
   {
@@ -121,8 +135,9 @@ const navItems: NavItem[] = [
   },
   {
     label: 'Resources',
-    isSimpleDropdown: true,
-    subItems: resourcesSubItems,
+    isMegaMenu: true,
+    megaMenuGroups: resourcesMegaMenuGroups,
+    megaMenuCta: resourcesMegaMenuCta,
   },
   { label: 'Contact', href: '/#contact' },
 ];
